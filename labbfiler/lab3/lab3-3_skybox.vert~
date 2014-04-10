@@ -1,0 +1,15 @@
+#version 150
+
+
+in vec3 in_Position;
+in vec2 in_TexCoord;
+out vec2 TexCoord;
+
+uniform mat4 view_matrix;
+
+void main(void)
+{	
+
+	TexCoord = in_TexCoord;
+	gl_Position =  (view_matrix)*vec4(in_Position, 1.0);
+}
