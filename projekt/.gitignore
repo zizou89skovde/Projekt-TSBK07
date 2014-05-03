@@ -1,0 +1,5 @@
+# ignore tilde files
+*~
+
+# ignore labb files
+/labbfiler/*
