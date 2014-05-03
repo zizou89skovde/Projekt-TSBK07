@@ -30,3 +30,5 @@ void graphicsDisplay(Model* m, mat4 view_mat){
 
 // TODO: get model, id och skit precis osm med textures
 
+//en func för rot en för trans, ta in x,y,z som arg , dvs godtyckliga såna funktioner
+

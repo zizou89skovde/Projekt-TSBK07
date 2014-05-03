@@ -9,9 +9,8 @@ Model* createAndLoadModel(char* modelName, char* filePath){
 	return Model*;
 }
 
-void graphicsTranslationRotation(Model* m, mat4 translation_mat){
-	m.translation_mat = T(0, 0, -1);
-	//m.rotation_mat = ...;
+void graphicsTranslation(Model* m, GLuint x, GLuint y, GLuint z){
+	m.translation_mat = T(x, y, z);
 }
 
 void graphicsDisplay(Model* m, mat4 view_mat){	
