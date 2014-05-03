@@ -1,9 +1,15 @@
+IDIR=include
+CC=gcc
+CFLAGS=-I$(IDIR) -std=c99 -Wall -g -DGL_GLEXT_PROTOTYPES
+ODIR=obj
+LIBS=-lGL -lglut -lm 
+DEPS=include/GL_utilities.c include/VectorUtils3.c include/loadobj.c include/LoadTGA.c include/MicroGlut.c
 
-all : parachute
+all: main
 
-lab4-3: main.c graphics.c ui.c physics.c  GL_utilities.c VectorUtils3.c loadobj.c LoadTGA.c MicroGlut.c
-	gcc -Wall -g -std=c99 -o parachute -DGL_GLEXT_PROTOTYPES lab4-3.c GL_utilities.c VectorUtils3.c loadobj.c LoadTGA.c MicroGlut.c  -lGL -lglut -lm
+main: 
+	$(CC) $(CFLAGS) $(LIBS) $(DEPS) -o parachute ui.c camera.c main.c  
+
 
 clean :
-	rm lab4-1
-	
+	rm -rf *o parachute	

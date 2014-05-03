@@ -1,10 +1,10 @@
 // Lab 4, terrain generation
 
 #ifdef __APPLE__
-	#include <OpenGL/gl3.h>
-	#include "MicroGlut.h"
-	// Linking hint for Lightweight IDE
-	// uses framework Cocoa
+#include <OpenGL/gl3.h>
+#include "MicroGlut.h"
+// Linking hint for Lightweight IDE
+// uses framework Cocoa
 #endif
 #include "GL_utilities.h"
 #include "VectorUtils3.h"
@@ -15,10 +15,10 @@ mat4 projectionMatrix;
 
 typedef struct
 {
-  GLfloat dimX;
-  GLfloat dimZ;
-  GLfloat resolution;
-  GLfloat * vertexArray;
+	GLfloat dimX;
+	GLfloat dimZ;
+	GLfloat resolution;
+	GLfloat * vertexArray;
 } TerrainData;
 
 TerrainData terrainData;
@@ -32,15 +32,15 @@ vec3 CalculateNormal(int x,int z,GLfloat stepSize,GLfloat stepSizeY, TextureData
 	GLfloat heightSE;
 	GLfloat heightW;
 	GLfloat heightE;
-	
+
 	GLfloat dx;
 	GLfloat dz;
 	vec3 normals;
 
-	
+
 	GLfloat center = tex->imageData[(x + z * tex->width) * (tex->bpp/8)] /stepSizeY;
 
-	
+
 	if(z == 0)
 		heightS = center;
 	else
@@ -55,7 +55,7 @@ vec3 CalculateNormal(int x,int z,GLfloat stepSize,GLfloat stepSizeY, TextureData
 		heightSE = center;
 	else
 		heightSE = tex->imageData[(x + 1 + (z - 1) * tex->width) * (tex->bpp/8)] /stepSizeY;
-	
+
 	if(z == tex->height)
 		heightN = center;
 	else
@@ -70,7 +70,7 @@ vec3 CalculateNormal(int x,int z,GLfloat stepSize,GLfloat stepSizeY, TextureData
 		heightNE = center;
 	else
 		heightNE = tex->imageData[(x + 1 + (z + 1) * tex->width) * (tex->bpp/8)] /stepSizeY;
-	
+
 	if(x == 0)
 		heightW = center;
 	else
@@ -81,13 +81,13 @@ vec3 CalculateNormal(int x,int z,GLfloat stepSize,GLfloat stepSizeY, TextureData
 	else
 		heightE = tex->imageData[(x + 1 + z * tex->width) * (tex->bpp/8)] /stepSizeY;
 
-/*	dx = (heightE - heightW)/(2/stepSize) + 1/sqrt(2)*( (heightNE - heightSW)/sqrt(8) + ( heightSE - heightNW)/sqrt(8))*stepSize;
+	/*	dx = (heightE - heightW)/(2/stepSize) + 1/sqrt(2)*( (heightNE - heightSW)/sqrt(8) + ( heightSE - heightNW)/sqrt(8))*stepSize;
 	dz = (heightN - heightS)/(2/stepSize) + 1/sqrt(2)*( (heightNE - heightSW)/sqrt(8) + (heightNW - heightSE)/sqrt(8))*stepSize;
 
 	normals.x = dx;
 	normals.y = 1;
 	normals.z = dz;
-	
+
 	normals = Normalize(normals);*/
 	vec3 N;
 	N.x = 0;
@@ -135,12 +135,13 @@ vec3 CalculateNormal(int x,int z,GLfloat stepSize,GLfloat stepSizeY, TextureData
 	normals = Normalize(normals);
 	return normals;
 
-	
+
 }
 
+Model* waterModel;
 
 Model* GenerateTerrain(TextureData *tex)
-{
+																						{
 	int vertexCount = tex->width * tex->height;
 	int triangleCount = (tex->width-1) * (tex->height-1) * 2;
 	int x, z;
@@ -155,8 +156,14 @@ Model* GenerateTerrain(TextureData *tex)
 	GLfloat *vertexArray = malloc(sizeof(GLfloat) * 3 * vertexCount);
 	GLfloat *normalArray = malloc(sizeof(GLfloat) * 3 * vertexCount);
 	GLfloat *texCoordArray = malloc(sizeof(GLfloat) * 2 * vertexCount);
+
+	GLfloat *vertexWaterArray 	= malloc(sizeof(GLfloat) * 3 * vertexCount);
+	GLfloat *normalWaterArray = malloc(sizeof(GLfloat) * 3 * vertexCount);
+	GLfloat *texCoordWaterArray = malloc(sizeof(GLfloat) * 2 * vertexCount);
+
+	GLuint *indexWaterArray 	= malloc(sizeof(GLuint) * triangleCount*3);
 	GLuint *indexArray = malloc(sizeof(GLuint) * triangleCount*3);
-	
+
 	printf("bpp %d\n", tex->bpp);
 
 	vec3 normals;
@@ -164,35 +171,65 @@ Model* GenerateTerrain(TextureData *tex)
 	for (x = 0; x < tex->width; x++)
 		for (z = 0; z < tex->height; z++)
 		{
-// Vertex array. You need to scale this properly
+			vertexWaterArray[(x + z * tex->width)*3 + 0] = x / stepSize;
+			vertexWaterArray[(x + z * tex->width)*3 + 1] = 0.2;
+			vertexWaterArray[(x + z * tex->width)*3 + 2] = z / stepSize;
+			
+			normalWaterArray[(x + z * tex->width)*3 + 0] = 0;
+			normalWaterArray[(x + z * tex->width)*3 + 1] = 1;
+			normalWaterArray[(x + z * tex->width)*3 + 2] = 0;
+
+			texCoordWaterArray[(x + z * tex->width)*2 + 0] = x/50.0; // (float)x / tex->width;
+			texCoordWaterArray[(x + z * tex->width)*2 + 1] = z/50.0; // (float)z / tex->height;
+
+
+			// Vertex array. You need to scale this properly
 			vertexArray[(x + z * tex->width)*3 + 0] = x / stepSize;
 			vertexArray[(x + z * tex->width)*3 + 1] = tex->imageData[(x + z * tex->width) * (tex->bpp/8)] /stepSizeY;
 			vertexArray[(x + z * tex->width)*3 + 2] = z / stepSize;
-// Normal vectors. You need to calculate these.
+			// Normal vectors. You need to calculate these.
 			normals = CalculateNormal(x,z,stepSize,stepSizeY,tex);
 			normalArray[(x + z * tex->width)*3 + 0] = normals.x;
 			normalArray[(x + z * tex->width)*3 + 1] = normals.y;
 			normalArray[(x + z * tex->width)*3 + 2] = normals.z;
-// Texture coordinates. You may want to scale them.
+			
+			// Texture coordinates. You may want to scale them.
 			texCoordArray[(x + z * tex->width)*2 + 0] = x/50.0; // (float)x / tex->width;
 			texCoordArray[(x + z * tex->width)*2 + 1] = z/50.0; // (float)z / tex->height;
 		}
 	for (x = 0; x < tex->width-1; x++)
 		for (z = 0; z < tex->height-1; z++)
 		{
-		// Triangle 1
+			// Triangle 1
 			indexArray[(x + z * (tex->width-1))*6 + 0] = x + z * tex->width;
 			indexArray[(x + z * (tex->width-1))*6 + 1] = x + (z+1) * tex->width;
 			indexArray[(x + z * (tex->width-1))*6 + 2] = x+1 + z * tex->width;
-		// Triangle 2
+			// Triangle 2
 			indexArray[(x + z * (tex->width-1))*6 + 3] = x+1 + z * tex->width;
 			indexArray[(x + z * (tex->width-1))*6 + 4] = x + (z+1) * tex->width;
 			indexArray[(x + z * (tex->width-1))*6 + 5] = x+1 + (z+1) * tex->width;
+
+
+			indexWaterArray[(x + z * (tex->width-1))*6 + 0] = x + z * tex->width;
+			indexWaterArray[(x + z * (tex->width-1))*6 + 1] = x + (z+1) * tex->width;
+			indexWaterArray[(x + z * (tex->width-1))*6 + 2] = x+1 + z * tex->width;
+			// Triangle 2
+			indexWaterArray[(x + z * (tex->width-1))*6 + 3] = x+1 + z * tex->width;
+			indexWaterArray[(x + z * (tex->width-1))*6 + 4] = x + (z+1) * tex->width;
+			indexWaterArray[(x + z * (tex->width-1))*6 + 5] = x+1 + (z+1) * tex->width;
 		}
-	
+
 	// End of terrain generation
-	
+
 	// Create Model and upload to GPU:
+	waterModel =  LoadDataToModel(
+			vertexWaterArray,
+			normalWaterArray,
+			texCoordWaterArray,
+			NULL,
+			indexWaterArray,
+			vertexCount,
+			triangleCount*3);
 
 	Model* model = LoadDataToModel(
 			vertexArray,
@@ -206,17 +243,17 @@ Model* GenerateTerrain(TextureData *tex)
 	terrainData.vertexArray = model->vertexArray;
 
 	return model;
-}
+																						}
 
 
 // vertex array object
 Model *m, *m2, *tm;
 Model *msphere;
 // Reference to shader program
-GLuint program,programSphere;
+GLuint program,programSphere,programWater;
 GLuint tex1, tex2;
 TextureData ttex; // terrain
-
+GLfloat ballCurrentPosition[3];
 
 #define CAM_ROTATION_SPEED 0.025
 #define CAM_MOVEMENT_SPEED 0.05
@@ -238,8 +275,8 @@ void setCamCenter(int x, int y){
 	strafeDirection  = ScalarMult(strafeDirection,dX*CAM_ROTATION_SPEED);
 	lookDirection = VectorSub(lookDirection,strafeDirection);
 
-		
-	
+
+
 	camCenter = VectorAdd(camEye,lookDirection);
 	//camCenter.y = dY;
 	oldCamCenterX = x;
@@ -272,10 +309,10 @@ void updateCamera() {
 	}
 	if (keyIsDown('s')) {
 		lookDirection = ScalarMult(lookDirection,CAM_MOVEMENT_SPEED); 
-	 	camEye = VectorSub(camEye,lookDirection);
+		camEye = VectorSub(camEye,lookDirection);
 		camCenter = VectorSub(camCenter,lookDirection);	
 	}
-	
+
 
 }
 
@@ -292,9 +329,10 @@ void init(void)
 	// Load and compile shader
 	program = loadShaders("terrain.vert", "terrain.frag");
 	programSphere = loadShaders("sphere.vert","sphere.frag");
+	programWater = loadShaders("water.vert","water.frag");
 	glUseProgram(program);
 	printError("init shader");
-	
+
 	glUniformMatrix4fv(glGetUniformLocation(program, "projMatrix"), 1, GL_TRUE, projectionMatrix.m);
 	glUniform1i(glGetUniformLocation(program, "tex"), 0); // Texture unit 0
 	LoadTGATextureSimple("rocks_2.tga", &tex1);
@@ -302,9 +340,13 @@ void init(void)
 	glUseProgram(programSphere);
 	glUniformMatrix4fv(glGetUniformLocation(programSphere, "projMatrix"), 1, GL_TRUE, projectionMatrix.m);
 	msphere =  LoadModelPlus("groundsphere.obj");
+
+	glUseProgram(programWater);
+	glUniformMatrix4fv(glGetUniformLocation(programSphere, "projMatrix"), 1, GL_TRUE, projectionMatrix.m);
+	LoadTGATextureSimple("tex_Water-jpg.tga", &tex2);
 	
-// Load terrain data
-	
+	// Load terrain data
+	glUseProgram(program);
 	LoadTGATextureData("fft-terrain.tga", &ttex);
 	tm = GenerateTerrain(&ttex);
 	printError("init terrain");
@@ -314,97 +356,130 @@ void init(void)
 	camUp.y = 1;
 	camUp.z = 0;
 	camEye.x = 0; 
-	camEye.y = 5;
+	camEye.y = 1;
 	camEye.z = 8;
 	camCenter.x = 2; 
 	camCenter.y = 0;
 	camCenter.z = 2;
 
+	ballCurrentPosition[0] = 8.0;
+	ballCurrentPosition[1] = 10.0; 
+	ballCurrentPosition[2] = 15.0; 
 
 }
 
-GLfloat checkCollisionToGround(Model* object,GLfloat* objectPos) {
+void checkCollisionToGround(Model* object,GLfloat* objectPos) {
 
-	
+
+	GLfloat gravity = 0.01;
+
 	if(objectPos[0] < terrainData.dimX  &&
-	   objectPos[0] > 0 &&
-	   objectPos[2] < terrainData.dimZ  &&
-	   objectPos[2] > 0) {
-	   
+			objectPos[0] > 0 &&
+			objectPos[2] < terrainData.dimZ  &&
+			objectPos[2] > 0) {
+
 		int indexX,indexZ;   
 		GLfloat terrainHeight;
 		GLfloat topLeftPosX,topLeftPosZ;
 
-		
 
-      		int WIDTH = terrainData.dimX / terrainData.resolution;
+
+		int WIDTH = terrainData.dimX / terrainData.resolution;
 
 		indexX = objectPos[0]/terrainData.resolution;
 		indexZ = objectPos[2]/terrainData.resolution;
-		
+
 		topLeftPosX = indexX*terrainData.resolution;
 		topLeftPosZ = (indexZ + 1)*terrainData.resolution;
-		
-	
-		 GLfloat deltaX = ( objectPos[0] - topLeftPosX);
-		 GLfloat deltaZ = ( objectPos[2]	- topLeftPosZ);
-/*
+
+
+		GLfloat deltaX = ( objectPos[0] - topLeftPosX);
+		GLfloat deltaZ = ( objectPos[2]	- topLeftPosZ);
+		/*
 		weight1 = sqrt(deltaX*deltaX + deltaY*deltaY);
 		weight2 = sqrt((1-deltaX)*(1-deltaX) + deltaY*deltaY);
 		weight3 = sqrt((1-deltaX)*(1-deltaX) + (1-deltaY)*(1-deltaY));*/
 
+		vec3 v1;
+		vec3 v2;
+		vec3 normal;
+
 		if(deltaZ/deltaX > -1){
-			terrainHeight = (terrainData.vertexArray[(indexX +1 + (indexZ + 1) * WIDTH)*3 +1]					
-					+ terrainData.vertexArray[(indexX +1 + (indexZ) * WIDTH)*3 +1]					
-					+ terrainData.vertexArray[(indexX + (indexZ + 1) * WIDTH)*3 +1])/3;	
+			terrainHeight = (
+					terrainData.vertexArray[(indexX +1 + (indexZ + 1) * WIDTH)*3 +1] +					
+					terrainData.vertexArray[(indexX +1 + (indexZ) * WIDTH)*3 +1] +					
+					terrainData.vertexArray[(indexX + (indexZ + 1) * WIDTH)*3 +1])/3;
 
-				
-							
+			v1.x = 1 * terrainData.resolution;
+			v1.y = terrainData.vertexArray[(indexX +1 + (indexZ + 1) * WIDTH)*3 +1] - terrainData.vertexArray[(indexX + indexZ  * WIDTH)*3 +1];
+			v1.z = 1 * terrainData.resolution;
+
+			v2.x = 1 * terrainData.resolution;
+			v2.y = terrainData.vertexArray[(indexX +1 + indexZ  * WIDTH)*3 +1] - terrainData.vertexArray[(indexX + indexZ  * WIDTH)*3 +1];
+			v2.z = 0;
+
+			normal = Normalize(CrossProduct(v1,v2));
+
+
 		}else{
-			terrainHeight = (terrainData.vertexArray[(indexX + (indexZ) * WIDTH)*3 +1]					
-					+ terrainData.vertexArray[(indexX +1 + (indexZ) * WIDTH)*3 +1]					
-					+ terrainData.vertexArray[(indexX + (indexZ + 1) * WIDTH)*3 +1])/3;	
-				
-		}
-		
+			terrainHeight = (
+					terrainData.vertexArray[(indexX + (indexZ) * WIDTH)*3 +1] +					
+					terrainData.vertexArray[(indexX +1 + (indexZ) * WIDTH)*3 +1] +					
+					terrainData.vertexArray[(indexX + (indexZ + 1) * WIDTH)*3 +1])/3;	
 
-		
-		
-		
+			v1.x = 1 * terrainData.resolution;
+			v1.y = terrainData.vertexArray[(indexX +1 + (indexZ + 1) * WIDTH)*3 +1] - terrainData.vertexArray[(indexX + indexZ  * WIDTH)*3 +1];
+			v1.z = 1 * terrainData.resolution;
+
+			v2.x = 0;
+			v2.y = terrainData.vertexArray[(indexX  + (indexZ  + 1) * WIDTH)*3 +1] - terrainData.vertexArray[(indexX + indexZ  * WIDTH)*3 +1];
+			v2.z = 1 * terrainData.resolution;
+
+			normal = Normalize(CrossProduct(v2,v1));
+
+		}
+
 		if(objectPos[1] <= terrainHeight){
-			//fiffla med hastighet och om abs(hastigheten) är mindre än något så stannar vi
-		
+
+			GLfloat delta = 0.01;
+
+			GLfloat dx = normal.x;
+			GLfloat dz = normal.z;
+
+			objectPos[0] +=  dx*delta;
+			objectPos[2] +=  dz*delta;
+
+		}else{
+			objectPos[1] -= gravity ;
 		}
-	
-
-		return terrainHeight;
-
+	}else{
+		objectPos[1] -= gravity ;
 	}
 
-	return 0;
-
 } 
-
+float time2;
 void display(void)
 {
 	// clear the screen
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	
+
 	mat4 total, modelView, camMatrix, spherematrix;
-	
+
 	printError("pre display");
-	
+
 	// Build matrix
-	
+	time2 += 0.001;
+	if(time2 > 100.0)
+		time2 = 0.0;
 	updateCamera();
 
 	camMatrix = lookAt(camEye.x, camEye.y, camEye.z, 
-		    	  camCenter.x, camCenter.y, camCenter.z,
-		    	  camUp.x, camUp.y, camUp.z);
+			camCenter.x, camCenter.y, camCenter.z,
+			camUp.x, camUp.y, camUp.z);
 
-	GLfloat pos[] = { 15,0,15};
-	GLfloat ypos = 	checkCollisionToGround(msphere,pos);
-	mat4 transmat = T(pos[0],ypos,pos[2]);
+
+	checkCollisionToGround(msphere,ballCurrentPosition);
+	mat4 transmat = T(ballCurrentPosition[0],ballCurrentPosition[1],ballCurrentPosition[2]);
 	spherematrix = S(0.2,0.2,0.2);
 	spherematrix = Mult(transmat,spherematrix);
 
@@ -419,18 +494,25 @@ void display(void)
 	modelView = IdentityMatrix();
 	total = Mult(camMatrix, modelView);
 	glUniformMatrix4fv(glGetUniformLocation(program, "mdlMatrix"), 1, GL_TRUE, total.m);
-	
+
 	glBindTexture(GL_TEXTURE_2D, tex1);		// Bind Our Texture tex1
 	DrawModel(tm, program, "inPosition", "inNormal", "inTexCoord");
 
-	printError("display 2");
+	glUseProgram(programWater);
+	glUniformMatrix4fv(glGetUniformLocation(programWater, "mdlMatrix"), 1, GL_TRUE, total.m);
+	glBindTexture(GL_TEXTURE_2D, tex2);		// Bind Our Texture tex1
+	glUniform1f(glGetUniformLocation(programWater, "u_Time"), time2);
 	
+	DrawModel(waterModel, programWater, "inPosition", "inNormal", "inTexCoord");
+
+	printError("display 2");
+
 	glutSwapBuffers();
 }
 
 void timer(int i)
 {
-	glutTimerFunc(20, &timer, i);
+	glutTimerFunc(0.5, &timer, i);
 	glutPostRedisplay();
 }
 
@@ -451,7 +533,7 @@ int main(int argc, char **argv)
 	glutDisplayFunc(display);
 	init ();
 	initKeymapManager();
-	glutTimerFunc(20, &timer, 0);
+	glutTimerFunc(1, &timer, 0);
 
 	glutPassiveMotionFunc(mouse);
 
