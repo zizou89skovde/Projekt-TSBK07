@@ -2,21 +2,21 @@
 
 
 
-CameraObject * createCamera(vec3 eye, vec3 center){
+CameraObject * createCamera(){
 
    CameraObject * camObj = malloc(sizeof(CameraObject));
 
-   camObj->eye.x = eye.x;
-   camObj->eye.y = eye.y;
-   camObj->eye.z = eye.z;
+   camObj->eye.x = 0;
+   camObj->eye.y = 0;
+   camObj->eye.z = 0;
 
-   camObj->center.x = center.x;
-   camObj->center.y = center.y;
-   camObj->center.z = center.z;
+   camObj->center.x = 0;
+   camObj->center.y = 0;
+   camObj->center.z = 0;
 
-   camObj->center.x = center.x;
-   camObj->center.y = center.y;
-   camObj->center.z = center.z;
+   camObj->center.x = 0;
+   camObj->center.y = 0;
+   camObj->center.z = 0;
 
    camObj->up.x = 0;
    camObj->up.y = 1;

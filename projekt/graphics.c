@@ -4,15 +4,17 @@ void graphicsInitModels(){
 	projection_mat = frustum(left, right, bottom, top, near, far);
 	modelList = malloc(MAX_NUM_MODELS*sizeof(Model_struct));
 	numModels = 0;
-	addModel("resources/groundsphere.obj", MODEL_GUBBE, -1);	
+	addModel("resources/groundsphere.obj", MODEL_GUBBE, TEXTURE_MASKROS,SHADER_SPHERE);	
 }
 
-void addModel(char* fileName, int id, int texture){
+void addModel(char* fileName, int id, int texture,int shader){
 	modelList[numModels].model = LoadModelPlus(fileName);
 	modelList[numModels].id = id;
+
 	if(texture != -1){
 		modelList[numModels].texture = getTexture(texture);
 	}
+	modelList[numModels].program = getShader(shader);
 	LoadModelPlus(fileName);	
 	numModels++;
 }

@@ -5,6 +5,7 @@
 #include "include/VectorUtils3.h"
 #include "include/loadobj.h"
 #include "textures.h"
+#include "shaders.h"
 #include <stdlib.h>
 
 #define near 1.0
@@ -38,7 +39,7 @@ Model_struct * modelList;
 
 mat4 projection_mat;
 void graphicsInitModels();
-void addModel(char* fileName, int id, int texture);
+void addModel(char* fileName, int id, int texture,int shader);
 Model_struct* getModel(int id);
 void graphicsTranslation(Model_struct* m, GLuint x, GLuint y, GLuint z);
 void graphicsDisplay(Model_struct* m, mat4 view_mat);

@@ -1,5 +1,5 @@
 # ignore tilde files
 *~
-
+projekt/parachute
 # ignore labb files
 ../labbfiler/*
