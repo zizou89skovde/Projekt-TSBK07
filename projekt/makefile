@@ -8,7 +8,7 @@ DEPS=include/GL_utilities.c include/VectorUtils3.c include/loadobj.c include/Loa
 all: main
 
 main: 
-	$(CC) $(CFLAGS) $(LIBS) $(DEPS) -o parachute ui.c camera.c main.c  
+	$(CC) $(CFLAGS) $(LIBS) $(DEPS) -o parachute ui.c camera.c main.c graphics.c
 
 
 clean :
