@@ -9,6 +9,11 @@
 
 
 /* Globala prylar deklareras här */
+
+//terrainmodels
+model_struct* waterModel_struct;
+model_struct* groundModel_struct;
+terrainData* GroundData; 
 //CameraObject * cameraObject; // Håller informations om kamerans orientering. 
 
 void init()
@@ -16,6 +21,9 @@ void init()
 int a = 1;
 /* härifrån kan init-funktioner anropas */
   //cameraObject = createCamera(NULL,NULL)
+
+// Load terrain data
+generateTerrain();
 }
 
 void display()
@@ -28,7 +36,7 @@ void display()
 void tick(int i)
 {
 	/* härifrån kan update-funktioner cycliskt anropas med frekvensen UPDATE_FREQUENCY */
-	handleKeyBoardInput();
+	handleKeyboardInput();
 	glutTimerFunc(UPDATE_FREQUENCY, &tick, i);
 	glutPostRedisplay();
 }

@@ -9,6 +9,9 @@
 
 
 /* Globala prylar deklareras här */
+
+terrainData* GroundData; 
+
 //CameraObject * cameraObject; // Håller informations om kamerans orientering. 
 
 void init()
@@ -16,6 +19,9 @@ void init()
 int a = 1;
 /* härifrån kan init-funktioner anropas */
   //cameraObject = createCamera(NULL,NULL)
+
+// Load terrain data
+generateTerrain();
 }
 
 void display()
