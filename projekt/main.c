@@ -5,6 +5,8 @@
 #include "include/loadobj.h"
 #include "include/LoadTGA.h"
 #include "ui.h"
+#include "graphics.h"
+#include "textures.h"
 #define UPDATE_FREQUENCY 0.5
 
 
@@ -13,7 +15,8 @@
 
 void init()
 {
-int a = 1;
+	textureInit();
+	graphicsInitModels();
 /* härifrån kan init-funktioner anropas */
   //cameraObject = createCamera(NULL,NULL)
 }

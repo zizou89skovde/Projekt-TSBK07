@@ -5,6 +5,8 @@
 #include "include/loadobj.h"
 #include "include/LoadTGA.h"
 #include "ui.h"
+#include "graphics.h"
+#include "textures.h"
 #define UPDATE_FREQUENCY 0.5
 
 
@@ -13,7 +15,7 @@
 
 void init()
 {
-int a = 1;
+	textureInit();
 /* härifrån kan init-funktioner anropas */
   //cameraObject = createCamera(NULL,NULL)
 }
@@ -28,7 +30,7 @@ void display()
 void tick(int i)
 {
 	/* härifrån kan update-funktioner cycliskt anropas med frekvensen UPDATE_FREQUENCY */
-	handleKeyBoardInput();
+	handleKeyboardInput();
 	glutTimerFunc(UPDATE_FREQUENCY, &tick, i);
 	glutPostRedisplay();
 }

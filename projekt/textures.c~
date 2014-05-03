@@ -1,26 +1,23 @@
+#include "textures.h"
+
 void textureInit(){
 	textureList = malloc(MAX_NUM_TEXTURES*sizeof(Texture));
 	numTextures = 0;
-	addTexture("maskros.tga",TEXTURE_MASKROS);
+	addTexture("rocks_2.tga",TEXTURE_MASKROS);
 }
 
-void addTexture(char* filename, int id){
-	textureList[numTextures]->id = id;
-	LoadTGATextureSimple(filePath, &(textureList[numTextures]->handle));
+void addTexture(char* fileName, int id){
+	textureList[numTextures].id = id;
+	LoadTGATextureSimple(fileName, &(textureList[numTextures].handle));
 	numTextures++;
 }
 
 GLuint getTexture(int id){
 	for(int i = 0; i < numTextures; i++){
-		if(textureList[i]->id == id)
-		   return textureList[i]->handle;
+		if(textureList[i].id == id)
+		   return textureList[i].handle;
 	}
+	return 0;
 }
-
-void texturesLoadTexture(Model_struct* m, char* filePath){
-	LoadTGATextureSimple(filePath, &(m->texture));
-	glBindTexture(GL_TEXTURE_2D, m->texture);
-}
-
 
 
