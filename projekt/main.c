@@ -1,21 +1,21 @@
 //#include <OpenGL/gl3.h>
 //#include "include/MicroGlut.h"
-#include "include/GL_utilities.h"
-#include "include/VectorUtils3.h"
-#include "include/loadobj.h"
-#include "include/LoadTGA.h"
+#include "GL_utilities.h"
+#include "VectorUtils3.h"
+#include "loadobj.h"
+#include "LoadTGA.h"
 #include "ui.h"
+#include "camera.h"
 #define UPDATE_FREQUENCY 0.5
 
 
 /* Globala prylar deklareras här */
-//CameraObject * cameraObject; // Håller informations om kamerans orientering. 
+CameraObject * cameraObject; // Håller informations om kamerans orientering. 
 
 void init()
 {
-int a = 1;
 /* härifrån kan init-funktioner anropas */
-  //cameraObject = createCamera(NULL,NULL)
+  cameraObject = createCamera();
 }
 
 void display()

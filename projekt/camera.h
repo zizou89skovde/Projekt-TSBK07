@@ -9,7 +9,7 @@ vec3 up;
 
 }CameraObject;
 
-CameraObject * createCamera(vec3 eye, vec3 center);
+CameraObject* createCamera();
 void setCameraEye(CameraObject * camObj,vec3 eye);
 void setCameraCenter(CameraObject * camObj,vec3 eye);
 mat4 getCameraMatrix(CameraObject * camObj);
