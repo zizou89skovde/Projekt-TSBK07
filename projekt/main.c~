@@ -28,7 +28,7 @@ void display()
 void tick(int i)
 {
 	/* härifrån kan update-funktioner cycliskt anropas med frekvensen UPDATE_FREQUENCY */
-	handleKeyboardInput();
+	handleKeyboardInput(CameraObject * cameraObject);
 	glutTimerFunc(UPDATE_FREQUENCY, &tick, i);
 	glutPostRedisplay();
 }

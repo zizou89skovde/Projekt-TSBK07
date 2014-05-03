@@ -4,10 +4,13 @@
 #include "MicroGlut.h"
 #include "GL_utilities.h"
 #include "VectorUtils3.h"
+#include "camera.h"
 
+
+GLfloat oldMouseX,oldMouseY;
 
 void handleMouseInput(int x ,int y);
-void handleKeyboardInput(void);
+void handleKeyboardInput(CameraObject * cameraObject);
 
 
 #endif
