@@ -2,6 +2,8 @@
 #define _SHADERS_
 
 #define SHADER_SPHERE 0 
+#define SHADER_GROUND 1
+#define SHADER_WATER 2
 
 #define MAX_NUM_SHADERS 10
 

@@ -9,6 +9,8 @@ vec3 up;
 
 }CameraObject;
 
+CameraObject * cameraObject;
+
 CameraObject* createCamera();
 void setCameraEye(CameraObject * camObj,vec3 eye);
 void setCameraCenter(CameraObject * camObj,vec3 eye);

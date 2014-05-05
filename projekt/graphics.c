@@ -4,14 +4,14 @@ void graphicsInitModels(){
 	projection_mat = frustum(left, right, bottom, top, near, far);	
 	
 }
-
-void addModel(ObjectStruct * obj,char* fileName, int id, int texture,int shader){
-	obj->modelStruct->model = LoadModelPlus(fileName);
-	obj->modelStruct->id = id;
+void addModel(ArchObject * obj,char* fileName, int id, int texture,int shader){
+	Model * tempModel = &(obj->modelObj->model);
+	tempModel  = LoadModelPlus(fileName);
+	obj->modelObj->id = id;
 	if(texture != -1){
-		obj->modelStruct->texture = getTexture(texture);
+		obj->modelObj->texture = getTexture(texture);
 	}
-	obj->modelStruct->program = getShader(shader);
+	obj->modelObj->program = getShader(shader);
 
 }
 /*
@@ -38,6 +38,6 @@ void graphicsDisplay(ModelObject* m, mat4 view_mat){
 
 	glBindTexture(GL_TEXTURE_2D, m->texture);
 	
-	DrawModel(m->model, m->program, "in_Position", "in_Normal", "in_TexCoord");
+	DrawModel(&(m->model), m->program, "in_Position", "in_Normal", "in_TexCoord");
 }
 
