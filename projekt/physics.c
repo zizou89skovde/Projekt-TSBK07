@@ -8,10 +8,10 @@ void physicsInit(){
 }
 
 void addPhysicalObject(ArchObject* obj,vec3 initialPosition, GLfloat dragCoeff, GLfloat area, GLfloat mass){
-	obj->physicalObj->initialPosition = initialPosition;
-	obj->physicalObj->dragCoeff = dragCoeff;
-	obj->physicalObj->A = area;
-	obj->physicalObj->mass = mass;
+	obj->physicalObj.initialPosition = initialPosition;
+	obj->physicalObj.dragCoeff = dragCoeff;
+	obj->physicalObj.A = area;
+	obj->physicalObj.mass = mass;
 }
 
 void moveObject(PhysicalObject* object) {

@@ -4,14 +4,14 @@ void graphicsInitModels(){
 	projection_mat = frustum(left, right, bottom, top, near, far);	
 	
 }
-void addModel(ArchObject * obj,char* fileName, int id, int texture,int shader){
-	Model * tempModel = &(obj->modelObj->model);
+void addModel(ArchObject * obj,char* fileName, int texture,int shader){
+	Model * tempModel = &(obj->modelObj.model);
 	tempModel  = LoadModelPlus(fileName);
-	obj->modelObj->id = id;
+	obj->modelObj.model = *tempModel;
 	if(texture != -1){
-		obj->modelObj->texture = getTexture(texture);
+		obj->modelObj.texture = getTexture(texture);
 	}
-	obj->modelObj->program = getShader(shader);
+	obj->modelObj.program = getShader(shader);
 
 }
 /*
@@ -28,6 +28,7 @@ void graphicsTranslation(ModelObject* m, GLuint x, GLuint y, GLuint z){
 }
 
 void graphicsDisplay(ModelObject* m, mat4 view_mat){	
+
 	mat4 modelView_mat = Mult(view_mat, m->translation_mat);
 	mat4 modelViewProjection_mat = Mult(projection_mat, modelView_mat);
 	

@@ -8,16 +8,9 @@ DEPS=include/GL_utilities.c include/VectorUtils3.c include/loadobj.c include/Loa
 all: main
 
 main: 
-<<<<<<< HEAD
-<<<<<<< HEAD
-	@echo $(MAKECMDGOALS) #$(CC) $(CFLAGS) $(LIBS) $(DEPS) -DVERBOSE=1 -o parachute ui.c camera.c main.c graphics.c textures.c shaders.c
-=======
-	$(CC) $(CFLAGS) $(LIBS) $(DEPS) -o parachute ui.c camera.c main.c graphics.c textures.c shaders.c 
-=======
-	$(CC) $(CFLAGS) $(DEPS) -o parachute ui.c camera.c main.c object.c graphics.c textures.c shaders.c terrain.c physics.c $(LIBS) 
->>>>>>> 6b517171e261b8d4e69823ed7671b22f49ee2346
+	$(CC) $(CFLAGS) $(LIBS) $(DEPS) -o parachute ui.c camera.c main.c object.c graphics.c textures.c shaders.c terrain.c physics.c
 
->>>>>>> ded7ac39a198fbcbfd1391a93cb331c36991de59
+
 
 
 clean :

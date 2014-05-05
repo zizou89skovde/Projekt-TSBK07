@@ -1,23 +1,16 @@
 //#include <OpenGL/gl3.h>
-//#include "include/MicroGlut.h"
+#include "MicroGlut.h"
 #include "GL_utilities.h"
-#include "VectorUtils3.h"
-#include "loadobj.h"
-#include "LoadTGA.h"
 #include "ui.h"
 #include "object.h"
 #include "textures.h"
 #include "shaders.h"
 #include "camera.h"
-#include "terrain.h"
 
 
 #define UPDATE_FREQUENCY 20.0
- 
-
 void init()
 {
-
     glClearColor(0.2,0.2,0.5,0);
     glEnable(GL_DEPTH_TEST);
     glDisable(GL_CULL_FACE);
@@ -25,66 +18,41 @@ void init()
 
     textureInit();
     shaderInit();
-
     objectInit();
-  
-    cameraObject = createCamera();
+   
 
     
 }
 
 void display()
 {
-<<<<<<< HEAD
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
- /* rendera modeller här */
-   ModelObject * m = getModel(MODEL_GUBBE);
 
-   vec3 eye    = SetVector(5,0,0);
-   vec3 center = SetVector(1,0,1);
-
-   setCameraEye(cameraObject,eye);
-   setCameraCenter(cameraObject,center);
-
-   graphicsTranslation(m,1,0,1);
-   graphicsDisplay(m,getCameraMatrix(cameraObject));
-   glutSwapBuffers();
-
-=======
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
   renderObjects();
   glutSwapBuffers();
->>>>>>> 6b517171e261b8d4e69823ed7671b22f49ee2346
+
    
 }
 
 
-void update(int i)
+void tick(int i)
 {
 	/* härifrån kan update-funktioner cycliskt anropas med frekvensen UPDATE_FREQUENCY */
-	//handleKeyboardInput(cameraObject);
-	glutTimerFunc(UPDATE_FREQUENCY, &update, i);
+	handleKeyboardInput(cameraObject);
+	glutTimerFunc(UPDATE_FREQUENCY, &tick, i);
 	glutPostRedisplay();
-<<<<<<< HEAD
 
-	#ifdef VERBOSE
-	printf("VERBOSE");
-	 #endif
-
-=======
 	updateObjectPosition();
->>>>>>> 6b517171e261b8d4e69823ed7671b22f49ee2346
+
 }
 
 void mouse(int x,int y){
-	//handleMouseInput(x,y);
+	handleMouseInput(x,y);
 }
 
 
 int main(int argc, char **argv)
 {
-
-
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH);
 	glutInitContextVersion(3, 2);
@@ -94,7 +62,7 @@ int main(int argc, char **argv)
 	glutDisplayFunc(display);
 	init();
 	initKeymapManager();
-	glutTimerFunc(1, &update, 0);
+	glutTimerFunc(1, &tick, 0);
 
 	glutPassiveMotionFunc(mouse);
 
