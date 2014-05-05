@@ -16,16 +16,16 @@ void objectInit(){
 	//archObjectListLength = archObjectListLength + 2;
 
 	//OBS: (TODO) dessa två funkt lägger till ett element i listan, se till att index matchar.
-	addModel(&(archObjectList[0]),"resources/groundsphere.obj", MODEL_GUBBE, TEXTURE_GROUND,SHADER_SPHERE);
+	addModel(&(archObjectList[0]),"resources/groundsphere.obj", TEXTURE_GROUND,SHADER_SPHERE);
 	//addPhysicalObject(&(archObjectList[0]),SetVector(1,2,3), 1,1,1);
-	archobjectListLength ++;
+	archObjectListLength ++;
 
 
 }
 
 
 void updateObjectPosition(){	
-	for(i = 0; i<archObjectListLength; i++) { moveObject(archObjectList[i]->PhysicalObj) }	 
+	for(int i = 0; i<archObjectListLength; i++) { moveObject(&(archObjectList[i].physicalObj)); }	 
 }
 
 void renderObjects(){
