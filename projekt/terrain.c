@@ -101,10 +101,10 @@ void generateTerrain(ArchObject * groundArchObject,ArchObject * waterArchObject)
 			triangleCount*3);
 
 	// Set ground Graphicstruct
-	groundArchObject->modelObj->program = getShader(SHADER_GROUND);
-	groundArchObject->modelObj->model = *groundModel;
-	groundArchObject->modelObj->texture = getTexture(TEXTURE_GROUND);
-	groundArchObject->modelObj->translation_mat = IdentityMatrix();	
+	groundArchObject->modelObj.program = getShader(SHADER_GROUND);
+	groundArchObject->modelObj.model = *groundModel;
+	groundArchObject->modelObj.texture = getTexture(TEXTURE_GROUND);
+	groundArchObject->modelObj.translation_mat = IdentityMatrix();	
 	// Set ground Datastruct
 	groundData.vertexArray = groundModel->vertexArray;
 
@@ -119,10 +119,10 @@ void generateTerrain(ArchObject * groundArchObject,ArchObject * waterArchObject)
 			vertexCount,
 			triangleCount*3);
 	// Set ground Graphicstruct
-	waterArchObject->modelObj->program = getShader(SHADER_WATER);
-	waterArchObject->modelObj->model = *waterModel;
-	waterArchObject->modelObj->texture = getTexture(TEXTURE_WATER);
-	waterArchObject->modelObj->translation_mat = IdentityMatrix();
+	waterArchObject->modelObj.program = getShader(SHADER_WATER);
+	waterArchObject->modelObj.model = *waterModel;
+	waterArchObject->modelObj.texture = getTexture(TEXTURE_WATER);
+	waterArchObject->modelObj.translation_mat = IdentityMatrix();
 
 }
 

@@ -24,7 +24,7 @@ int numModels;
 
 mat4 projection_mat;
 void graphicsInitModels();
-void addModel(ArchObject * obj,char* fileName, int id, int texture,int shader);
+void addModel(ArchObject * obj,char* fileName, int texture,int shader);
 void graphicsTranslation(ModelObject* m, GLuint x, GLuint y, GLuint z);
 void graphicsDisplay(ModelObject* m, mat4 view_mat);
 

@@ -30,8 +30,8 @@ typedef struct
 
 typedef struct
 {
-	PhysicalObject* physicalObj;
-	ModelObject* modelObj;
+	PhysicalObject physicalObj;
+	ModelObject modelObj;
 	GLfloat position[3];
 } ArchObject;
 
