@@ -4,7 +4,7 @@ void shaderInit(){
 	numShaders = 0;
 	addShader("shaders/sphere.vert","shaders/sphere.frag",SHADER_SPHERE);
 	addShader("shaders/terrain.vert", "shaders/terrain.frag",SHADER_GROUND);
-	//addShader("shaders/water.vert","shaders/water.frag",SHADER_WATER);
+	addShader("shaders/water.vert","shaders/water.frag",SHADER_WATER);
 }
 
 void addShader(char* fileNameVert,char* fileNameFrag, int id){

@@ -8,8 +8,9 @@ void generateTerrain(ArchObject * groundArchObject,ArchObject * waterArchObject)
 	Model* waterModel;
 	Model* groundModel;
 	
-	TextureData * tex = NULL;
-	LoadTGATextureData("fft-terrain.tga", tex);
+	TextureData text;
+	TextureData * tex = &text; 
+	LoadTGATextureData("resources/fft-terrain.tga", tex);
 	
 	int vertexCount = tex->width * tex->height;
 	int triangleCount = (tex->width-1) * (tex->height-1) * 2;
