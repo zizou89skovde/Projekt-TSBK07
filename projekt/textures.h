@@ -1,7 +1,8 @@
 #ifndef _TEXTURES_
 #define _TEXTURES_
 #define TEXTURE_MASKROS 0 
-#define TEXTURE_BERG 1 
+#define TEXTURE_GROUND 1 
+#define TEXTURE_WATER 2
 #define MAX_NUM_TEXTURES 10
 
 

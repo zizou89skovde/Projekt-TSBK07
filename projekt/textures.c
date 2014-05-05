@@ -2,7 +2,8 @@
 void textureInit(){
 	textureList = malloc(MAX_NUM_TEXTURES*sizeof(Texture));
 	numTextures = 0;
-	addTexture("resources/rocks_2.tga",TEXTURE_MASKROS);
+	addTexture("resources/rocks_2.tga",TEXTURE_GROUND);
+	//addTexture("resources/tex_Water-jpg.tga",TEXTURE_WATER);
 }
 
 void addTexture(char* fileName, int id){

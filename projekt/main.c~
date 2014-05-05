@@ -5,19 +5,15 @@
 #include "loadobj.h"
 #include "LoadTGA.h"
 #include "ui.h"
-#include "graphics.h"
+#include "object.h"
 #include "textures.h"
 #include "shaders.h"
 #include "camera.h"
+#include "terrain.h"
+
 
 #define UPDATE_FREQUENCY 20.0
-
-
-/* Globala prylar deklareras här */
-
-
-terrainData* GroundData; 
-CameraObject * cameraObject; // Håller informations om kamerans orientering. 
+ 
 
 void init()
 {
@@ -30,46 +26,32 @@ void init()
     textureInit();
     shaderInit();
 
+    objectInit();
   
-    graphicsInitModels();
-    generateTerrain();
     cameraObject = createCamera();
     
 }
 
 void display()
 {
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
- /* rendera modeller här */
-   ModelObject * m = getModel(MODEL_GUBBE);
-
-   vec3 eye    = SetVector(5,0,0);
-   vec3 center = SetVector(1,0,1);
-
-   setCameraEye(cameraObject,eye);
-   setCameraCenter(cameraObject,center);
-
-   graphicsTranslation(m,1,0,1);
-   graphicsDisplay(m,getCameraMatrix(cameraObject));
-   glutSwapBuffers();
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
+  renderObjects();
+  glutSwapBuffers();
    
 }
 
 
-void tick(int i)
+void update(int i)
 {
 	/* härifrån kan update-funktioner cycliskt anropas med frekvensen UPDATE_FREQUENCY */
 	handleKeyboardInput(cameraObject);
-	glutTimerFunc(UPDATE_FREQUENCY, &tick, i);
+	glutTimerFunc(UPDATE_FREQUENCY, &update, i);
 	glutPostRedisplay();
-for all objects
- translate(model,pos)	
-
-end
+	updateObjectPosition();
 }
 
 void mouse(int x,int y){
-	handleMouseInput(x,y);
+	//handleMouseInput(x,y);
 }
 
 
@@ -86,7 +68,7 @@ int main(int argc, char **argv)
 	glutDisplayFunc(display);
 	init();
 	initKeymapManager();
-	glutTimerFunc(1, &tick, 0);
+	glutTimerFunc(1, &update, 0);
 
 	glutPassiveMotionFunc(mouse);
 

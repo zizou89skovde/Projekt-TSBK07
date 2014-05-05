@@ -1,6 +1,7 @@
 #ifndef _GRAPHICS_
 #define _GRAPHICS_
 
+#include "types.h"
 #include "include/GL_utilities.h"
 #include "include/VectorUtils3.h"
 #include "include/loadobj.h"
@@ -15,26 +16,15 @@
 #define left -0.5
 #define top 0.5
 #define bottom -0.5
+#define MODEL_GUBBE 0
 
 int numModels;
-typedef struct
-{
-	Model* model;
 
-	GLuint program;
-	GLuint texture;
-
-	int id;
-
-	mat4 translation_mat;
-	mat4 rotation_mat;	
-
-}ModelObject;
 
 
 mat4 projection_mat;
 void graphicsInitModels();
-void addModel(ObjectStruct * obj,char* fileName, int id, int texture,int shader);
+void addModel(ArchObject * obj,char* fileName, int id, int texture,int shader);
 void graphicsTranslation(ModelObject* m, GLuint x, GLuint y, GLuint z);
 void graphicsDisplay(ModelObject* m, mat4 view_mat);
 

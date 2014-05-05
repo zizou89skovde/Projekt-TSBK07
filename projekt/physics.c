@@ -1,22 +1,28 @@
+#include "physics.h"
 
-
-void addPhysicalObject(ArchObject* obj,vec3 initialPosition, GLfloat dragCoeff, GLfloat area, GLfloat mass){
-	obj->physicalObject->initialPosition2 = initialPosition;
-	obj->physicalObject->dragCoeff = dragCoeff;
-	obj->physicalObject->A = area;
-	obj->physicalObject->mass = mass;
-
+void physicsInit(){
+	time(&programStartTime);
+	conversionFactor = 0.01;
+	g = 9.82; // m/s^2, gravity
+	airDensity = 1.225; // kg/m^3 
 }
 
-void moveObject(physicalObject* object) {
+void addPhysicalObject(ArchObject* obj,vec3 initialPosition, GLfloat dragCoeff, GLfloat area, GLfloat mass){
+	obj->physicalObj->initialPosition = initialPosition;
+	obj->physicalObj->dragCoeff = dragCoeff;
+	obj->physicalObj->A = area;
+	obj->physicalObj->mass = mass;
+}
+
+void moveObject(PhysicalObject* object) {
 
 	time_t now;
     	time(&now);
-	t = difftime(programStartTime,now); // elapsed time, counting since program started.
+	time_t t = difftime(programStartTime,now); // elapsed time, counting since program started.
 	
-	vTerminal = sqrt((2*object.mass*g)/(airDensity*object.dragCoeff*object.A));   
+	GLfloat vTerminal = sqrt((2*object->mass*g)/(airDensity*object->dragCoeff*object->A));   
 
-	object.position[1] = object.initialPosition[1] - conversionFactor*((vTerminal/g)*log(cosh(g*t/vTerminal)));
+	object->position.y = object->initialPosition.y - conversionFactor*((vTerminal/g)*log(cosh(g*t/vTerminal)));
 
 	/*if(Objectaboveground?(terrain, object.position)) {
 		//  free fall with air restistance

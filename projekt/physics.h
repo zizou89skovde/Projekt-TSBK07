@@ -1,22 +1,22 @@
+#ifndef _PHYSICS_
+#define _PHYISCS_ 
+
 #include <math.h>
 #include <time.h>
 
+#include "types.h"
+#include "GL_utilities.h"
+#include "VectorUtils3.h"
 
-conversionFactor = 0.01; // conversion between SI units and "world units"
+GLfloat conversionFactor; // conversion between SI units and "world units"
 
 //physical constants
-g = 9.82; // m/s^2, gravity
-airDensity = 1.225; // kg/m^3 
+GLfloat g;
+GLfloat airDensity; 
+time_t programStartTime;
 
-typedef struct
-{
-	GLfloat initialPosition[3];
-	vec3 initialPosition2;
-	GLfloat* position;
-	GLfloat mass;
-	GLfloat dragCoeff;
-	GLfloat A; //area
-} PhysicalObject;
-
+void physicsInit();
 void moveObject(PhysicalObject* object);
+void addPhysicalObject(ArchObject* obj,vec3 initialPosition, GLfloat dragCoeff, GLfloat area, GLfloat mass);
 
+#endif
