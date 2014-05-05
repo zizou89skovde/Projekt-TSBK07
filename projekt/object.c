@@ -1,18 +1,29 @@
 #include "object.h"
 
+	
 
 void objectInit(){
+
+	
  	physicsInit();
    	graphicsInitModels();
 
 	archObjectList = malloc(MAX_NUM_OBJECTS*sizeof(ArchObject));
+
+	archObjectListLength = 0;
+	//generateTerrain(&(archObjectList[GROUND_OBJECT]), &(archObjectList[WATER_OBJECT]));	
+	//archObjectListLength = archObjectListLength + 2;
+
+	//OBS: (TODO) dessa två funkt lägger till ett element i listan, se till att index matchar.
 	addModel(&(archObjectList[0]),"resources/groundsphere.obj", MODEL_GUBBE, TEXTURE_MASKROS,SHADER_SPHERE);
- 	//generateTerrain(&(archObjectList[GROUND_OBJECT]), &(archObjectList[WATER_OBJECT]));	
 	addPhysicalObject(&(archObjectList[0]),SetVector(1,2,3), 1,1,1);
+	archobjectListLength ++;
+
 }
 
-void updateObjectPosition(){
 
+void updateObjectPosition(){	
+	for(i = 0; i<archObjectListLength; i++) { moveObject(archObjectList[i]->PhysicalObj) }	 
 }
 
 void renderObjects(){
