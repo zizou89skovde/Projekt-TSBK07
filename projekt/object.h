@@ -13,11 +13,15 @@
 #include "GL_utilities.h"
 #include "VectorUtils3.h"
 
+int archObjectListLength;
+
+ArchObject * archObjectList; 
 
 void objectInit();
 void renderObjects();
 void updateObjectPosition();
-ArchObject * archObjectList; 
+
+
 
  #endif
 
