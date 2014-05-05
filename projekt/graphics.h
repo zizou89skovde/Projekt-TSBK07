@@ -6,6 +6,7 @@
 #include "include/loadobj.h"
 #include "textures.h"
 #include "shaders.h"
+#include "object.h"
 #include <stdlib.h>
 
 #define near 1.0
@@ -14,11 +15,6 @@
 #define left -0.5
 #define top 0.5
 #define bottom -0.5
-
-#define MAX_NUM_MODELS 20
-
-#define MODEL_GUBBE 0 
-
 
 int numModels;
 typedef struct
@@ -33,15 +29,14 @@ typedef struct
 	mat4 translation_mat;
 	mat4 rotation_mat;	
 
-}Model_struct;
+}ModelObject;
 
-Model_struct * modelList;
 
 mat4 projection_mat;
 void graphicsInitModels();
-void addModel(char* fileName, int id, int texture,int shader);
-Model_struct* getModel(int id);
-void graphicsTranslation(Model_struct* m, GLuint x, GLuint y, GLuint z);
-void graphicsDisplay(Model_struct* m, mat4 view_mat);
+void addModel(ObjectStruct * obj,char* fileName, int id, int texture,int shader);
+void graphicsTranslation(ModelObject* m, GLuint x, GLuint y, GLuint z);
+void graphicsDisplay(ModelObject* m, mat4 view_mat);
 
 #endif
+
