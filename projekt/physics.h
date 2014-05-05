@@ -10,12 +10,13 @@ airDensity = 1.225; // kg/m^3
 
 typedef struct
 {
-GLfloat initialPosition[3];
-GLfloat position[3];
-GLfloat mass;
-GLfloat dragCoeff;
-GLfloat A; //area
-} physicalObject;
+	GLfloat initialPosition[3];
+	vec3 initialPosition2;
+	GLfloat* position;
+	GLfloat mass;
+	GLfloat dragCoeff;
+	GLfloat A; //area
+} PhysicalObject;
 
-void moveObject(Model* object, physicalObject* object);
+void moveObject(PhysicalObject* object);
 
