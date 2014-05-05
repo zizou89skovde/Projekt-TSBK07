@@ -3,7 +3,7 @@ void shaderInit(){
 	shaderList = malloc(MAX_NUM_SHADERS*sizeof(Shader));
 	numShaders = 0;
 	addShader("shaders/sphere.vert","shaders/sphere.frag",SHADER_SPHERE);
- 	//addShader("shaders/terrain.vert", "shaders/terrain.frag",SHADER_GROUND);
+	addShader("shaders/terrain.vert", "shaders/terrain.frag",SHADER_GROUND);
 	//addShader("shaders/water.vert","shaders/water.frag",SHADER_WATER);
 }
 
