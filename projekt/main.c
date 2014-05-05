@@ -28,6 +28,7 @@ void init()
     shaderInit();
     graphicsInitModels();
     cameraObject = createCamera();
+
     
 }
 
@@ -46,6 +47,7 @@ void display()
    graphicsTranslation(m,1,0,1);
    graphicsDisplay(m,getCameraMatrix(cameraObject));
    glutSwapBuffers();
+
    
 }
 
@@ -56,6 +58,10 @@ void tick(int i)
 	handleKeyboardInput(cameraObject);
 	glutTimerFunc(UPDATE_FREQUENCY, &tick, i);
 	glutPostRedisplay();
+
+	#ifdef VERBOSE
+	printf("VERBOSE");
+	 #endif
 }
 
 void mouse(int x,int y){
