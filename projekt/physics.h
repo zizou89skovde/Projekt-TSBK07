@@ -5,6 +5,7 @@
 #include <time.h>
 
 #include "types.h"
+#include "stdio.h"
 #include "GL_utilities.h"
 #include "VectorUtils3.h"
 

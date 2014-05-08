@@ -23,7 +23,7 @@ Model_struct* getModel(int id){
 	return NULL;
 }
 */
-void graphicsTranslation(ModelObject* m, GLuint x, GLuint y, GLuint z){
+void graphicsTranslation(ModelObject* m, GLfloat x, GLfloat y, GLfloat z){
 	m->translation_mat = T(x, y, z);
 }
 

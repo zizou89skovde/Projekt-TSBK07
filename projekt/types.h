@@ -22,6 +22,7 @@ typedef struct
 {
 	vec3 initialPosition;
 	vec3 position;
+	vec3 velocity;
 	GLfloat mass;
 	GLfloat dragCoeff;
 	GLfloat A; //area
