@@ -18,7 +18,7 @@ void objectInit(){
 	addPhysicalObject(&(archObjectList[numObjects]),SetVector(10,10,10), 1 ,0.1,10);
 
 	/*Bind camera position to object */
-	//attachCameraToObject(cameraObject,&(archObjectList[numObjects]));
+	attachCameraToObject(cameraObject,&(archObjectList[numObjects]));
 	numObjects ++;
 
 

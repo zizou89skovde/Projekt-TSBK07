@@ -11,6 +11,7 @@ void physicsInit(){
 void addPhysicalObject(ArchObject* obj,vec3 initialPosition, GLfloat dragCoeff, GLfloat area, GLfloat mass){
 	obj->physicalObj.initialPosition = initialPosition;
 	obj->physicalObj.position 	 = initialPosition;
+	obj->physicalObj.velocity 	 = SetVector(0,-1,0);
 	obj->physicalObj.dragCoeff = dragCoeff;
 	obj->physicalObj.A = area;
 	obj->physicalObj.mass = mass;

@@ -59,7 +59,7 @@ mat4 getObjectFixedCameraMatrix(ArchObject* obj){
 				 eye.y + eyeOffset.y,
 			         eye.z + eyeOffset.z);
 	
-	eye = SetVector(eye.x - eyeOffset.x,
+	eye = SetVector(eye.x - eyeOffset.x+1,
 			eye.y - eyeOffset.y,
 			eye.z - eyeOffset.z);
 
