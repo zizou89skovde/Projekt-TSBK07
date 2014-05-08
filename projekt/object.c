@@ -15,12 +15,15 @@ void objectInit(){
 	numObjects = numObjects + 2;
 
 	addModel(&(archObjectList[numObjects]),"resources/groundsphere.obj", TEXTURE_GROUND,SHADER_SPHERE);
-	addPhysicalObject(&(archObjectList[numObjects]),SetVector(10,10,10), 1 ,0.1,10);
+	addPhysicalObject(&(archObjectList[numObjects]),SetVector(10,15,10), 0.1 ,5,1);
+	
 
 	/*Bind camera position to object */
 	//attachCameraToObject(cameraObject,&(archObjectList[numObjects]));
 	numObjects ++;
-
+	addModel(&(archObjectList[numObjects]),"resources/groundsphere.obj", TEXTURE_GROUND,SHADER_SPHERE);
+	addPhysicalObject(&(archObjectList[numObjects]),SetVector(15,15,10), 0.2 ,0.1,1);
+	numObjects ++;
 
 	//OBS: (TODO) dessa två funkt lägger till ett element i listan, se till att index matchar.
 
@@ -38,8 +41,8 @@ void updateObjectPosition(){
 
 void renderObjects(){
 
-	vec3 eye    = SetVector(0,10,0);
-	vec3 center = SetVector(10,0,10);
+	vec3 eye    = SetVector(0,22,0);
+	vec3 center = SetVector(10,10,10);
 	setCameraEye(cameraObject,eye);
 	setCameraCenter(cameraObject,center);
 	mat4 viewMatrix = getCameraMatrix(cameraObject);
