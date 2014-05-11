@@ -16,7 +16,7 @@ void generateTerrain(ArchObject * groundArchObject,ArchObject * waterArchObject)
 	int triangleCount = (tex->width-1) * (tex->height-1) * 2;
 	int x, z;
 
-	GLfloat stepSize = 10.0;
+	GLfloat stepSize = 1.0;
 	GLfloat stepSizeY = 100.0;
 
 	groundData.dimX = tex->width/stepSize;

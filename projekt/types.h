@@ -28,6 +28,19 @@ typedef struct
 	GLfloat A; //area
 } PhysicalObject;
 
+typedef struct{
+   float position[4];
+   float velocity[4];
+   float lifetime;
+}Particle;
+
+
+typedef struct{
+	int numInstances;
+	float* buff;
+	Particle * particles;
+}ParticleSystem;
+
 
 typedef struct
 {
