@@ -18,8 +18,12 @@ void objectInit(){
 	addPhysicalObject(&(archObjectList[numObjects]),SetVector(10,40,10), 0.1 ,5,1);
 	/*Bind camera position to object */
 	attachCameraToObject(cameraObject,&(archObjectList[numObjects]));
-	numObjects ++;
+	numObjects++;
 
+
+	addModel(&(archObjectList[numObjects]),"resources/groundsphere.obj", TEXTURE_GROUND,SHADER_SPHERE);
+	addPhysicalObject(&(archObjectList[numObjects]),SetVector(0,0,0), 1 ,0.1,10);
+	numObjects++;
 
 	addModel(&(archObjectList[numObjects]),"resources/groundsphere.obj", TEXTURE_GROUND,SHADER_SPHERE);
 	addPhysicalObject(&(archObjectList[numObjects]),SetVector(15,15,10), 0.2 ,0.1,1);

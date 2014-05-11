@@ -39,7 +39,7 @@ void tick(int i)
 	handleKeyboardInput(cameraObject);
 	glutTimerFunc(1/UPDATE_FREQUENCY, &tick, i);
 	glutPostRedisplay();
-
+	
 	updateObjectPosition();
 
 }

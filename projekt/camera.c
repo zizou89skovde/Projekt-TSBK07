@@ -50,6 +50,7 @@ void setCameraCenter(CameraObject * camObj,vec3 center){
 }
 
 mat4 getObjectFixedCameraMatrix(ArchObject* obj){
+
         vec3 eye = obj->physicalObj.position;
         vec3 lookDir = obj->physicalObj.velocity;
 	lookDir = Normalize(lookDir);
