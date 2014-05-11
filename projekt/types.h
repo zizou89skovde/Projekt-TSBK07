@@ -32,6 +32,7 @@ typedef struct{
    float position[4];
    float velocity[4];
    float lifetime;
+   float distToCam;
 }Particle;
 
 
@@ -46,6 +47,8 @@ typedef struct
 {
 	PhysicalObject physicalObj;
 	ModelObject modelObj;
+	ParticleSystem particleSystem;
+
 	GLfloat position[3];
 } ArchObject;
 
