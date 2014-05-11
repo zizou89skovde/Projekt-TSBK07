@@ -12,14 +12,15 @@ void objectInit(){
 	archObjectList = malloc(MAX_NUM_OBJECTS*sizeof(ArchObject));
 
 	numObjects = 0;
-	//generateTerrain(&(archObjectList[GROUND_OBJECT]), &(archObjectList[WATER_OBJECT]));	
-	//numObjects = numObjects + 2;
+	generateTerrain(&(archObjectList[GROUND_OBJECT]), &(archObjectList[WATER_OBJECT]));	
+	numObjects = numObjects + 2;
 
 	addModel(&(archObjectList[numObjects]),"resources/skybox.obj", TEXTURE_SKYBOX,SHADER_SKYBOX, &graphicsDisplaySkybox);
+	addPhysicalObject(&(archObjectList[numObjects]),SetVector(10,10,10), 1 ,0.1,10,&staticObject);
 	numObjects ++;
 
 	addModel(&(archObjectList[numObjects]),"resources/groundsphere.obj", TEXTURE_GROUND,SHADER_SPHERE, &graphicsDisplay);
-	addPhysicalObject(&(archObjectList[numObjects]),SetVector(10,10,10), 1 ,0.1,10);
+	addPhysicalObject(&(archObjectList[numObjects]),SetVector(10,10,10), 1 ,0.1,10,&moveObject);
 	numObjects ++;
 
 	/*Bind camera position to object */
@@ -33,7 +34,8 @@ void objectInit(){
 
 void updateObjectPosition(){	
 	for(int i = 2; i<numObjects; i++) {
-		moveObject(&(archObjectList[i].physicalObj)); 
+		PhysicalObject physicaObject = archObjectList[i].physicalObj;	
+		physicaObject.updateFunc((void *)&physicaObject);
 	}	 
 }
 

@@ -20,6 +20,7 @@ typedef struct
 
 typedef struct
 {
+	void (*updateFunc)(void *);
 	vec3 initialPosition;
 	vec3 position;
 	vec3 velocity;

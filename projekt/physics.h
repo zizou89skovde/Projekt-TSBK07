@@ -17,7 +17,7 @@ GLfloat airDensity;
 time_t programStartTime;
 
 void physicsInit();
-void moveObject(PhysicalObject* object);
-void addPhysicalObject(ArchObject* obj,vec3 initialPosition, GLfloat dragCoeff, GLfloat area, GLfloat mass);
-
+void moveObject(void * object);
+void addPhysicalObject(ArchObject* obj,vec3 initialPosition, GLfloat dragCoeff, GLfloat area, GLfloat mass,void (*fp)(void *));
+void staticObject(void* arg);
 #endif
