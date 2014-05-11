@@ -3,6 +3,7 @@
 #define TEXTURE_MASKROS 0 
 #define TEXTURE_GROUND 1 
 #define TEXTURE_WATER 2
+#define TEXTURE_CHAR 3
 #define MAX_NUM_TEXTURES 10
 
 

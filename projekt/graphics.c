@@ -23,13 +23,16 @@ Model_struct* getModel(int id){
 	return NULL;
 }
 */
+void graphicsRotation(ModelObject* m, vec3 axis, GLfloat theta){
+	m->rotation_mat = ArbRotate(axis,theta);
+}
 void graphicsTranslation(ModelObject* m, GLfloat x, GLfloat y, GLfloat z){
 	m->translation_mat = T(x, y, z);
 }
 
 void graphicsDisplay(ModelObject* m, mat4 view_mat){	
 
-	mat4 modelView_mat = Mult(view_mat, m->translation_mat);
+	mat4 modelView_mat = Mult(view_mat, m->rotation_mat*m->translation_mat);
 	mat4 modelViewProjection_mat = Mult(projection_mat, modelView_mat);
 	
 	glUseProgram(m->program);

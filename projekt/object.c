@@ -17,18 +17,15 @@ void objectInit(){
 	addModel(&(archObjectList[numObjects]),"resources/groundsphere.obj", TEXTURE_GROUND,SHADER_SPHERE);
 	addPhysicalObject(&(archObjectList[numObjects]),SetVector(10,40,10), 0.1 ,5,1);
 	/*Bind camera position to object */
-	attachCameraToObject(cameraObject,&(archObjectList[numObjects]));
+	
 	numObjects++;
 
 
-	addModel(&(archObjectList[numObjects]),"resources/groundsphere.obj", TEXTURE_GROUND,SHADER_SPHERE);
-	addPhysicalObject(&(archObjectList[numObjects]),SetVector(0,0,0), 1 ,0.1,10);
-	numObjects++;
-
-	addModel(&(archObjectList[numObjects]),"resources/groundsphere.obj", TEXTURE_GROUND,SHADER_SPHERE);
+	addModel(&(archObjectList[numObjects]),"resources/char.obj", TEXTURE_CHAR,SHADER_CHAR);
 	addPhysicalObject(&(archObjectList[numObjects]),SetVector(15,15,10), 0.2 ,0.1,1);
+	attachCameraToObject(cameraObject,&(archObjectList[numObjects]));
 	numObjects ++;
-
+	
 	//OBS: (TODO) dessa två funkt lägger till ett element i listan, se till att index matchar.
 
 

@@ -25,22 +25,11 @@ void addPhysicalObject(ArchObject* obj,vec3 initialPosition, GLfloat dragCoeff, 
 
 void moveObject(PhysicalObject* object) {
 
-
-
-   // printf("Filtering took: %g secs\n", (etime.tv_sec  - stime.tv_sec) +
-   //	   1e-9*(etime.tv_nsec  - stime.tv_nsec)) ;
-
-
 	if(functionCallCount==0){ 
 		clock_gettime(CLOCK_REALTIME, &tZero);
 		functionCallCount ++;
 		}
-	/*else  if (functionCallFlag==1) {
-		clock_gettime(CLOCK_REALTIME, &tOne);
-		callPeriod = (double)BILLION)*(tOne.tv_sec - tZero.tv_sec) + (double)(tOne.tv_nsec - tZero.tv_nsec); 
-		functionCallFlag = 0;
-	}*/
-		
+			
 	clock_gettime(CLOCK_REALTIME, &tOne);	
 	double tNano =  (double)(BILLION)*(tOne.tv_sec - tZero.tv_sec) + (double)(tOne.tv_nsec - tZero.tv_nsec);
 	
@@ -57,14 +46,8 @@ void moveObject(PhysicalObject* object) {
 
     
 
-printf("t: %f asdf: %f vTerm: %f \n ",(float)t, (float)asdf, (float)vTerminal);
+	printf("t: %f asdf: %f vTerm: %f \n ",(float)t, (float)asdf, (float)vTerminal);
 	
-
-
-
-
-
-
 	/*if(Objectaboveground?(terrain, object.position)) {
 		//  free fall with air restistance
 		
