@@ -8,12 +8,12 @@
 #include "camera.h"
 
 
-#define UPDATE_FREQUENCY 60.0
+#define UPDATE_FREQUENCY 1.0
 void init()
 {
     glClearColor(0.2,0.2,0.5,0);
     glEnable(GL_DEPTH_TEST);
-    glDisable(GL_CULL_FACE);
+    glEnable(GL_CULL_FACE);
     printError("GL inits");
 
     textureInit();
@@ -39,7 +39,7 @@ void tick(int i)
 	handleKeyboardInput(cameraObject);
 	glutTimerFunc(1/UPDATE_FREQUENCY, &tick, i);
 	glutPostRedisplay();
-	
+
 	updateObjectPosition();
 
 }
@@ -52,11 +52,12 @@ void mouse(int x,int y){
 int main(int argc, char **argv)
 {
 	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH);
+	
 	glutInitContextVersion(3, 2);
 
 	glutInitWindowSize (1080, 1080);
 	glutCreateWindow ("TSBK07 Lab 4");
+	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 	glutDisplayFunc(display);
 	init();
 	initKeymapManager();

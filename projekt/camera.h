@@ -3,7 +3,7 @@
 #include <stdlib.h>  
 #include "VectorUtils3.h"
 #include "types.h"
-#define CAM_EYE_OFFSET 10.0
+#define CAM_EYE_OFFSET 2.0
 typedef struct{
 vec3 eye;
 vec3 center;

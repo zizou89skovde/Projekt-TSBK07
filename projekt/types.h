@@ -15,7 +15,7 @@ typedef struct
 	int id;
 	mat4 translation_mat;
 	mat4 rotation_mat;	
-
+	void (*renderFunc)(void *, mat4);
 }ModelObject;
 
 typedef struct
@@ -28,27 +28,11 @@ typedef struct
 	GLfloat A; //area
 } PhysicalObject;
 
-typedef struct{
-   float position[4];
-   float velocity[4];
-   float lifetime;
-   float distToCam;
-}Particle;
-
-
-typedef struct{
-	int numInstances;
-	float* buff;
-	Particle * particles;
-}ParticleSystem;
-
 
 typedef struct
 {
 	PhysicalObject physicalObj;
 	ModelObject modelObj;
-	ParticleSystem particleSystem;
-
 	GLfloat position[3];
 } ArchObject;
 
