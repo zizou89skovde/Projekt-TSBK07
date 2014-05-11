@@ -2,10 +2,14 @@
 void textureInit(){
 	textureList = malloc(MAX_NUM_TEXTURES*sizeof(Texture));
 	numTextures = 0;
-	addTexture("resources/rocks_2.tga", TEXTURE_GROUND);
+
+	addTexture("resources/rocks_2.tga",TEXTURE_GROUND);
+	addTexture("resources/char.tga",TEXTURE_CHAR);
 	//addTexture("resources/tex_Water-jpg.tga",TEXTURE_WATER);
 	addTexture("resources/SkyBox512.tga", TEXTURE_SKYBOX);
+
 	addTexture("resources/fft-terrain.tga", TEXTURE_TERRAIN);
+
 }
 
 void addTexture(char* fileName, int id){

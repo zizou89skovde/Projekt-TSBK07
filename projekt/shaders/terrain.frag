@@ -11,5 +11,6 @@ void main(void)
 	float intensity = clamp(dot(normalize(normal),normalize(lightdir)),0.0,1.0);
 	float diffuse = intensity;
 	float ambient = 0.2;
+	
 	outColor = (ambient + (1.0 -ambient)*diffuse)*texture(tex, texCoord);
 }

@@ -16,7 +16,7 @@ void generateTerrain(ArchObject * groundArchObject,ArchObject * waterArchObject)
 	int triangleCount = (tex->width-1) * (tex->height-1) * 2;
 	int x, z;
 
-	GLfloat stepSize = 10.0;
+	GLfloat stepSize = 1.0;
 	GLfloat stepSizeY = 100.0;
 
 	groundData.dimX = tex->width/stepSize;
@@ -107,7 +107,8 @@ void generateTerrain(ArchObject * groundArchObject,ArchObject * waterArchObject)
 	groundArchObject->modelObj.texture = getTexture(TEXTURE_GROUND);
 	groundArchObject->modelObj.translation_mat = IdentityMatrix();	
 	groundArchObject->modelObj.renderFunc = &graphicsDisplay;
-	
+	groundArchObject->physicalObj.position = SetVector(0,0,0);
+	groundArchObject->physicalObj.updateFunc = &staticObject;
 	// Set ground Datastruct
 	groundData.vertexArray = groundModel->vertexArray;
 
@@ -127,6 +128,8 @@ void generateTerrain(ArchObject * groundArchObject,ArchObject * waterArchObject)
 	waterArchObject->modelObj.texture = getTexture(TEXTURE_WATER);
 	waterArchObject->modelObj.translation_mat = IdentityMatrix();
 	waterArchObject->modelObj.renderFunc = &graphicsDisplay;
+	waterArchObject->physicalObj.position = SetVector(0,0,0);
+	waterArchObject->physicalObj.updateFunc = &staticObject;
 }
 
 vec3 CalculateNormal(int x,int z,GLfloat stepSize,GLfloat stepSizeY, TextureData * tex) {
