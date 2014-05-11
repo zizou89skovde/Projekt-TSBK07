@@ -3,9 +3,15 @@ void shaderInit(){
 	shaderList = malloc(MAX_NUM_SHADERS*sizeof(Shader));
 	numShaders = 0;
 	addShader("shaders/sphere.vert","shaders/sphere.frag",SHADER_SPHERE);
+	printError("init sphere shader");
 	addShader("shaders/terrain.vert", "shaders/terrain.frag",SHADER_GROUND);
+	printError("init ground  shader");
 	addShader("shaders/water.vert","shaders/water.frag",SHADER_WATER);
 	addShader("shaders/char.vert","shaders/char.frag",SHADER_CHAR);
+	printError("init water shader");
+	addShader("shaders/skybox.vert","shaders/skybox.frag",SHADER_SKYBOX);
+	printError("init skybox shader");
+
 }
 
 void addShader(char* fileNameVert,char* fileNameFrag, int id){

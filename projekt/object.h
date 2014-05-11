@@ -1,7 +1,10 @@
 #ifndef _OBJECT_
 #define _OBJECT_
-#define GROUND_OBJECT 0 
-#define WATER_OBJECT 1	
+#define SKYBOX_OBJECT 0
+#define GROUND_OBJECT 1 
+#define WATER_OBJECT 2	
+
+
 #define MAX_NUM_OBJECTS 30
 
 #include <stdlib.h>

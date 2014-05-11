@@ -12,19 +12,23 @@ void physicsInit(){
 
 }
 
-void addPhysicalObject(ArchObject* obj,vec3 initialPosition, GLfloat dragCoeff, GLfloat area, GLfloat mass){
+void addPhysicalObject(ArchObject* obj,vec3 initialPosition, GLfloat dragCoeff, GLfloat area, GLfloat mass,void (*fp)(void *)){
 	obj->physicalObj.initialPosition = initialPosition;
 	obj->physicalObj.position 	 = initialPosition;
-	obj->physicalObj.velocity 	 = SetVector(0,-1,0);
 	obj->physicalObj.dragCoeff = dragCoeff;
 	obj->physicalObj.A = area;
 	obj->physicalObj.mass = mass;
+	obj->physicalObj.updateFunc = fp;
+}
+
+void staticObject(void *arg){
+	PhysicalObject* object = (PhysicalObject*)arg;
+	object->position = object->position;
 }
 
 
-
-void moveObject(PhysicalObject* object) {
-
+void moveObject(void * arg) {
+	PhysicalObject* object = (PhysicalObject* )arg;
 	if(functionCallCount==0){ 
 		clock_gettime(CLOCK_REALTIME, &tZero);
 		functionCallCount ++;
@@ -39,15 +43,16 @@ void moveObject(PhysicalObject* object) {
 	
 
 	object->position.y = object->initialPosition.y - ((vTerminal*vTerminal/g)*log(cosh(g*t/vTerminal))); //0.5*g*t*t; 
-	
+	object->velocity = SetVector(0,-1,0);
 
 
 	double asdf = (vTerminal/g)*log(cosh(g*t/vTerminal));
 
     
 
-	printf("t: %f asdf: %f vTerm: %f \n ",(float)t, (float)asdf, (float)vTerminal);
+	//printf("t: %f asdf: %f vTerm: %f \n ",(float)t, (float)asdf, (float)vTerminal);
 	
+
 	/*if(Objectaboveground?(terrain, object.position)) {
 		//  free fall with air restistance
 		

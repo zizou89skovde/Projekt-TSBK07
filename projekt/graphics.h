@@ -24,10 +24,11 @@ int numModels;
 
 mat4 projection_mat;
 void graphicsInitModels();
-void addModel(ArchObject * obj,char* fileName, int texture,int shader);
+void addModel(ArchObject * obj,char* fileName, int texture,int shader, void (*fp)(void *, mat4));
 void graphicsTranslation(ModelObject* m, GLfloat x, GLfloat y, GLfloat z);
-void graphicsDisplay(ModelObject* m, mat4 view_mat);
 void graphicsRotation(ModelObject* m, vec3 axis, GLfloat theta);
+void graphicsDisplay(void* arg, mat4 view_mat);
+void graphicsDisplaySkybox(void* arg, mat4 view_mat);
 
 #endif
 

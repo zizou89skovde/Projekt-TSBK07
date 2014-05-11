@@ -106,6 +106,9 @@ void generateTerrain(ArchObject * groundArchObject,ArchObject * waterArchObject)
 	groundArchObject->modelObj.model = *groundModel;
 	groundArchObject->modelObj.texture = getTexture(TEXTURE_GROUND);
 	groundArchObject->modelObj.translation_mat = IdentityMatrix();	
+	groundArchObject->modelObj.renderFunc = &graphicsDisplay;
+	groundArchObject->physicalObj.position = SetVector(0,0,0);
+	groundArchObject->physicalObj.updateFunc = &staticObject;
 	// Set ground Datastruct
 	groundData.vertexArray = groundModel->vertexArray;
 
@@ -124,7 +127,9 @@ void generateTerrain(ArchObject * groundArchObject,ArchObject * waterArchObject)
 	waterArchObject->modelObj.model = *waterModel;
 	waterArchObject->modelObj.texture = getTexture(TEXTURE_WATER);
 	waterArchObject->modelObj.translation_mat = IdentityMatrix();
-
+	waterArchObject->modelObj.renderFunc = &graphicsDisplay;
+	waterArchObject->physicalObj.position = SetVector(0,0,0);
+	waterArchObject->physicalObj.updateFunc = &staticObject;
 }
 
 vec3 CalculateNormal(int x,int z,GLfloat stepSize,GLfloat stepSizeY, TextureData * tex) {
