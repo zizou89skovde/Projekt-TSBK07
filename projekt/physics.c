@@ -19,7 +19,7 @@ void addPhysicalObject(ArchObject* obj,vec3 initialPosition, GLfloat dragCoeff, 
 
 
 void moveObject(PhysicalObject* object) {
-	object->position.y = object->position.y - 0.01;
+//	object->position.y = object->position.y - 0.01;
 /*
 	time_t now;
     	time(&now);

@@ -5,6 +5,7 @@
 #define SHADER_GROUND 1
 #define SHADER_WATER 2
 #define SHADER_SPHERE 3
+#define SHADER_TERRAIN_LOD 4
 
 
 #define MAX_NUM_SHADERS 10

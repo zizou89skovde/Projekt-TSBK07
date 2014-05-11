@@ -18,8 +18,8 @@ void objectInit(){
 	addModel(&(archObjectList[numObjects]),"resources/skybox.obj", TEXTURE_SKYBOX,SHADER_SKYBOX, &graphicsDisplaySkybox);
 	numObjects ++;
 
-	addModel(&(archObjectList[numObjects]),"resources/groundsphere.obj", TEXTURE_GROUND,SHADER_SPHERE, &graphicsDisplay);
-	addPhysicalObject(&(archObjectList[numObjects]),SetVector(10,10,10), 1 ,0.1,10);
+	addModel(&(archObjectList[numObjects]),"resources/TEST_OHLY.obj", TEXTURE_TERRAIN,SHADER_TERRAIN_LOD, &graphicsDisplay);
+	addPhysicalObject(&(archObjectList[numObjects]),SetVector(0.1,0,0), 1 ,0.1,10);
 	numObjects ++;
 
 	/*Bind camera position to object */
@@ -39,8 +39,8 @@ void updateObjectPosition(){
 
 void renderObjects(){
 
-	vec3 eye    = SetVector(0,2,0);
-	vec3 center = SetVector(10,0,10);
+	vec3 eye    = SetVector(0,50,0);
+	vec3 center = SetVector(30,0,30);
 	setCameraEye(cameraObject,eye);
 	setCameraCenter(cameraObject,center);
 	mat4 viewMatrix = getCameraMatrix(cameraObject);
@@ -62,14 +62,14 @@ void renderObjects(){
 	graphicsDisplay(&m,viewMatrix);
 
 
-	/************************************/
+	************************************/
 	  
 	for(int i = 0; i < numObjects; i++){
 	   ModelObject model = archObjectList[i].modelObj;
   	   vec3 p = archObjectList[i].physicalObj.position;
-           //printf("x: %f y: %f z: %f \n",p.x,p.y,p.z);
+           printf("x: %f y: %f z: %f \n",p.x,p.y,p.z);
 	   graphicsTranslation(&model,p.x,p.y,p.z);
-	if(i != WATER_OBJECT)
+	/*if(i != WATER_OBJECT)*/
 	   model.renderFunc((void*)(&model), viewMatrix);  // graphicsDisplay(&model,viewMatrix);
 	}
 }

@@ -1,35 +1,27 @@
 #include "camera.h"
 
-
-
 CameraObject * createCamera(){
+	   CameraObject * camObj = malloc(sizeof(CameraObject));
 
-   CameraObject * camObj = malloc(sizeof(CameraObject));
+	   camObj->eye.x = 0;
+	   camObj->eye.y = 0;
+	   camObj->eye.z = 0;
 
-   camObj->eye.x = 0;
-   camObj->eye.y = 0;
-   camObj->eye.z = 0;
+	   camObj->center.x = 0;
+	   camObj->center.y = 0;
+	   camObj->center.z = 0;
 
-   camObj->center.x = 0;
-   camObj->center.y = 0;
-   camObj->center.z = 0;
-
-   camObj->center.x = 0;
-   camObj->center.y = 0;
-   camObj->center.z = 0;
-
-   camObj->up.x = 0;
-   camObj->up.y = 1;
-   camObj->up.z = 0;
+	   camObj->up.x = 0;
+	   camObj->up.y = 1;
+	   camObj->up.z = 0;
 	
-   camObj->obj = NULL;
+	   camObj->obj = NULL;
 
-   return camObj;
-
+	   return camObj;
 }
 
 void attachCameraToObject(CameraObject* cObj, ArchObject* aObj){
-   cObj->obj = aObj;
+   	cObj->obj = aObj;
 }
 
 void deattachObject(CameraObject* cObj){

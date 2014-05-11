@@ -25,6 +25,4 @@ void  updateParticles(ParticleSystem * obj);
 void  respawnParticle(Particle * obj);
 float * getBuffer(Particle * obj);
 
-
-
 #endif
