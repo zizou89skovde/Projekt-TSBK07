@@ -25,6 +25,19 @@ void staticObject(void *arg){
 	PhysicalObject* object = (PhysicalObject*)arg;
 	object->position = object->position;
 }
+/*
+void moveLODTerrain(void *arg){
+
+	PhysicalObject* object = (PhysicalObject*)arg;
+
+
+	object.position = camObject.eye - offset;
+	//samma för rotation;
+	
+	
+}
+
+*/
 
 
 void moveObject(void * arg) {
