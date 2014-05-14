@@ -10,7 +10,7 @@ void textureInit(){
 
 	addTexture("resources/fft-terrain.tga", TEXTURE_TERRAIN);
 	addTexture("resources/cloud_texture.tga", TEXTURE_CLOUDS);
-
+	addTexture("resources/fft-terrain_normal.tga", TEXTURE_TERRAIN_NORMAL);
 }
 
 void addTexture(char* fileName, int id){

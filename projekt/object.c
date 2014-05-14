@@ -21,22 +21,25 @@ void objectInit(){
 	generateTerrain(&(archObjectList[GROUND_OBJECT]), &(archObjectList[WATER_OBJECT]));	
 	numObjects = numObjects + 2;*/
 
+	/*
 	addModel(&(archObjectList[numObjects]),"resources/groundsphere.obj", TEXTURE_GROUND,SHADER_SPHERE,&graphicsDisplay);
 	addPhysicalObject(&(archObjectList[numObjects]),SetVector(10,60,10), 0.1 ,5,1,&moveObject);
 	/*Bind camera position to object */
-	numObjects++;
+	//numObjects++;
 
 	addModel(&(archObjectList[numObjects]),"resources/char.obj", TEXTURE_CHAR,SHADER_CHAR,&graphicsDisplay);
 	addPhysicalObject(&(archObjectList[numObjects]),SetVector(10,60,40), 0.2 ,10,1,&moveObject);
 	//attachCameraToObject(cameraObject,&(archObjectList[numObjects]));
 	numObjects ++;
-
-	addModel(&(archObjectList[numObjects]),"resources/TEST_OHLY.obj", TEXTURE_TERRAIN,SHADER_TERRAIN_LOD, &drawTerrain);
+ 
+	addModel(&(archObjectList[numObjects]),"resources/mesh_lod.obj", TEXTURE_TERRAIN,SHADER_TERRAIN_LOD, &drawTerrain);
 	addPhysicalObject(&(archObjectList[numObjects]),SetVector(0,0,0), 1 ,0.1,10,&staticObject);
 	numObjects ++;
+/*
 	addModel(&(archObjectList[numObjects]),"resources/TEST_OHLY.obj", TEXTURE_TERRAIN,SHADER_TERRAIN_LOD, &drawTerrain);
 	addPhysicalObject(&(archObjectList[numObjects]),SetVector(40,0,0), 1 ,0.1,10,&staticObject);
 	numObjects ++;
+
 	addModel(&(archObjectList[numObjects]),"resources/TEST_OHLY.obj", TEXTURE_TERRAIN,SHADER_TERRAIN_LOD, &drawTerrain);
 	addPhysicalObject(&(archObjectList[numObjects]),SetVector(40,0,40), 1 ,0.1,10,&staticObject);
 	numObjects ++;
@@ -47,7 +50,7 @@ void objectInit(){
 	addModel(&(archObjectList[numObjects]),"resources/groundsphere.obj", TEXTURE_GROUND,SHADER_SPHERE, &graphicsDisplay);
 	addPhysicalObject(&(archObjectList[numObjects]),SetVector(10,10,10), 1 ,0.1,10,&moveObject);
 	numObjects ++;
-
+*/
 	addModel(&(archObjectList[numObjects]),"resources/square.obj", TEXTURE_CLOUDS,SHADER_PARTICLE,&drawInstanced);
 	addPhysicalObject(&(archObjectList[numObjects]),SetVector(0.01,0,0), 0.2 ,0.1,1,&staticObject);
 	addParticleSystem(&(archObjectList[numObjects]),10,&updateParticles);

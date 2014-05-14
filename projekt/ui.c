@@ -7,7 +7,7 @@
 void handleKeyboardInput(CameraObject * cameraObject) {
 
 	vec3 lookDirection = Normalize(VectorSub(cameraObject->center,cameraObject->eye));
-	
+	/*
 	if (keyIsDown('a')) {
 		vec3 strafeDirection = Normalize(CrossProduct(cameraObject->up,lookDirection));
 		strafeDirection = ScalarMult(strafeDirection,CAM_STRAFE_SPEED); 
@@ -47,7 +47,7 @@ void handleKeyboardInput(CameraObject * cameraObject) {
 		cameraObject->eye = VectorSub(cameraObject->eye,lookDirection);
 		cameraObject->center = VectorSub(cameraObject->center,lookDirection);	
 	}
-
+*/
 	
 
 }

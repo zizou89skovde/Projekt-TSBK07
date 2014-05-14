@@ -78,16 +78,25 @@ void drawTerrain(void* arg, mat4 view_mat){
 
 	vec3 lookDir = VectorSub(cameraObject->eye, cameraObject->center); 
 	GLfloat lookAngle = atan2(lookDir.x,lookDir.z);
-	printf("lookAngle : %f \n",lookAngle);
+	//printf("lookAngle : %f \n",lookAngle);
 	glUniform3f(glGetUniformLocation(m->program, "u_Orientation"),x,z,lookAngle);
-	glUniform2f(glGetUniformLocation(m->program, "u_MetaData"),40.0,40.0);
+	glUniform2f(glGetUniformLocation(m->program, "u_MetaData"),100.0,100.0);
 
 	glUniformMatrix4fv(glGetUniformLocation(m->program, "MVP_Matrix"), 1, GL_TRUE, modelViewProjection_mat.m);	
   	glUniformMatrix4fv(glGetUniformLocation(m->program, "MV_Matrix"), 1, GL_TRUE , modelView_mat.m);
 
+	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m->texture);
-	
+	glEnable(GL_TEXTURE_2D);
+	glUniform1i (glGetUniformLocation(m->program, "tex"), 0);
+
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, getTexture(TEXTURE_TERRAIN_NORMAL));
+	glEnable(GL_TEXTURE_2D);
+	glUniform1i (glGetUniformLocation(m->program, "normalTex"),1 );
+
 	DrawModel(&(m->model), m->program, "in_Position", "in_Normal", "in_TexCoord");
+	glActiveTexture(GL_TEXTURE0);
 }
 
 void createOffsetBuffer(Model *m){

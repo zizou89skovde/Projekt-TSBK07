@@ -1,6 +1,7 @@
 #version 150
 
 uniform sampler2D tex;
+uniform sampler2D normalTex;
 
 in  vec3 in_Position;
 in  vec3 in_Normal;
@@ -29,20 +30,20 @@ void main(void)
 	texCoord = in_TexCoord;
 
 	/* sample vertex y-pos from heightmap */
-	vec2 tcoord = (in_Position.xy+offset)/max_size; 
+	vec2 tcoord = (in_Position.xz+offset)/max_size; 
 	vec4 heightmap = texture(tex, tcoord);
+	vec4 normalmap = texture(normalTex,tcoord);
 	float height = heightmap.r*10.0;
 
 	/* TODO sample normals from normalmap */
 	mat3 normalMatrix = mat3(MV_Matrix);
 	lightdir = normalMatrix*vec3(0.0,1.0,0.0);
-	normal = normalMatrix*in_Normal;
+	normal =  2.0*(normalmap.rgb -0.5); // normalMatrix*in_Normal;
 
 	/*adjust y-pos */
-	vec3 pos = in_Position.xzy;
+	vec3 pos = in_Position.xyz;
 	pos.y = height;
 	height_val = height/10.0;;
 	
-	texCoord = in_TexCoord;
 	gl_Position = MVP_Matrix * vec4(pos, 1.0);
 }

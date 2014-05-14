@@ -8,6 +8,9 @@ in float height_val;
 
 void main(void)
 {
+	
 	float intensity = clamp(dot(normalize(normal),normalize(lightdir)),0.0,1.0);
-	outColor = vec4(height_val);
+	float diffuse = intensity;
+	float ambient = 0.4;
+	outColor = diffuse*vec4(0.5);
 }
