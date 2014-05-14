@@ -32,12 +32,10 @@ void moveLODTerrain(void *arg){
 
 
 	object.position = camObject.eye - offset;
-	//samma för rotation;
-	
-	
-}
 
-*/
+	
+	
+}*/
 
 
 void moveObject(void * arg) {
