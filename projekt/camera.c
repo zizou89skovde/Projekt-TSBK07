@@ -39,6 +39,7 @@ void setCameraCenter(CameraObject * camObj,vec3 center){
 	camObj->center.x = center.x;
 	camObj->center.y = center.y;
 	camObj->center.z = center.z;
+//a
 }
 
 mat4 getObjectFixedCameraMatrix(CameraObject* camObj){
