@@ -31,21 +31,30 @@ void handleKeyboardInput(CameraObject * cameraObject) {
 		cameraObject->center = VectorSub(cameraObject->center,lookDirection);	
 	}
 
-	vec3 horizontalDirection;
-	vec3 verticalDirection;
-	GLfloat dX;
-
+	GLfloat lookAngle;
+	GLfloat length;
+	vec3 lookDir = VectorSub(cameraObject->eye,cameraObject->center);
 	if (keyIsDown('e')) {
-		GLfloat lookAngle = atan2(lookDir.x,lookDir.z);
+		length = sqrt(lookDir.x*lookDir.x+lookDir.z*lookDir.z);
+		lookAngle = atan2(lookDir.x,lookDir.z);
+		printf("lookAngle : %f , length: %f \n",lookAngle,length);
+		lookAngle += 0.01;
+		cameraObject->center = SetVector(cameraObject->eye.x + length*sin(lookAngle),
+						 cameraObject->center.y,
+						 cameraObject->eye.z + length*cos(lookAngle));
 
-		lookDirection = ScalarMult(lookDirection,CAM_STRAFE_SPEED); 
-		cameraObject->eye = VectorSub(cameraObject->eye,lookDirection);
-		cameraObject->center = VectorSub(cameraObject->center,lookDirection);	
+		lookDir = VectorSub(cameraObject->eye,cameraObject->center);
+		lookAngle = atan2(lookDir.x,lookDir.z);
+		printf("lookAngle2 : %f \n", lookAngle);
 	}
+
 	if (keyIsDown('q')) {
-		lookDirection = ScalarMult(lookDirection,CAM_STRAFE_SPEED); 
-		cameraObject->eye = VectorSub(cameraObject->eye,lookDirection);
-		cameraObject->center = VectorSub(cameraObject->center,lookDirection);	
+		length = sqrt(lookDir.x*lookDir.x+lookDir.z*lookDir.z);
+		lookAngle = atan2(lookDir.x,lookDir.z);
+		lookAngle -= 0.01;
+		cameraObject->center = SetVector(cameraObject->eye.x + length*cos(lookAngle),
+						 cameraObject->center.y,
+						 cameraObject->eye.z + length*sin(lookAngle));
 	}
 
 	

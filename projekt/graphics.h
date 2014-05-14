@@ -12,7 +12,7 @@
 #include <stdlib.h>
 
 #define near 1.0
-#define far 400.0
+#define far 600.0
 #define right 0.5
 #define left -0.5
 #define top 0.5

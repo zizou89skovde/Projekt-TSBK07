@@ -17,6 +17,7 @@ void addModel(ArchObject * obj,char* fileName, int texture,int shader, void (*fp
 
 	obj->modelObj.renderFunc = fp;
 }
+
 /*
 Model_struct* getModel(int id){
 	for(int i = 0; i < numModels; i++){
@@ -68,23 +69,39 @@ void graphicsDisplaySkybox(void* arg, mat4 view_mat){
 
 void drawTerrain(void* arg, mat4 view_mat){	
 	ModelObject * m = (ModelObject *)arg;
-	mat4 modelView_mat = Mult(view_mat, m->translation_mat);
-	mat4 modelViewProjection_mat = Mult(projection_mat, modelView_mat);
+	
 	
 	glUseProgram(m->program);
 	
 	GLfloat x = m->translation_mat.m[3];
 	GLfloat z = m->translation_mat.m[11];
+	
+	vec3 eye = cameraObject->eye;
+	vec3 center = cameraObject->center;
 
-	vec3 lookDir = VectorSub(cameraObject->eye, cameraObject->center); 
-	GLfloat lookAngle = atan2(lookDir.x,lookDir.z);
-	printf("lookAngle : %f \n",lookAngle);
-	glUniform3f(glGetUniformLocation(m->program, "u_Orientation"),x,z,lookAngle);
-	glUniform2f(glGetUniformLocation(m->program, "u_MetaData"),40.0,40.0);
+	vec3 lookDir = VectorSub(center,eye); 
+	GLfloat lookAngle = atan2(lookDir.z,lookDir.x);
+	//printf("lookAngle : %f \n",lookAngle); 
 
-	glUniformMatrix4fv(glGetUniformLocation(m->program, "MVP_Matrix"), 1, GL_TRUE, modelViewProjection_mat.m);	
-  	glUniformMatrix4fv(glGetUniformLocation(m->program, "MV_Matrix"), 1, GL_TRUE , modelView_mat.m);
+	
+	GLfloat PI = 3.14159265359;
+	GLfloat offset = 0;
+	GLfloat length = sqrt(x*x + z*z)-offset;
+	GLfloat mm = atan2(z,x);
+	GLfloat zeroAngle = PI/4;
+	GLfloat absoluteAngle = lookAngle-zeroAngle;
 
+	mat4 tmat = T(eye.x + length*cos(absoluteAngle+mm),0,eye.z + length*sin(absoluteAngle+mm));
+	mat4 rmat = Ry(absoluteAngle);
+	//printf("absoluteAngle : %f x: %f z: %f \n",absoluteAngle,x,z); 
+	mat4 modelmat = Mult(tmat,rmat);
+	mat4 modelView_mat = Mult(view_mat, modelmat);
+	mat4 modelViewProjection_mat = Mult(projection_mat, modelView_mat);
+
+	glUniformMatrix4fv(glGetUniformLocation(m->program, "MVP_Matrix"), 1, GL_TRUE, modelViewProjection_mat.m);
+  	glUniformMatrix4fv(glGetUniformLocation(m->program, "MV_Matrix"), 1, GL_TRUE ,modelView_mat.m);// modelView_mat.m);	
+  	glUniformMatrix4fv(glGetUniformLocation(m->program, "M_Matrix"), 1, GL_TRUE ,modelmat.m);// modelView_mat.m);
+	glUniform3f(glGetUniformLocation(m->program, "u_MetaData"),100,1000,40);
 	glBindTexture(GL_TEXTURE_2D, m->texture);
 	
 	DrawModel(&(m->model), m->program, "in_Position", "in_Normal", "in_TexCoord");
