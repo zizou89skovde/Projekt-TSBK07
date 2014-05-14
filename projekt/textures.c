@@ -8,6 +8,9 @@ void textureInit(){
 	//addTexture("resources/tex_Water-jpg.tga",TEXTURE_WATER);
 	addTexture("resources/SkyBox512.tga", TEXTURE_SKYBOX);
 
+	addTexture("resources/fft-terrain.tga", TEXTURE_TERRAIN);
+	addTexture("resources/cloud_texture.tga", TEXTURE_CLOUDS);
+
 }
 
 void addTexture(char* fileName, int id){
@@ -23,5 +26,6 @@ GLuint getTexture(int id){
 	}
 	return 0;
 }
+
 
 

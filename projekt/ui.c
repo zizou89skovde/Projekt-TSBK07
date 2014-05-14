@@ -31,6 +31,23 @@ void handleKeyboardInput(CameraObject * cameraObject) {
 		cameraObject->center = VectorSub(cameraObject->center,lookDirection);	
 	}
 
+	vec3 horizontalDirection;
+	vec3 verticalDirection;
+	GLfloat dX;
+
+	if (keyIsDown('e')) {
+		GLfloat lookAngle = atan2(lookDir.x,lookDir.z);
+
+		lookDirection = ScalarMult(lookDirection,CAM_STRAFE_SPEED); 
+		cameraObject->eye = VectorSub(cameraObject->eye,lookDirection);
+		cameraObject->center = VectorSub(cameraObject->center,lookDirection);	
+	}
+	if (keyIsDown('q')) {
+		lookDirection = ScalarMult(lookDirection,CAM_STRAFE_SPEED); 
+		cameraObject->eye = VectorSub(cameraObject->eye,lookDirection);
+		cameraObject->center = VectorSub(cameraObject->center,lookDirection);	
+	}
+
 	
 
 }

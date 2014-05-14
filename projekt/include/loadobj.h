@@ -20,7 +20,7 @@ typedef struct
   GLuint* indexArray;
   int numVertices;
   int numIndices;
-  
+  int numInstances;
   // Space for saving VBO and VAO IDs
   GLuint vao; // VAO
   GLuint vb, ib, nb, tb,ob; // VBOs

@@ -8,10 +8,11 @@
 #include "textures.h"
 #include "shaders.h"
 #include "object.h"
+#include "camera.h"
 #include <stdlib.h>
 
 #define near 1.0
-#define far 100.0
+#define far 400.0
 #define right 0.5
 #define left -0.5
 #define top 0.5
@@ -24,6 +25,11 @@ int numModels;
 
 mat4 projection_mat;
 void graphicsInitModels();
+void createOffsetBuffer(Model *);
+void uploadOffsetBuffer(Model *, GLfloat * , int );
+void DrawInstancedModel(Model *, GLuint, char* , char* , char* , char * );
+void drawInstanced(void * , mat4 );
+void drawTerrain(void* , mat4);
 void addModel(ArchObject * obj,char* fileName, int texture,int shader, void (*fp)(void *, mat4));
 void graphicsTranslation(ModelObject* m, GLfloat x, GLfloat y, GLfloat z);
 void graphicsRotation(ModelObject* m, vec3 axis, GLfloat theta);

@@ -11,6 +11,10 @@ void shaderInit(){
 	printError("init water shader");
 	addShader("shaders/skybox.vert","shaders/skybox.frag",SHADER_SKYBOX);
 	printError("init skybox shader");
+	addShader("shaders/terrain_lod.vert", "shaders/terrain_lod.frag",SHADER_TERRAIN_LOD);
+	printError("init ground  shader");
+	addShader("shaders/particle.vert", "shaders/particle.frag",SHADER_PARTICLE);
+	printError("init particle  shader");
 
 }
 

@@ -7,6 +7,7 @@ void graphicsInitModels(){
 void addModel(ArchObject * obj,char* fileName, int texture,int shader, void (*fp)(void *, mat4)){
 	Model * tempModel = &(obj->modelObj.model);
 	obj->modelObj.program = getShader(shader);
+	obj->particleSystem.numParticles = 0;
 	glUseProgram(obj->modelObj.program);
 	tempModel  = LoadModelPlus(fileName);
 	obj->modelObj.model = *tempModel;
@@ -65,6 +66,30 @@ void graphicsDisplaySkybox(void* arg, mat4 view_mat){
 	glEnable(GL_DEPTH_TEST);
 }
 
+void drawTerrain(void* arg, mat4 view_mat){	
+	ModelObject * m = (ModelObject *)arg;
+	mat4 modelView_mat = Mult(view_mat, m->translation_mat);
+	mat4 modelViewProjection_mat = Mult(projection_mat, modelView_mat);
+	
+	glUseProgram(m->program);
+	
+	GLfloat x = m->translation_mat.m[3];
+	GLfloat z = m->translation_mat.m[11];
+
+	vec3 lookDir = VectorSub(cameraObject->eye, cameraObject->center); 
+	GLfloat lookAngle = atan2(lookDir.x,lookDir.z);
+	printf("lookAngle : %f \n",lookAngle);
+	glUniform3f(glGetUniformLocation(m->program, "u_Orientation"),x,z,lookAngle);
+	glUniform2f(glGetUniformLocation(m->program, "u_MetaData"),40.0,40.0);
+
+	glUniformMatrix4fv(glGetUniformLocation(m->program, "MVP_Matrix"), 1, GL_TRUE, modelViewProjection_mat.m);	
+  	glUniformMatrix4fv(glGetUniformLocation(m->program, "MV_Matrix"), 1, GL_TRUE , modelView_mat.m);
+
+	glBindTexture(GL_TEXTURE_2D, m->texture);
+	
+	DrawModel(&(m->model), m->program, "in_Position", "in_Normal", "in_TexCoord");
+}
+
 void createOffsetBuffer(Model *m){
 	glGenBuffers(1, &m->ob);
 }
@@ -72,13 +97,27 @@ void createOffsetBuffer(Model *m){
 void uploadOffsetBuffer(Model *m, GLfloat * buf, int size){
 
 	glBindVertexArray(m->vao);
-	// VBO for vertex data
 	glBindBuffer(GL_ARRAY_BUFFER, m->ob);
-	glBufferData(GL_ARRAY_BUFFER, size*sizeof(GLfloat), buf, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, 4*size*sizeof(GLfloat), buf, GL_STATIC_DRAW);
 
 }
 
-void DrawInstanced(Model *m, GLuint program, char* vertexVariableName, char* normalVariableName, char* texCoordVariableName, char * offsetVariableName)
+void drawInstanced(void * arg, mat4 view_mat){	
+	ModelObject * m = (ModelObject *)arg;
+	mat4 modelView_mat = Mult(view_mat, m->translation_mat);
+	mat4 modelViewProjection_mat = Mult(projection_mat, modelView_mat);
+	
+	glUseProgram(m->program);
+
+	glUniformMatrix4fv(glGetUniformLocation(m->program, "MVP_Matrix"), 1, GL_TRUE, modelViewProjection_mat.m);	
+  	glUniformMatrix4fv(glGetUniformLocation(m->program, "MV_Matrix"), 1, GL_TRUE , modelView_mat.m);
+
+	glBindTexture(GL_TEXTURE_2D, m->texture);
+	
+	DrawInstancedModel(&(m->model), m->program, "in_Position", "in_Normal", "in_TexCoord","in_Offset");
+}
+
+void DrawInstancedModel(Model *m, GLuint program, char* vertexVariableName, char* normalVariableName, char* texCoordVariableName, char * offsetVariableName)
 {
 	if (m != NULL)
 	{
@@ -136,11 +175,15 @@ void DrawInstanced(Model *m, GLuint program, char* vertexVariableName, char* nor
 				glVertexAttribDivisor(loc, 1);
 			}
 			else
-				fprintf(stderr, "DrawModel warning: '%s' not found in shader!\n", texCoordVariableName);
+				fprintf(stderr, "DrawModel warning: '%s' not found in shader!\n", offsetVariableName);
 		}
 
 
 
-		glDrawElements(GL_TRIANGLES, m->numIndices, GL_UNSIGNED_INT, 0L);
+		//glDrawElements(GL_TRIANGLES, m->numIndices, GL_UNSIGNED_INT, 0L);
+		glEnable(GL_BLEND); 
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glDrawArraysInstanced(GL_TRIANGLE_STRIP, 0, 4, m->numInstances);
+		glDisable(GL_BLEND); 
 	}
 }

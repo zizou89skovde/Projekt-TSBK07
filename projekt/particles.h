@@ -4,10 +4,11 @@
 #define DT 0.01
 
 #define PARTICLES_CLOUDS 0
-#define CLOUDS_HEIGHT 20.0
-#define CLOUDS_BOUNDS_X 20.0
-#define CLOUDS_BOUNDS_Y 20.0
-#define MAX_CLOUDS_SPEED 4.0
+#define CLOUD_HEIGHT 20.0
+#define CLOUD_BOUNDS_X 100.0
+#define CLOUD_BOUNDS_Z 100.0
+#define CLOUD_BOUNDS_Y 3.0
+#define MAX_CLOUD_SPEED 4.0
 
 
 
@@ -16,14 +17,18 @@
 #include <stdlib.h>
 
 #include "types.h"
+#include "graphics.h"
 #include "GL_utilities.h"
 #include "VectorUtils3.h"
 
-void  particlesInit(void);
-void  createParticles(ParticleSystem * obj, int type);
-void  updateParticles(ParticleSystem * obj);
-void  respawnParticle(Particle * obj);
-float * getBuffer(Particle * obj);
+
+void spawnParticle(Particle * p,int);
+void addParticleSystem(ArchObject* obj,int numParticles,void (*fp)(void *,void * ));
+void  createParticles(ParticleSystem * , int ,int);
+void  updateParticlesPositions(ParticleSystem * ps,CameraObject* co);
+void sortParticles(ParticleSystem* );
+void updateParticles(void* ,void * );
+GLfloat * getBuffer(ParticleSystem * );
 
 
 

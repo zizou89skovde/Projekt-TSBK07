@@ -7,6 +7,8 @@
 #include "GL_utilities.h"
 #include "loadobj.h"
 
+
+
 typedef struct
 {
 	Model model;
@@ -17,6 +19,22 @@ typedef struct
 	mat4 rotation_mat;	
 	void (*renderFunc)(void *, mat4);
 }ModelObject;
+
+typedef struct{
+   	GLfloat position[4];
+   	GLfloat velocity[4];
+	GLfloat lifetime;
+	GLfloat distToCam;
+}Particle;
+
+
+typedef struct{
+	int numParticles;
+	GLfloat* buff;
+	Particle * particles;
+	void (*updateFunc)(void *, void *);
+	
+}ParticleSystem;
 
 typedef struct
 {
@@ -29,14 +47,21 @@ typedef struct
 	GLfloat A; //area
 } PhysicalObject;
 
-
 typedef struct
 {
 	PhysicalObject physicalObj;
 	ModelObject modelObj;
+	ParticleSystem particleSystem;
 	GLfloat position[3];
 } ArchObject;
 
+
+typedef struct{
+vec3 eye;
+vec3 center;
+vec3 up;
+ArchObject* obj;
+}CameraObject;
 
 
  #endif

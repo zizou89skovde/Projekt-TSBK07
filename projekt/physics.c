@@ -65,6 +65,16 @@ void moveObject(void * arg) {
 
 	//printf("t: %f asdf: %f vTerm: %f \n ",(float)t, (float)asdf, (float)vTerminal);
 	
+/*
+	time_t now;
+    	time(&now);
+	time_t t = difftime(programStartTime,now); // elapsed time, counting since program started.
+	programStartTime = now;
+	GLfloat vTerminal = sqrt((2*object->mass*g)/(airDensity*object->dragCoeff*object->A));  
+	clock_t ct = clock(); 
+	printf("t: %f ct: %f", (float)t,(float)(ct/CLOCKS_PER_SEC));
+	object->position.y = object->initialPosition.y - conversionFactor*((vTerminal/g)*log(cosh(g*t/vTerminal)));
+	*/
 
 	/*if(Objectaboveground?(terrain, object.position)) {
 		//  free fall with air restistance

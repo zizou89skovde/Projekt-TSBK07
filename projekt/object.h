@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include "types.h"
 #include "physics.h"
+#include "particles.h"
 #include "camera.h"
 #include "graphics.h"
 #include "terrain.h"

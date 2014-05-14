@@ -1,35 +1,27 @@
 #include "camera.h"
 
-
-
 CameraObject * createCamera(){
+	   CameraObject * camObj = malloc(sizeof(CameraObject));
 
-   CameraObject * camObj = malloc(sizeof(CameraObject));
+	   camObj->eye.x = 0;
+	   camObj->eye.y = 0;
+	   camObj->eye.z = 0;
 
-   camObj->eye.x = 0;
-   camObj->eye.y = 0;
-   camObj->eye.z = 0;
+	   camObj->center.x = 0;
+	   camObj->center.y = 0;
+	   camObj->center.z = 0;
 
-   camObj->center.x = 0;
-   camObj->center.y = 0;
-   camObj->center.z = 0;
-
-   camObj->center.x = 0;
-   camObj->center.y = 0;
-   camObj->center.z = 0;
-
-   camObj->up.x = 0;
-   camObj->up.y = 1;
-   camObj->up.z = 0;
+	   camObj->up.x = 0;
+	   camObj->up.y = 1;
+	   camObj->up.z = 0;
 	
-   camObj->obj = NULL;
+	   camObj->obj = NULL;
 
-   return camObj;
-
+	   return camObj;
 }
 
 void attachCameraToObject(CameraObject* cObj, ArchObject* aObj){
-   cObj->obj = aObj;
+   	cObj->obj = aObj;
 }
 
 void deattachObject(CameraObject* cObj){
@@ -49,7 +41,9 @@ void setCameraCenter(CameraObject * camObj,vec3 center){
 	camObj->center.z = center.z;
 }
 
-mat4 getObjectFixedCameraMatrix(ArchObject* obj){
+mat4 getObjectFixedCameraMatrix(CameraObject* camObj){
+	ArchObject* obj = camObj->obj;
+		
         vec3 eye = obj->physicalObj.position;
         vec3 lookDir = SetVector(1,-1,0);
 	lookDir = Normalize(lookDir);
@@ -64,11 +58,15 @@ mat4 getObjectFixedCameraMatrix(ArchObject* obj){
 			eye.z - eyeOffset.z);
 
 	vec3 up = SetVector(0,1,0);
+	
+	
 
 	mat4 camMatrix = lookAt(eye.x, eye.y, eye.z, 
  	     		        center.x, center.y, center.z,
 			        up.x, up.y, up.z);
 
+	camObj->eye = eye;
+	camObj->center = center;
 	return camMatrix;
 }
 mat4 getCameraMatrix(CameraObject * camObj){
@@ -78,7 +76,7 @@ mat4 getCameraMatrix(CameraObject * camObj){
  	     		           camObj->center.x, camObj->center.y, camObj->center.z,
 			           camObj->up.x, camObj->up.y, camObj->up.z);
 	}else{
-		camMatrix =getObjectFixedCameraMatrix(camObj->obj);
+		camMatrix =getObjectFixedCameraMatrix(camObj);
 	}
 	return camMatrix;
 }
