@@ -20,6 +20,12 @@
 #define bottom -0.5
 #define MODEL_GUBBE 0
 
+
+#define WORLD_SIZE  200.0
+#define GRID_SIZE 1000.0
+#define HEIGHT_SCALE 40
+
+
 int numModels;
 
 mat4 projection_mat;

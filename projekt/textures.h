@@ -9,7 +9,7 @@
 #define TEXTURE_CHAR 		5
 #define TEXTURE_CLOUDS 		6
 #define TEXTURE_TERRAIN_NORMAL	7
-
+#define TEXTURE_TERRAIN_LOD	8
 
 #define MAX_NUM_TEXTURES 10
 

@@ -29,7 +29,7 @@ void main(void)
 	vec4 offset    = M_Matrix*vec4(in_Position, 1.0);
 
 	/* sample vertex y-pos from heightmap */
-	vec2 tcoord = (in_Position.xz+offset.xz)/max_size; 
+	vec2 tcoord = offset.xz/max_size; 
 	vec4 heightmap = texture(tex, tcoord);
 	vec4 normalmap = texture(normalTex,tcoord);
 
@@ -47,5 +47,6 @@ void main(void)
 	pos.y = height;
 	height_val = height/max_height;
 	
+	texCoord = in_TexCoord; //jocke
 	gl_Position = MVP_Matrix * vec4(pos, 1.0);
 }

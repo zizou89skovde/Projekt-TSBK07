@@ -24,27 +24,31 @@ void objectInit(){
 	/*
 	addModel(&(archObjectList[numObjects]),"resources/groundsphere.obj", TEXTURE_GROUND,SHADER_SPHERE,&graphicsDisplay);
 	addPhysicalObject(&(archObjectList[numObjects]),SetVector(10,60,10), 0.1 ,5,1,&moveObject);
-	/*Bind camera position to object */
-	//numObjects++;
+	numObjects++;
+	*/
+	char * super_low_res_grid_path = "resources/groundmesh.obj";
+	char * low_res_grid_path = "resources/groundmesh.obj";
+	char * high_res_grid_path = "resources/groundmesh.obj";
+	
 
 	addModel(&(archObjectList[numObjects]),"resources/char.obj", TEXTURE_CHAR,SHADER_CHAR,&graphicsDisplay);
 	addPhysicalObject(&(archObjectList[numObjects]),SetVector(10,60,40), 0.2 ,10,1,&moveObject);
 	//attachCameraToObject(cameraObject,&(archObjectList[numObjects]));
 	numObjects ++;
 
-	addModel(&(archObjectList[numObjects]),"resources/groundmesh.obj", TEXTURE_TERRAIN,SHADER_TERRAIN_LOD, &drawTerrain);
-	addPhysicalObject(&(archObjectList[numObjects]),SetVector(100,0,0), 1 ,0.1,10,&staticObject);
+	addModel(&(archObjectList[numObjects]),low_res_grid_path, TEXTURE_TERRAIN_LOD,SHADER_TERRAIN_LOD, &drawTerrain);
+	addPhysicalObject(&(archObjectList[numObjects]),SetVector(GRID_SIZE,0,0), 1 ,0.1,10,&staticObject);
 	numObjects ++;
 
-	addModel(&(archObjectList[numObjects]),"resources/groundmesh.obj", TEXTURE_TERRAIN,SHADER_TERRAIN_LOD, &drawTerrain);
-	addPhysicalObject(&(archObjectList[numObjects]),SetVector(100,0,100), 1 ,0.1,10,&staticObject);
+	addModel(&(archObjectList[numObjects]),low_res_grid_path, TEXTURE_TERRAIN_LOD,SHADER_TERRAIN_LOD, &drawTerrain);
+	addPhysicalObject(&(archObjectList[numObjects]),SetVector(GRID_SIZE,0,GRID_SIZE), 1 ,0.1,10,&staticObject);
 	numObjects ++;
 
-	addModel(&(archObjectList[numObjects]),"resources/groundmesh.obj", TEXTURE_TERRAIN,SHADER_TERRAIN_LOD, &drawTerrain);
-	addPhysicalObject(&(archObjectList[numObjects]),SetVector(0,0,100), 1 ,0.1,10,&staticObject);
+	addModel(&(archObjectList[numObjects]),low_res_grid_path, TEXTURE_TERRAIN_LOD,SHADER_TERRAIN_LOD, &drawTerrain);
+	addPhysicalObject(&(archObjectList[numObjects]),SetVector(0,0,GRID_SIZE), 1 ,0.1,10,&staticObject);
 	numObjects ++;
 
-	addModel(&(archObjectList[numObjects]),"resources/groundmesh.obj", TEXTURE_TERRAIN,SHADER_TERRAIN_LOD, &drawTerrain);
+	addModel(&(archObjectList[numObjects]),high_res_grid_path, TEXTURE_TERRAIN_LOD,SHADER_TERRAIN_LOD, &drawTerrain);
 	addPhysicalObject(&(archObjectList[numObjects]),SetVector(0,0,0), 1 ,0.1,10,&staticObject);
 	numObjects ++;
 

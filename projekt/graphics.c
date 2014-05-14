@@ -79,12 +79,11 @@ void drawTerrain(void* arg, mat4 view_mat){
 	vec3 eye = cameraObject->eye;
 	vec3 center = cameraObject->center;
 
-	vec3 lookDir = VectorSub(eye, center); 
-	GLfloat lookAngle = atan2(lookDir.x,lookDir.z);
-	//printf("lookAngle : %f \n",lookAngle);
-	glUniform3f(glGetUniformLocation(m->program, "u_Orientation"),x,z,lookAngle);
-	glUniform2f(glGetUniformLocation(m->program, "u_MetaData"),100.0,100.0);
+	vec3 lookDir = VectorSub(center,eye); 
+	GLfloat lookAngle = atan2(lookDir.z,lookDir.x);
+	//printf("lookAngle : %f \n",lookAngle); 
 
+	
 	GLfloat PI = 3.14159265359;
 	GLfloat offset = 0;
 	GLfloat length = sqrt(x*x + z*z)-offset;
@@ -94,7 +93,6 @@ void drawTerrain(void* arg, mat4 view_mat){
 
 	mat4 tmat = T(eye.x + length*cos(absoluteAngle+mm),0,eye.z + length*sin(absoluteAngle+mm));
 	mat4 rmat = Ry(absoluteAngle);
-
 	//printf("absoluteAngle : %f x: %f z: %f \n",absoluteAngle,x,z); 
 	mat4 modelmat = Mult(tmat,rmat);
 	mat4 modelView_mat = Mult(view_mat, modelmat);
@@ -103,7 +101,7 @@ void drawTerrain(void* arg, mat4 view_mat){
 	glUniformMatrix4fv(glGetUniformLocation(m->program, "MVP_Matrix"), 1, GL_TRUE, modelViewProjection_mat.m);
   	glUniformMatrix4fv(glGetUniformLocation(m->program, "MV_Matrix"), 1, GL_TRUE ,modelView_mat.m);// modelView_mat.m);	
   	glUniformMatrix4fv(glGetUniformLocation(m->program, "M_Matrix"), 1, GL_TRUE ,modelmat.m);// modelView_mat.m);
-	glUniform3f(glGetUniformLocation(m->program, "u_MetaData"),100,1000,40);
+	glUniform3f(glGetUniformLocation(m->program, "u_MetaData"),GRID_SIZE,WORLD_SIZE,HEIGHT_SCALE);
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m->texture);
