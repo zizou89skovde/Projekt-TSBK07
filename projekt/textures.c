@@ -8,7 +8,7 @@ void textureInit(){
 	//addTexture("resources/tex_Water-jpg.tga",TEXTURE_WATER);
 	addTexture("resources/SkyBox512.tga", TEXTURE_SKYBOX);
 	//addTexture("resources/dendi.tga", TEXTURE_TERRAIN_LOD);
-	addTexture("resources/fft-terrain.tga", TEXTURE_TERRAIN_LOD);
+	addTexture("resources/terrain.tga", TEXTURE_TERRAIN_LOD);
 	addTexture("resources/cloud_texture.tga", TEXTURE_CLOUDS);
 	addTexture("resources/fft-terrain_normal.tga", TEXTURE_TERRAIN_NORMAL);
 }

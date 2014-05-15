@@ -26,33 +26,66 @@ void objectInit(){
 	addPhysicalObject(&(archObjectList[numObjects]),SetVector(10,60,10), 0.1 ,5,1,&moveObject);
 	numObjects++;
 	*/
-	char * super_low_res_grid_path = "resources/groundmesh.obj";
-	char * low_res_grid_path = "resources/groundmesh.obj";
-	char * high_res_grid_path = "resources/groundmesh.obj";
-	
 
+
+	
+	/* Char */
 	addModel(&(archObjectList[numObjects]),"resources/char.obj", TEXTURE_CHAR,SHADER_CHAR,&graphicsDisplay);
 	addPhysicalObject(&(archObjectList[numObjects]),SetVector(10,60,40), 0.2 ,10,1,&moveObject);
 	//attachCameraToObject(cameraObject,&(archObjectList[numObjects]));
 	numObjects ++;
 
-	addModel(&(archObjectList[numObjects]),low_res_grid_path, TEXTURE_TERRAIN_LOD,SHADER_TERRAIN_LOD, &drawTerrain);
-	addPhysicalObject(&(archObjectList[numObjects]),SetVector(GRID_SIZE,0,0), 1 ,0.1,10,&staticObject);
-	numObjects ++;
 
-	addModel(&(archObjectList[numObjects]),low_res_grid_path, TEXTURE_TERRAIN_LOD,SHADER_TERRAIN_LOD, &drawTerrain);
-	addPhysicalObject(&(archObjectList[numObjects]),SetVector(GRID_SIZE,0,GRID_SIZE), 1 ,0.1,10,&staticObject);
-	numObjects ++;
+/*
 
-	addModel(&(archObjectList[numObjects]),low_res_grid_path, TEXTURE_TERRAIN_LOD,SHADER_TERRAIN_LOD, &drawTerrain);
-	addPhysicalObject(&(archObjectList[numObjects]),SetVector(0,0,GRID_SIZE), 1 ,0.1,10,&staticObject);
-	numObjects ++;
+"resources/grid_100x100_66049v.obj"
+"resources/grid_100x100_16641v.obj"
+"resources/grid_100x100_4225v.obj"
 
-	addModel(&(archObjectList[numObjects]),high_res_grid_path, TEXTURE_TERRAIN_LOD,SHADER_TERRAIN_LOD, &drawTerrain);
+"resources/grid_200x200_4225v.obj"
+
+"resources/grid_400x400_1089v.obj"
+
+"resources/grid_800x800_289v.obj"
+"resources/grid_800x800_1089v.obj"
+
+"resources/grid_1600x1600_81v.obj"
+"resources/grid_1600x1600_1089v.obj",	
+
+*/
+	/* LOD */
+	int MAX_NUM_GRIDS = 6;
+	char *grids[] = {
+		        "resources/grid_100x100_4225v.obj",
+		        "resources/grid_100x100_4225v.obj",
+		        "resources/grid_200x200_4225v.obj",
+		        "resources/grid_400x400_1089v.obj",
+			"resources/grid_800x800_1089v.obj",
+			"resources/grid_1600x1600_1089v.obj"	
+	   	};
+
+
+	/* High res */
+	addModel(&(archObjectList[numObjects]),grids[0], TEXTURE_TERRAIN_LOD,SHADER_TERRAIN_LOD, &drawTerrain);
 	addPhysicalObject(&(archObjectList[numObjects]),SetVector(0,0,0), 1 ,0.1,10,&staticObject);
 	numObjects ++;
 
+	/* Low res */
+	for(int i = 1; i < MAX_NUM_GRIDS-1; i++){
+		addModel(&(archObjectList[numObjects]),grids[i], TEXTURE_TERRAIN_LOD,SHADER_TERRAIN_LOD, &drawTerrain);
+		addPhysicalObject(&(archObjectList[numObjects]),SetVector(pow(2,i-1)*GRID_SIZE,0,0), 1 ,0.1,10,&staticObject);
+		numObjects ++;
 
+		addModel(&(archObjectList[numObjects]),grids[i], TEXTURE_TERRAIN_LOD,SHADER_TERRAIN_LOD, &drawTerrain);
+		addPhysicalObject(&(archObjectList[numObjects]),SetVector(pow(2,i-1)*GRID_SIZE,0,pow(2,i-1)*GRID_SIZE), 1 ,0.1,10,&staticObject);
+		numObjects ++;
+
+		addModel(&(archObjectList[numObjects]),grids[i], TEXTURE_TERRAIN_LOD,SHADER_TERRAIN_LOD, &drawTerrain);
+		addPhysicalObject(&(archObjectList[numObjects]),SetVector(0,0,pow(2,i-1)*GRID_SIZE), 1 ,0.1,10,&staticObject);
+		numObjects ++;	
+	}
+
+	/* Clouds */
 	addModel(&(archObjectList[numObjects]),"resources/square.obj", TEXTURE_CLOUDS,SHADER_PARTICLE,&drawInstanced);
 	addPhysicalObject(&(archObjectList[numObjects]),SetVector(0.01,0,0), 0.2 ,0.1,1,&staticObject);
 	addParticleSystem(&(archObjectList[numObjects]),10,&updateParticles);

@@ -13,7 +13,7 @@
 
 #define near 1.0
 
-#define far 1000.0
+#define far 2000.0
 #define right 0.5
 #define left -0.5
 #define top 0.5
@@ -21,9 +21,9 @@
 #define MODEL_GUBBE 0
 
 
-#define WORLD_SIZE  200.0
-#define GRID_SIZE 1000.0
-#define HEIGHT_SCALE 40
+#define WORLD_SIZE  1000.0
+#define GRID_SIZE 100.0
+#define HEIGHT_SCALE 100
 
 
 int numModels;
