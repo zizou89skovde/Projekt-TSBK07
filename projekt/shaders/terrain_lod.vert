@@ -30,17 +30,25 @@ void main(void)
 
 	/* sample vertex y-pos from heightmap */
 	vec2 tcoord = offset.xz/max_size; 
+
+	vec4 temp =  MV_Matrix*vec4(in_Position, 1.0);
+	float l = length(temp.xz);
+	
+	if(l > 100){
+		tcoord =offset.xz/max_size;
+	}
 	vec4 heightmap = texture(tex, tcoord);
 	vec4 normalmap = texture(normalTex,tcoord);
 
 
-	float height = heightmap.r*max_height;
+	float height = 2.0*(pow(heightmap.r,3.0) -0.5)*max_height;
 	normal =  2.0*(normalmap.rgb -0.5); // normalMatrix*in_Normal;
 
 	/* TODO sample normals from normalmap */
 	mat3 normalMatrix = mat3(MV_Matrix);
 	lightdir = normalMatrix*vec3(0.0,1.0,0.0);
 	
+	//l = length(offset.xz);
 
 	/*adjust y-pos */
 	vec3 pos = in_Position.xyz;
