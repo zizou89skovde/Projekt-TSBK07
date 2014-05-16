@@ -48,13 +48,14 @@ void handleKeyboardInput(CameraObject * cameraObject) {
 		printf("lookAngle2 : %f \n", lookAngle);
 	}
 
-	if (keyIsDown('q')) {
-		length = sqrt(lookDir.x*lookDir.x+lookDir.z*lookDir.z);
-		lookAngle = atan2(lookDir.x,lookDir.z);
-		lookAngle -= 0.01;
-		cameraObject->center = SetVector(cameraObject->eye.x + length*cos(lookAngle),
-						 cameraObject->center.y,
-						 cameraObject->eye.z + length*sin(lookAngle));
+	if (keyIsDown('l')) {
+		cameraObject->eye.y    -= 1; 
+		cameraObject->center.y -= 1;
+	}
+
+	if (keyIsDown('o')) {
+		cameraObject->eye.y    += 1; 
+		cameraObject->center.y += 1;
 	}
 
 	

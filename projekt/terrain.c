@@ -1,6 +1,35 @@
 
 #include "terrain.h"
 
+
+void initializeTerrain(ArchObject * list, int * offset){
+
+	char * super_low_res_grid_path = "resources/groundmesh.obj";
+	char * low_res_grid_path       = "resources/groundmesh.obj";
+	char * high_res_grid_path = "resources/grid_400x400_66049v.obj";
+	
+	int numObjects = *offset;
+
+	addModel(&(list[numObjects]),high_res_grid_path, TEXTURE_TERRAIN_LOD,SHADER_TERRAIN_LOD, &drawTerrain);
+	addPhysicalObject(&(list[numObjects]),SetVector(GRID_SIZE,0,0), 1 ,0.1,10,&staticObject);
+	numObjects ++;
+
+	addModel(&(list[numObjects]),high_res_grid_path, TEXTURE_TERRAIN_LOD,SHADER_TERRAIN_LOD, &drawTerrain);
+	addPhysicalObject(&(list[numObjects]),SetVector(GRID_SIZE,0,GRID_SIZE), 1 ,0.1,10,&staticObject);
+	numObjects ++;
+
+	addModel(&(list[numObjects]),high_res_grid_path, TEXTURE_TERRAIN_LOD,SHADER_TERRAIN_LOD, &drawTerrain);
+	addPhysicalObject(&(list[numObjects]),SetVector(0,0,GRID_SIZE), 1 ,0.1,10,&staticObject);
+	numObjects ++;
+
+	addModel(&(list[numObjects]),high_res_grid_path, TEXTURE_TERRAIN_LOD,SHADER_TERRAIN_LOD, &drawTerrain);
+	addPhysicalObject(&(list[numObjects]),SetVector(0,0,0), 1 ,0.1,10,&staticObject);
+	numObjects ++;
+
+        *offset = numObjects;
+
+}
+
 void generateTerrain(ArchObject * groundArchObject,ArchObject * waterArchObject) {
 	// Genererar mark och vatten
 	// groundData är global (unik för ground)

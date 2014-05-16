@@ -75,7 +75,7 @@ void drawTerrain(void* arg, mat4 view_mat){
 	
 	GLfloat x = m->translation_mat.m[3];
 	GLfloat z = m->translation_mat.m[11];
-	
+	GLfloat PI = 3.14159265359;
 	vec3 eye = cameraObject->eye;
 	vec3 center = cameraObject->center;
 
@@ -83,9 +83,14 @@ void drawTerrain(void* arg, mat4 view_mat){
 	GLfloat lookAngle = atan2(lookDir.z,lookDir.x);
 	//printf("lookAngle : %f \n",lookAngle); 
 
-	
-	GLfloat PI = 3.14159265359;
-	GLfloat offset = 0;
+	GLfloat height = eye.y;
+	GLfloat lXY = sqrt(lookDir.x*lookDir.x +lookDir.z*lookDir.z);
+	GLfloat aVert = atan2(lookDir.y,lXY);
+	GLfloat aFrustLow = aVert-PI/4;	
+	GLfloat lDistance = abs(height/sin(aFrustLow));
+	GLfloat lToGround = sqrt(lDistance*lDistance - height*height);	
+
+	GLfloat offset = 0; //-lToGround+
 	GLfloat length = sqrt(x*x + z*z)-offset;
 	GLfloat mm = atan2(z,x);
 	GLfloat zeroAngle = PI/4;
@@ -214,3 +219,4 @@ void DrawInstancedModel(Model *m, GLuint program, char* vertexVariableName, char
 		glDisable(GL_BLEND); 
 	}
 }
+
