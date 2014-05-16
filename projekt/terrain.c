@@ -48,10 +48,10 @@ grid_400x400_66049v.obj
 		addModel(&(archObjectList[numObjects]),grids[i], TEXTURE_TERRAIN_LOD,SHADER_TERRAIN_LOD, &drawTerrain);
 		addPhysicalObject(&(archObjectList[numObjects]),SetVector(GRID_SIZE,0,GRID_SIZE), 1 ,0.1,10,&staticObject);
 		numObjects ++;
-/*
+
 		addModel(&(archObjectList[numObjects]),grids[i], TEXTURE_TERRAIN_LOD,SHADER_TERRAIN_LOD, &drawTerrain);
 		addPhysicalObject(&(archObjectList[numObjects]),SetVector(0,0,GRID_SIZE), 1 ,0.1,10,&staticObject);
-		numObjects ++;	*/
+		numObjects ++;	
 	}
 
 }

@@ -11,7 +11,7 @@ void main(void)
 	
 	float intensity = clamp(dot(normalize(normal),normalize(lightdir)),0.0,1.0);
 	float diffuse = intensity;
-	float ambient = 0.4;
+	float ambient = 0.2;
 	vec4 color_grey = vec4(0.5);
 	vec4 color_green = vec4(0.0,0.7,0.0,5.0);
 	vec4 color_white = vec4(1.0);
@@ -27,7 +27,6 @@ void main(void)
 			color = mix(color,color_green,0.5);
 		}
 	}
-
-	//outColor = diffuse*color; //jocke
-	outColor = vec4(height_val); //jocke
+	outColor = (ambient+ (1.0-ambient)*diffuse)*color; //jocke
+	//outColor = vec4(height_val); //jocke
 }

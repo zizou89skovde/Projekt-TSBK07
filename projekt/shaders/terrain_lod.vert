@@ -29,13 +29,13 @@ void main(void)
 	vec4 offset    = M_Matrix*vec4(in_Position, 1.0);
 
 	/* sample vertex y-pos from heightmap */
-	vec2 tcoord = offset.xz/max_size; 
+	vec2 tcoord = offset.xz/400.0; 
 
 	vec4 heightmap = texture(tex, tcoord);
 	vec4 normalmap = texture(normalTex,tcoord);
 
 
-	float height = 2.0*(pow(heightmap.r,3.0) -0.5)*max_height;
+	float height =heightmap.r*max_height;// 2.0*(pow(heightmap.r,3.0) -0.5)*max_height;
 	normal =  2.0*(normalmap.rgb -0.5); // normalMatrix*in_Normal;
 
 	/* TODO sample normals from normalmap */
