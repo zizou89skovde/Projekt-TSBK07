@@ -28,6 +28,6 @@ void main(void)
 		}
 	}
 
-	outColor = diffuse*color; //jocke
-//	outColor = vec4(height_val); //jocke
+	//outColor = diffuse*color; //jocke
+	outColor = vec4(height_val); //jocke
 }

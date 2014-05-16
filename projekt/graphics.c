@@ -73,32 +73,33 @@ void drawTerrain(void* arg, mat4 view_mat){
 	
 	glUseProgram(m->program);
 	
-	GLfloat x = m->translation_mat.m[3];
-	GLfloat z = m->translation_mat.m[11];
+	
 	GLfloat PI = 3.14159265359;
 	vec3 eye = cameraObject->eye;
 	vec3 center = cameraObject->center;
 
 	vec3 lookDir = VectorSub(center,eye); 
-	GLfloat lookAngle = atan2(lookDir.z,lookDir.x);
-	//printf("lookAngle : %f \n",lookAngle); 
+	GLfloat aLook = atan2(lookDir.z,lookDir.x);
 
 	GLfloat height = eye.y;
 	GLfloat lXY = sqrt(lookDir.x*lookDir.x +lookDir.z*lookDir.z);
-	GLfloat aVert = atan2(lookDir.y,lXY);
-	GLfloat aFrustLow = aVert-PI/4;	
+	GLfloat aFrustLow = atan2(lookDir.y,lXY)-PI/4;	
 	GLfloat lDistance = abs(height/sin(aFrustLow));
 	GLfloat lToGround = sqrt(lDistance*lDistance - height*height);	
 
-	GLfloat offset = 0; //-lToGround+
-	GLfloat length = sqrt(x*x + z*z)-offset;
-	GLfloat mm = atan2(z,x);
-	GLfloat zeroAngle = PI/4;
-	GLfloat absoluteAngle = lookAngle-zeroAngle;
 
-	mat4 tmat = T(eye.x + length*cos(absoluteAngle+mm),0,eye.z + length*sin(absoluteAngle+mm));
-	mat4 rmat = Ry(absoluteAngle);
-	//printf("absoluteAngle : %f x: %f z: %f \n",absoluteAngle,x,z); 
+	GLfloat x = m->translation_mat.m[3];
+	GLfloat z = m->translation_mat.m[11];
+
+	GLfloat aZero = PI/4;
+	GLfloat aAbsolute = aLook-aZero;
+	GLfloat lOffset = sqrt(x*x + z*z)-0;//lToGround;
+	GLfloat aOffset = atan2(z,x)+aAbsolute;
+/*	printf("lOffset : %f  aOffset : %f x: %f z: %f \n",lOffset,aOffset-aAbsolute,x,z); 
+		printf("gridsize : %f\n", GRID_SIZE);*/
+
+	mat4 tmat = T(eye.x + lOffset*cos(aOffset),0,eye.z + lOffset*sin(aOffset));
+	mat4 rmat = Ry(aAbsolute);
 	mat4 modelmat = Mult(tmat,rmat);
 	mat4 modelView_mat = Mult(view_mat, modelmat);
 	mat4 modelViewProjection_mat = Mult(projection_mat, modelView_mat);

@@ -27,7 +27,7 @@ void objectInit(){
 	addPhysicalObject(&(archObjectList[numObjects]),SetVector(10,60,10), 0.1 ,5,1,&moveObject);
 	numObjects++;
 	*/
-
+	initializeTerrain(archObjectList, &numObjects);
 	
 	/* Char */
 	addModel(&(archObjectList[numObjects]),"resources/char.obj", TEXTURE_CHAR,SHADER_CHAR,&graphicsDisplay);
