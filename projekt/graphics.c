@@ -67,6 +67,17 @@ void graphicsDisplaySkybox(void* arg, mat4 view_mat){
 	glEnable(GL_DEPTH_TEST);
 }
 
+/*
+	
+	
+
+	GLfloat height = eye.y;
+	GLfloat lXY = sqrt(lookDir.x*lookDir.x +lookDir.z*lookDir.z);
+	GLfloat aFrustLow = atan2(lookDir.y,lXY)-PI/4;	
+	GLfloat lDistance = abs(height/sin(aFrustLow));
+	GLfloat lToGround = sqrt(lDistance*lDistance - height*height);	
+*/
+
 void drawTerrain(void* arg, mat4 view_mat){	
 	ModelObject * m = (ModelObject *)arg;
 	
@@ -74,53 +85,64 @@ void drawTerrain(void* arg, mat4 view_mat){
 	glUseProgram(m->program);
 	
 	
-	GLfloat PI = 3.14159265359;
+	
 	vec3 eye = cameraObject->eye;
 	vec3 center = cameraObject->center;
-
-	vec3 lookDir = VectorSub(center,eye); 
-	GLfloat aLook = atan2(lookDir.z,lookDir.x);
-
-	GLfloat height = eye.y;
-	GLfloat lXY = sqrt(lookDir.x*lookDir.x +lookDir.z*lookDir.z);
-	GLfloat aFrustLow = atan2(lookDir.y,lXY)-PI/4;	
-	GLfloat lDistance = abs(height/sin(aFrustLow));
-	GLfloat lToGround = sqrt(lDistance*lDistance - height*height);	
 
 
 	GLfloat x = m->translation_mat.m[3];
 	GLfloat z = m->translation_mat.m[11];
+	
+	vec3 lookDir = VectorSub(center,eye); 	
+	GLfloat aLook = atan2(lookDir.z,lookDir.x);
 
+	GLfloat PI = 3.14159265359;
 	GLfloat aZero = PI/4;
 	GLfloat aAbsolute = aLook-aZero;
-	GLfloat lOffset = sqrt(x*x + z*z)-0;//lToGround;
+	GLfloat lOffset = sqrt(x*x + z*z);//+lToGround;
 	GLfloat aOffset = atan2(z,x)+aAbsolute;
 /*	printf("lOffset : %f  aOffset : %f x: %f z: %f \n",lOffset,aOffset-aAbsolute,x,z); 
 		printf("gridsize : %f\n", GRID_SIZE);*/
 
 	mat4 tmat = T(eye.x + lOffset*cos(aOffset),0,eye.z + lOffset*sin(aOffset));
 	mat4 rmat = Ry(aAbsolute);
+
 	mat4 modelmat = Mult(tmat,rmat);
 	mat4 modelView_mat = Mult(view_mat, modelmat);
 	mat4 modelViewProjection_mat = Mult(projection_mat, modelView_mat);
 
 	glUniformMatrix4fv(glGetUniformLocation(m->program, "MVP_Matrix"), 1, GL_TRUE, modelViewProjection_mat.m);
-  	glUniformMatrix4fv(glGetUniformLocation(m->program, "MV_Matrix"), 1, GL_TRUE ,modelView_mat.m);// modelView_mat.m);	
-  	glUniformMatrix4fv(glGetUniformLocation(m->program, "M_Matrix"), 1, GL_TRUE ,modelmat.m);// modelView_mat.m);
+  	glUniformMatrix4fv(glGetUniformLocation(m->program, "MV_Matrix"), 1, GL_TRUE ,modelView_mat.m);
+  	glUniformMatrix4fv(glGetUniformLocation(m->program, "M_Matrix"), 1, GL_TRUE ,modelmat.m);
 	glUniform3f(glGetUniformLocation(m->program, "u_MetaData"),GRID_SIZE,WORLD_SIZE,HEIGHT_SCALE);
 
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, m->texture);
-	glEnable(GL_TEXTURE_2D);
-	glUniform1i (glGetUniformLocation(m->program, "tex"), 0);
 
+	//glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, m->texture);
+	//glEnable(GL_TEXTURE_2D);
+/*	glTexParameteri( GL_TEXTURE_2D, 
+                 GL_TEXTURE_WRAP_T, 
+                 GL_REPEAT );
+	glTexParameteri( GL_TEXTURE_2D, 
+                 GL_TEXTURE_WRAP_S, 
+                 GL_REPEAT );
+	glUniform1i (glGetUniformLocation(m->program, "tex"), 0);*/
+/*
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, getTexture(TEXTURE_TERRAIN_NORMAL));
 	glEnable(GL_TEXTURE_2D);
+	glTexParameteri( GL_TEXTURE_2D, 
+                 GL_TEXTURE_WRAP_T, 
+                 GL_REPEAT );
+
+	glTexParameteri( GL_TEXTURE_2D, 
+                 GL_TEXTURE_WRAP_S, 
+                 GL_REPEAT );
 	glUniform1i (glGetUniformLocation(m->program, "normalTex"),1 );
+*/
 
 	DrawModel(&(m->model), m->program, "in_Position", "in_Normal", "in_TexCoord");
-	glActiveTexture(GL_TEXTURE0);
+//	glActiveTexture(GL_TEXTURE0);
 }
 
 void createOffsetBuffer(Model *m){

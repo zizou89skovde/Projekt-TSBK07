@@ -11,7 +11,7 @@
 vec3 CalculateNormal(int x,int z,GLfloat stepSize,GLfloat stepSizeY, TextureData * tex);
 
 void generateTerrain(ArchObject * groundArchObject ,ArchObject * waterArchObject );
-
+void initializeTerrain(ArchObject * , int *);
 
 typedef struct
 {

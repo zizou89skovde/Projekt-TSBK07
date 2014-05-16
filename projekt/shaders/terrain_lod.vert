@@ -27,28 +27,26 @@ void main(void)
 	float max_height = u_MetaData.z;
 	/*extract orientation */
 	vec4 offset    = M_Matrix*vec4(in_Position, 1.0);
-
+	
 	/* sample vertex y-pos from heightmap */
-	vec2 tcoord = offset.xz/400.0; 
+	vec2 tcoord = fract(offset.xz/400.0); 
 
 	vec4 heightmap = texture(tex, tcoord);
 	vec4 normalmap = texture(normalTex,tcoord);
 
 
-	float height =heightmap.r*max_height;// 2.0*(pow(heightmap.r,3.0) -0.5)*max_height;
+	float height = heightmap.r*max_height; //float height =heightmap.r*max_height;// 2.0*(pow(heightmap.r,3.0) -0.5)*max_height;
 	normal =  2.0*(normalmap.rgb -0.5); // normalMatrix*in_Normal;
 
 	/* TODO sample normals from normalmap */
 	mat3 normalMatrix = mat3(MV_Matrix);
 	lightdir = normalMatrix*vec3(0.0,1.0,0.0);
-	
-	//l = length(offset.xz);
 
 	/*adjust y-pos */
 	vec3 pos = in_Position.xyz;
 	pos.y = height;
-	height_val = (1.0+ height/2.0)/max_height;
+	height_val = height/max_height;
 	
-	texCoord = in_TexCoord; //jocke
+	texCoord = tcoord; //jocke
 	gl_Position = MVP_Matrix * vec4(pos, 1.0);
 }

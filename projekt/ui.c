@@ -45,7 +45,7 @@ void handleKeyboardInput(CameraObject * cameraObject) {
 
 		lookDir = VectorSub(cameraObject->eye,cameraObject->center);
 		lookAngle = atan2(lookDir.x,lookDir.z);
-		printf("lookAngle2 : %f \n", lookAngle);
+		//printf("lookAngle2 : %f \n", lookAngle);
 	}
 
 	if (keyIsDown('l')) {

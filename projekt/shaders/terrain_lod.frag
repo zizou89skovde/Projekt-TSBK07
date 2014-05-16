@@ -27,6 +27,13 @@ void main(void)
 			color = mix(color,color_green,0.5);
 		}
 	}
-	outColor = (ambient+ (1.0-ambient)*diffuse)*color; //jocke
-	//outColor = vec4(height_val); //jocke
+
+//	outColor = (ambient+ (1.0-ambient)*diffuse)*color; //jocke
+	if(texCoord.x < 0.0){
+		outColor = vec4(1.0); 	
+	}else{
+		outColor = vec4(height_val); 
+	}
+
+//	outColor = vec4(height_val); //jocke
 }

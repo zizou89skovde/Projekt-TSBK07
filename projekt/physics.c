@@ -57,7 +57,6 @@ void moveObject(void * arg) {
 	object->velocity = SetVector(0,-1,0);
 
 
-	double asdf = (vTerminal/g)*log(cosh(g*t/vTerminal));
 
     
 

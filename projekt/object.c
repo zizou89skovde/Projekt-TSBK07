@@ -11,7 +11,7 @@ void objectInit(){
 
 	/*debug*/
 	setCameraEye(cameraObject,SetVector(0,40,0));
-	setCameraCenter(cameraObject,SetVector(50,40,50));
+	setCameraCenter(cameraObject,SetVector(50,40,0));
 	numObjects = 0;
 
 	archObjectList = malloc(MAX_NUM_OBJECTS*sizeof(ArchObject));
