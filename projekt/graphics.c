@@ -117,7 +117,32 @@ void drawTerrain(void* arg, mat4 view_mat){
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, getTexture(TEXTURE_TERRAIN_NORMAL));
 	glEnable(GL_TEXTURE_2D);
-	glUniform1i (glGetUniformLocation(m->program, "normalTex"),1 );
+	glUniform1i (glGetUniformLocation(m->program, "normalTex"),1);
+
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, getTexture(TEXTURE_TERRAIN_SNOW));
+	glEnable(GL_TEXTURE_2D);
+	glUniform1i (glGetUniformLocation(m->program, "snowTex"),2);
+
+	glActiveTexture(GL_TEXTURE3);
+	glBindTexture(GL_TEXTURE_2D, getTexture(TEXTURE_TERRAIN_GRASS));
+	glEnable(GL_TEXTURE_2D);
+	glUniform1i (glGetUniformLocation(m->program, "grassTex"),3);
+
+	glActiveTexture(GL_TEXTURE4);
+	glBindTexture(GL_TEXTURE_2D, getTexture(TEXTURE_TERRAIN_ROCKS1));
+	glEnable(GL_TEXTURE_2D);
+	glUniform1i (glGetUniformLocation(m->program, "rockTex1"),4);
+
+	glActiveTexture(GL_TEXTURE5);
+	glBindTexture(GL_TEXTURE_2D, getTexture(TEXTURE_TERRAIN_ROCKS2));
+	glEnable(GL_TEXTURE_2D);
+	glUniform1i (glGetUniformLocation(m->program, "rockTex2"),5);
+
+	glActiveTexture(GL_TEXTURE6);
+	glBindTexture(GL_TEXTURE_2D, getTexture(TEXTURE_TERRAIN_ROCKS3));
+	glEnable(GL_TEXTURE_2D);
+	glUniform1i (glGetUniformLocation(m->program, "rockTex3"),6);
 
 	DrawModel(&(m->model), m->program, "in_Position", "in_Normal", "in_TexCoord");
 	glActiveTexture(GL_TEXTURE0);

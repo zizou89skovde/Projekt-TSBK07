@@ -8,7 +8,7 @@
 #include "camera.h"
 
 
-#define UPDATE_FREQUENCY 1.0
+#define UPDATE_FREQUENCY 1
 void init()
 {
     glClearColor(0.2,0.2,0.5,0);
