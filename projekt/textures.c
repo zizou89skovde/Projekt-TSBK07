@@ -4,13 +4,15 @@ void textureInit(){
 	numTextures = 0;
 
 	addTexture("resources/rocks_2.tga",TEXTURE_GROUND);
-	addTexture("resources/char.tga",TEXTURE_CHAR);
-	//addTexture("resources/tex_Water-jpg.tga",TEXTURE_WATER);
-	addTexture("resources/SkyBox512.tga", TEXTURE_SKYBOX);
+	//addTexture("resources/char.tga",TEXTURE_CHAR);
+	addTexture("resources/Superman_Spec.tga",TEXTURE_CHAR);
+	addTexture("resources/tex_Water-jpg.tga",TEXTURE_WATER);
+	//addTexture("resources/SkyBox512.tga", TEXTURE_SKYBOX);
+	addTexture("resources/SkyBox.tga", TEXTURE_SKYBOX);
 	//addTexture("resources/dendi.tga", TEXTURE_TERRAIN_LOD);
-	addTexture("resources/terrain.tga", TEXTURE_TERRAIN_LOD);
+	addTexture("resources/terrainmap.tga", TEXTURE_TERRAIN_LOD);
 	addTexture("resources/cloud_texture.tga", TEXTURE_CLOUDS);
-	addTexture("resources/terrain_normal.tga", TEXTURE_TERRAIN_NORMAL);
+	addTexture("resources/terrainmap_normal.tga", TEXTURE_TERRAIN_NORMAL);
 
 	addTexture("resources/snow_2.tga", TEXTURE_TERRAIN_SNOW);
 	addTexture("resources/grass.tga", TEXTURE_TERRAIN_GRASS);

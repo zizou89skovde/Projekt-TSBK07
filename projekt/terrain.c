@@ -1,27 +1,6 @@
-
 #include "terrain.h"
 
-
 void initializeTerrain(ArchObject * list, int * offset){
-
-
-/*
-
-"resources/grid_100x100_66049v.obj"
-"resources/grid_100x100_16641v.obj"
-"resources/grid_100x100_4225v.obj"
-
-"resources/grid_200x200_4225v.obj"
-
-"resources/grid_400x400_1089v.obj"
-
-"resources/grid_800x800_289v.obj"
-"resources/grid_800x800_1089v.obj"
-
-"resources/grid_1600x1600_81v.obj"
-"resources/grid_1600x1600_1089v.obj",	
-grid_400x400_66049v.obj
-*/
 	/* LOD */
 	int MAX_NUM_GRIDS = 3;
 	char *grids[] = {
@@ -32,7 +11,6 @@ grid_400x400_66049v.obj
 			"resources/grid_800x800_1089v.obj",
 			"resources/grid_1600x1600_1089v.obj"	
 	   	};
-
 
 	/* High res */
 	addModel(&(archObjectList[numObjects]),grids[0], TEXTURE_TERRAIN_LOD,SHADER_TERRAIN_LOD, &drawTerrain);
@@ -54,6 +32,7 @@ grid_400x400_66049v.obj
 		numObjects ++;	
 	}
 
+	
 }
 
 void generateTerrain(ArchObject * groundArchObject,ArchObject * waterArchObject) {
@@ -301,3 +280,4 @@ vec3 CalculateNormal(int x,int z,GLfloat stepSize,GLfloat stepSizeY, TextureData
 
 
 }
+

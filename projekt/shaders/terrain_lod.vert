@@ -16,7 +16,7 @@ uniform mat4 M_Matrix;
 uniform mat4 MV_Matrix;
 uniform mat4 MVP_Matrix;
 uniform vec3 u_MetaData;
-
+uniform vec3 u_Light;
 
 #define PI 3.1415926
 #define ANGLE_0 PI/4.0
@@ -43,7 +43,7 @@ void main(void)
 
 	/* TODO sample normals from normalmap */
 	mat3 normalMatrix = mat3(MV_Matrix);
-	lightdir = normalMatrix*vec3(1.0,1.0,1.0);
+	lightdir =u_Light; // normalMatrix*
 	
 	//l = length(offset.xz);
 

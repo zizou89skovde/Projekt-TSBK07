@@ -7,8 +7,9 @@ void shaderInit(){
 	addShader("shaders/terrain.vert", "shaders/terrain.frag",SHADER_GROUND);
 	printError("init ground  shader");
 	addShader("shaders/water.vert","shaders/water.frag",SHADER_WATER);
-	addShader("shaders/char.vert","shaders/char.frag",SHADER_CHAR);
 	printError("init water shader");
+	addShader("shaders/char.vert","shaders/char.frag",SHADER_CHAR);
+	printError("init char shader");
 	addShader("shaders/skybox.vert","shaders/skybox.frag",SHADER_SKYBOX);
 	printError("init skybox shader");
 	addShader("shaders/terrain_lod.vert", "shaders/terrain_lod.frag",SHADER_TERRAIN_LOD);

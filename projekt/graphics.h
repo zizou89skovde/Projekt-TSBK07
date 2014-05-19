@@ -22,7 +22,7 @@
 
 #define WORLD_SIZE  100.0
 #define GRID_SIZE 400.0
-#define HEIGHT_SCALE 40
+#define HEIGHT_SCALE 90
 #define MAX_NUM_LEVELS 4
 
 

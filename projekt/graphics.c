@@ -33,6 +33,7 @@ void graphicsRotation(ModelObject* m, vec3 axis, GLfloat theta){
 void graphicsTranslation(ModelObject* m, GLfloat x, GLfloat y, GLfloat z){
 	m->translation_mat = T(x, y, z);
 }
+float jockoro = -0.4;
 
 void graphicsDisplay(void * arg, mat4 view_mat){	
 	ModelObject * m = (ModelObject *)arg;
@@ -50,6 +51,9 @@ void graphicsDisplay(void * arg, mat4 view_mat){
 }
 
 void graphicsDisplaySkybox(void* arg, mat4 view_mat){	
+	vec3 ulight = SetVector(0,sin(jockoro),cos(jockoro));
+	ulight = Normalize(ulight);
+
 	ModelObject * m = (ModelObject *)arg;
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_DEPTH_TEST);
@@ -60,7 +64,7 @@ void graphicsDisplaySkybox(void* arg, mat4 view_mat){
   	glUniformMatrix4fv(glGetUniformLocation(m->program, "P_Matrix"), 1, GL_TRUE , projection_mat.m);
 
 	glBindTexture(GL_TEXTURE_2D, m->texture);
-	
+	glUniform3f(glGetUniformLocation(m->program, "light"),ulight.x,ulight.y,ulight.z);
 	DrawModel(&(m->model), m->program, "in_Position", "in_Normal", "in_TexCoord");
 
 	//glEnable(GL_CULL_FACE);
@@ -77,6 +81,15 @@ void drawTerrain(void* arg, mat4 view_mat){
 	GLfloat PI = 3.14159265359;
 	vec3 eye = cameraObject->eye;
 	vec3 center = cameraObject->center;
+	
+	
+	vec3 ulight = SetVector(0,sin(jockoro),cos(jockoro));
+	ulight = Normalize(ulight);
+	jockoro += 0.001;
+
+	if(jockoro >(PI)){
+		jockoro = -0.4;
+	}
 
 	vec3 lookDir = VectorSub(center,eye); 
 	GLfloat aLook = atan2(lookDir.z,lookDir.x);
@@ -108,6 +121,8 @@ void drawTerrain(void* arg, mat4 view_mat){
   	glUniformMatrix4fv(glGetUniformLocation(m->program, "MV_Matrix"), 1, GL_TRUE ,modelView_mat.m);// modelView_mat.m);	
   	glUniformMatrix4fv(glGetUniformLocation(m->program, "M_Matrix"), 1, GL_TRUE ,modelmat.m);// modelView_mat.m);
 	glUniform3f(glGetUniformLocation(m->program, "u_MetaData"),GRID_SIZE,WORLD_SIZE,HEIGHT_SCALE);
+	glUniform3f(glGetUniformLocation(m->program, "u_Light"),ulight.x,ulight.y,ulight.z);
+	//printf("l x: %f y: %f z %f\n",ulight.x,ulight.y,ulight.z);
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m->texture);

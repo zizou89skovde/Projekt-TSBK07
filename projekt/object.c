@@ -11,10 +11,11 @@ void objectInit(){
 
 	/*debug*/
 	setCameraEye(cameraObject,SetVector(0,40,0));
-	setCameraCenter(cameraObject,SetVector(50,40,50));
+	setCameraCenter(cameraObject,SetVector(0,40,50));
 	numObjects = 0;
 
 	archObjectList = malloc(MAX_NUM_OBJECTS*sizeof(ArchObject));
+
 	addModel(&(archObjectList[numObjects]),"resources/skybox.obj", TEXTURE_SKYBOX,SHADER_SKYBOX, &graphicsDisplaySkybox);
 	addPhysicalObject(&(archObjectList[numObjects]),SetVector(10,10,10), 1 ,0.1,10,&staticObject);
 	numObjects ++;
@@ -22,15 +23,19 @@ void objectInit(){
 	generateTerrain(&(archObjectList[GROUND_OBJECT]), &(archObjectList[WATER_OBJECT]));	
 	numObjects = numObjects + 2;*/
 
+	
+
 	/*
 	addModel(&(archObjectList[numObjects]),"resources/groundsphere.obj", TEXTURE_GROUND,SHADER_SPHERE,&graphicsDisplay);
 	addPhysicalObject(&(archObjectList[numObjects]),SetVector(10,60,10), 0.1 ,5,1,&moveObject);
 	numObjects++;
 	*/
 	initializeTerrain(archObjectList, &numObjects);
+
 	
-	/* Char */
-	addModel(&(archObjectList[numObjects]),"resources/char.obj", TEXTURE_CHAR,SHADER_CHAR,&graphicsDisplay);
+	/* Character */
+	addModel(&(archObjectList[numObjects]),"resources/SuperMan.obj", TEXTURE_CHAR,SHADER_CHAR,&graphicsDisplay);
+	//addModel(&(archObjectList[numObjects]),"resources/char.obj", TEXTURE_CHAR,SHADER_CHAR,&graphicsDisplay);
 	addPhysicalObject(&(archObjectList[numObjects]),SetVector(10,60,40), 0.2 ,10,1,&moveObject);
 	numObjects ++;
 
