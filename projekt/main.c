@@ -8,7 +8,7 @@
 #include "camera.h"
 
 
-#define UPDATE_FREQUENCY 1
+#define UPDATE_FREQUENCY 60.0
 void init()
 {
     glClearColor(0.2,0.2,0.5,0);
@@ -36,7 +36,6 @@ void display()
 void tick(int i)
 {
 	/* härifrån kan update-funktioner cycliskt anropas med frekvensen UPDATE_FREQUENCY */
-	handleKeyboardInput(cameraObject);
 	glutTimerFunc(1/UPDATE_FREQUENCY, &tick, i);
 	glutPostRedisplay();
 

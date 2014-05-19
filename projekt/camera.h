@@ -3,7 +3,8 @@
 #include <stdlib.h>  
 #include "VectorUtils3.h"
 #include "types.h"
-#define CAM_EYE_OFFSET 10.0
+#include "stdio.h"
+#define CAM_EYE_OFFSET 7.0
 
 
 CameraObject * cameraObject;

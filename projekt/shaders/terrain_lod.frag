@@ -16,10 +16,10 @@ void main(void)
 {
 
 	vec3 light = normalize(lightdir.xzy);
-	light.y *=-1.0;
+
 	float intensity = clamp(dot(normalize(normal),normalize(light)),0.0,1.0);
 	float diffuse = intensity;
-	float ambient = 0.1;
+	float ambient = 0.2;
 	vec4 color_grey = vec4(0.5);
 	vec4 color_green = vec4(0.0,0.7,0.0,5.0);
 	vec4 color_white = vec4(1.0);

@@ -7,8 +7,6 @@
 #include "GL_utilities.h"
 #include "loadobj.h"
 
-
-
 typedef struct
 {
 	Model model;
@@ -40,11 +38,14 @@ typedef struct
 {
 	void (*updateFunc)(void *);
 	vec3 initialPosition;
-	vec3 position;
+	mat4 rotationMat;
+	GLfloat helpAngle; // rotated angle from init pos in xz plane
 	vec3 velocity;
+	vec3 position;
 	GLfloat mass;
 	GLfloat dragCoeff;
 	GLfloat A; //area
+	int isChar;
 } PhysicalObject;
 
 typedef struct

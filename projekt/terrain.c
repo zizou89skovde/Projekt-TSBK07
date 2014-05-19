@@ -14,21 +14,21 @@ void initializeTerrain(ArchObject * list, int * offset){
 
 	/* High res */
 	addModel(&(archObjectList[numObjects]),grids[0], TEXTURE_TERRAIN_LOD,SHADER_TERRAIN_LOD, &drawTerrain);
-	addPhysicalObject(&(archObjectList[numObjects]),SetVector(0,0,0), 1 ,0.1,10,&staticObject);
+	addStaticPhysicalObject(&(archObjectList[numObjects]),SetVector(0,0,0));
 	numObjects ++;
 
 	/* Low res */
 	for(int i = 1; i < MAX_NUM_GRIDS-1; i++){
 		addModel(&(archObjectList[numObjects]),grids[i], TEXTURE_TERRAIN_LOD,SHADER_TERRAIN_LOD, &drawTerrain);
-		addPhysicalObject(&(archObjectList[numObjects]),SetVector(GRID_SIZE,0,0), 1 ,0.1,10,&staticObject);
+		addStaticPhysicalObject(&(archObjectList[numObjects]),SetVector(GRID_SIZE,0,0));
 		numObjects ++;
 
 		addModel(&(archObjectList[numObjects]),grids[i], TEXTURE_TERRAIN_LOD,SHADER_TERRAIN_LOD, &drawTerrain);
-		addPhysicalObject(&(archObjectList[numObjects]),SetVector(GRID_SIZE,0,GRID_SIZE), 1 ,0.1,10,&staticObject);
+		addStaticPhysicalObject(&(archObjectList[numObjects]),SetVector(GRID_SIZE,0,GRID_SIZE));
 		numObjects ++;
 
 		addModel(&(archObjectList[numObjects]),grids[i], TEXTURE_TERRAIN_LOD,SHADER_TERRAIN_LOD, &drawTerrain);
-		addPhysicalObject(&(archObjectList[numObjects]),SetVector(0,0,GRID_SIZE), 1 ,0.1,10,&staticObject);
+		addStaticPhysicalObject(&(archObjectList[numObjects]),SetVector(0,0,GRID_SIZE));
 		numObjects ++;	
 	}
 

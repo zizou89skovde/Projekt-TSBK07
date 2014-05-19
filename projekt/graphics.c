@@ -11,6 +11,7 @@ void addModel(ArchObject * obj,char* fileName, int texture,int shader, void (*fp
 	glUseProgram(obj->modelObj.program);
 	tempModel  = LoadModelPlus(fileName);
 	obj->modelObj.model = *tempModel;
+	obj->modelObj.rotation_mat = IdentityMatrix();
 	if(texture != -1){
 		obj->modelObj.texture = getTexture(texture);
 	}
@@ -27,8 +28,8 @@ Model_struct* getModel(int id){
 	return NULL;
 }
 */
-void graphicsRotation(ModelObject* m, vec3 axis, GLfloat theta){
-	m->rotation_mat = ArbRotate(axis,theta);
+void graphicsRotation(ModelObject* m, mat4 rotationMat){	
+	m->rotation_mat = rotationMat;
 }
 void graphicsTranslation(ModelObject* m, GLfloat x, GLfloat y, GLfloat z){
 	m->translation_mat = T(x, y, z);
@@ -37,7 +38,8 @@ float jockoro = -0.4;
 
 void graphicsDisplay(void * arg, mat4 view_mat){	
 	ModelObject * m = (ModelObject *)arg;
-	mat4 modelView_mat = Mult(view_mat, m->translation_mat);
+	mat4 modelWorld_mat = Mult(m->translation_mat,m->rotation_mat);
+	mat4 modelView_mat = Mult(view_mat,modelWorld_mat);
 	mat4 modelViewProjection_mat = Mult(projection_mat, modelView_mat);
 	
 	glUseProgram(m->program);
@@ -88,7 +90,7 @@ void drawTerrain(void* arg, mat4 view_mat){
 	jockoro += 0.001;
 
 	if(jockoro >(PI)){
-		jockoro = -0.4;
+		jockoro = -PI;
 	}
 
 	vec3 lookDir = VectorSub(center,eye); 

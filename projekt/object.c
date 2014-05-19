@@ -17,7 +17,7 @@ void objectInit(){
 	archObjectList = malloc(MAX_NUM_OBJECTS*sizeof(ArchObject));
 
 	addModel(&(archObjectList[numObjects]),"resources/skybox.obj", TEXTURE_SKYBOX,SHADER_SKYBOX, &graphicsDisplaySkybox);
-	addPhysicalObject(&(archObjectList[numObjects]),SetVector(10,10,10), 1 ,0.1,10,&staticObject);
+	addStaticPhysicalObject(&(archObjectList[numObjects]),SetVector(0,0,0));
 	numObjects ++;
 	/*
 	generateTerrain(&(archObjectList[GROUND_OBJECT]), &(archObjectList[WATER_OBJECT]));	
@@ -27,21 +27,22 @@ void objectInit(){
 
 	/*
 	addModel(&(archObjectList[numObjects]),"resources/groundsphere.obj", TEXTURE_GROUND,SHADER_SPHERE,&graphicsDisplay);
-	addPhysicalObject(&(archObjectList[numObjects]),SetVector(10,60,10), 0.1 ,5,1,&moveObject);
+addPhysicalObject(&(archObjectList[numObjects]),SetVector(10,10,10),SetVector(10,10,10),0, 0.1 ,100,1,0,&moveObject);
 	numObjects++;
 	*/
 	initializeTerrain(archObjectList, &numObjects);
 
 	
 	/* Character */
-	addModel(&(archObjectList[numObjects]),"resources/SuperMan.obj", TEXTURE_CHAR,SHADER_CHAR,&graphicsDisplay);
+	addModel(&(archObjectList[numObjects]),"resources/char.obj", TEXTURE_CHAR,SHADER_CHAR,&graphicsDisplay);
 	//addModel(&(archObjectList[numObjects]),"resources/char.obj", TEXTURE_CHAR,SHADER_CHAR,&graphicsDisplay);
-	addPhysicalObject(&(archObjectList[numObjects]),SetVector(10,60,40), 0.2 ,10,1,&moveObject);
-	numObjects ++;
+addPhysicalObject(&(archObjectList[numObjects]),SetVector(20,70,20),SetVector(1,0,0),1.3, 0.2 ,100,1,1,&moveObject);
+attachCameraToObject(cameraObject,&(archObjectList[numObjects]));	
+numObjects ++;
 
 	/* Clouds */
 	addModel(&(archObjectList[numObjects]),"resources/square.obj", TEXTURE_CLOUDS,SHADER_PARTICLE,&drawInstanced);
-	addPhysicalObject(&(archObjectList[numObjects]),SetVector(0.01,0,0), 0.2 ,0.1,1,&staticObject);
+	addStaticPhysicalObject(&(archObjectList[numObjects]),SetVector(0,0,0));
 	addParticleSystem(&(archObjectList[numObjects]),10,&updateParticles);
 	numObjects ++;
 
@@ -75,6 +76,8 @@ void renderObjects(){
 	for(int i = 0; i < numObjects; i++){
 	   ModelObject model = archObjectList[i].modelObj;
   	   vec3 p = archObjectList[i].physicalObj.position;  
+	   PhysicalObject obj = archObjectList[i].physicalObj;
+	   graphicsRotation(&model, obj.rotationMat); 
 	   graphicsTranslation(&model,p.x,p.y,p.z); 
 	   model.renderFunc((void*)(&model), viewMatrix);  
 	}

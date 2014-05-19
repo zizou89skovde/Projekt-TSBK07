@@ -38,7 +38,7 @@ void drawInstanced(void * , mat4 );
 void drawTerrain(void* , mat4);
 void addModel(ArchObject * obj,char* fileName, int texture,int shader, void (*fp)(void *, mat4));
 void graphicsTranslation(ModelObject* m, GLfloat x, GLfloat y, GLfloat z);
-void graphicsRotation(ModelObject* m, vec3 axis, GLfloat theta);
+void graphicsRotation(ModelObject* m, mat4 rotationMat);
 void graphicsDisplay(void* arg, mat4 view_mat);
 void graphicsDisplaySkybox(void* arg, mat4 view_mat);
 
