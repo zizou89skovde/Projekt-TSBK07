@@ -117,32 +117,44 @@ void drawTerrain(void* arg, mat4 view_mat){
 	glUniform3f(glGetUniformLocation(m->program, "u_MetaData"),GRID_SIZE,WORLD_SIZE,HEIGHT_SCALE);
 
 
-	//glActiveTexture(GL_TEXTURE0);
+	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m->texture);
-	//glEnable(GL_TEXTURE_2D);
-/*	glTexParameteri( GL_TEXTURE_2D, 
-                 GL_TEXTURE_WRAP_T, 
-                 GL_REPEAT );
-	glTexParameteri( GL_TEXTURE_2D, 
-                 GL_TEXTURE_WRAP_S, 
-                 GL_REPEAT );
-	glUniform1i (glGetUniformLocation(m->program, "tex"), 0);*/
-/*
+	glEnable(GL_TEXTURE_2D);
+	glUniform1i (glGetUniformLocation(m->program, "tex"),0 );
+	
+
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, getTexture(TEXTURE_TERRAIN_NORMAL));
 	glEnable(GL_TEXTURE_2D);
-	glTexParameteri( GL_TEXTURE_2D, 
-                 GL_TEXTURE_WRAP_T, 
-                 GL_REPEAT );
-
-	glTexParameteri( GL_TEXTURE_2D, 
-                 GL_TEXTURE_WRAP_S, 
-                 GL_REPEAT );
 	glUniform1i (glGetUniformLocation(m->program, "normalTex"),1 );
-*/
+
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, getTexture(TEXTURE_TERRAIN_SNOW));
+	glEnable(GL_TEXTURE_2D);
+	glUniform1i (glGetUniformLocation(m->program, "snowTex"),2);
+
+	glActiveTexture(GL_TEXTURE3);
+	glBindTexture(GL_TEXTURE_2D, getTexture(TEXTURE_TERRAIN_GRASS));
+	glEnable(GL_TEXTURE_2D);
+	glUniform1i (glGetUniformLocation(m->program, "grassTex"),3);
+
+	glActiveTexture(GL_TEXTURE4);
+	glBindTexture(GL_TEXTURE_2D, getTexture(TEXTURE_TERRAIN_ROCKS1));
+	glEnable(GL_TEXTURE_2D);
+	glUniform1i (glGetUniformLocation(m->program, "rockTex1"),4);
+
+	glActiveTexture(GL_TEXTURE5);
+	glBindTexture(GL_TEXTURE_2D, getTexture(TEXTURE_TERRAIN_ROCKS2));
+	glEnable(GL_TEXTURE_2D);
+	glUniform1i (glGetUniformLocation(m->program, "rockTex2"),5);
+
+	glActiveTexture(GL_TEXTURE6);
+	glBindTexture(GL_TEXTURE_2D, getTexture(TEXTURE_TERRAIN_ROCKS3));
+	glEnable(GL_TEXTURE_2D);
+	glUniform1i (glGetUniformLocation(m->program, "rockTex3"),6);
 
 	DrawModel(&(m->model), m->program, "in_Position", "in_Normal", "in_TexCoord");
-//	glActiveTexture(GL_TEXTURE0);
+	glActiveTexture(GL_TEXTURE0);
 }
 
 void createOffsetBuffer(Model *m){
@@ -164,8 +176,9 @@ void drawInstanced(void * arg, mat4 view_mat){
 	
 	glUseProgram(m->program);
 
-	glUniformMatrix4fv(glGetUniformLocation(m->program, "MVP_Matrix"), 1, GL_TRUE, modelViewProjection_mat.m);	
-  	glUniformMatrix4fv(glGetUniformLocation(m->program, "MV_Matrix"), 1, GL_TRUE , modelView_mat.m);
+	glUniformMatrix4fv(glGetUniformLocation(m->program, "P_Matrix"), 1, GL_TRUE, projection_mat.m);	
+  	glUniformMatrix4fv(glGetUniformLocation(m->program, "MV_Matrix"), 1, GL_TRUE ,  modelView_mat.m);
+  	glUniformMatrix4fv(glGetUniformLocation(m->program, "V_Matrix"), 1, GL_TRUE , view_mat.m);
 
 	glBindTexture(GL_TEXTURE_2D, m->texture);
 	

@@ -30,7 +30,9 @@ typedef struct{
 
 typedef struct{
 	int numParticles;
+	int type;
 	GLfloat* buff;
+	vec3 iPos;
 	Particle * particles;
 	void (*updateFunc)(void *, void *);
 	

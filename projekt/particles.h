@@ -11,6 +11,11 @@
 #define MAX_CLOUD_SPEED 4.0
 
 
+/*TYPES*/
+#define EMITTER 0
+#define CLUSTER 1
+#define RANDOM  2
+
 
 #include <math.h>
 #include <time.h>
@@ -22,8 +27,8 @@
 #include "VectorUtils3.h"
 
 
-void spawnParticle(Particle * p,int);
-void addParticleSystem(ArchObject* obj,int numParticles,void (*fp)(void *,void * ));
+void spawnParticle(Particle * p,int type,vec3 iPos,int i);
+void addParticleSystem(ArchObject* obj,int type,int numParticles,void (*fp)(void *,void * ));
 void  createParticles(ParticleSystem * , int ,int);
 void  updateParticlesPositions(ParticleSystem * ps,CameraObject* co);
 void sortParticles(ParticleSystem* );

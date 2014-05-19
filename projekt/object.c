@@ -31,17 +31,37 @@ void objectInit(){
 	
 	/* Char */
 	addModel(&(archObjectList[numObjects]),"resources/char.obj", TEXTURE_CHAR,SHADER_CHAR,&graphicsDisplay);
-	addPhysicalObject(&(archObjectList[numObjects]),SetVector(10,60,40), 0.2 ,10,1,&moveObject);
+	addPhysicalObject(&(archObjectList[numObjects]),SetVector(200,80,600), 0.2 ,10,1,&moveObject);
 	numObjects ++;
-
-
-
 
 	/* Clouds */
+
 	addModel(&(archObjectList[numObjects]),"resources/square.obj", TEXTURE_CLOUDS,SHADER_PARTICLE,&drawInstanced);
-	addPhysicalObject(&(archObjectList[numObjects]),SetVector(0.01,0,0), 0.2 ,0.1,1,&staticObject);
-	addParticleSystem(&(archObjectList[numObjects]),10,&updateParticles);
+	addPhysicalObject(&(archObjectList[numObjects]),SetVector(0,80,1000), 0.2 ,0.1,1,&staticObject);
+	addParticleSystem(&(archObjectList[numObjects]),CLUSTER,100,&updateParticles);
 	numObjects ++;
+
+	/*addModel(&(archObjectList[numObjects]),"resources/square.obj", TEXTURE_CLOUDS,SHADER_PARTICLE,&drawInstanced);
+	addPhysicalObject(&(archObjectList[numObjects]),SetVector(-150,100,500), 0.2 ,0.1,1,&staticObject);
+	addParticleSystem(&(archObjectList[numObjects]),CLUSTER,100,&updateParticles);
+	numObjects ++;
+
+	addModel(&(archObjectList[numObjects]),"resources/square.obj", TEXTURE_CLOUDS,SHADER_PARTICLE,&drawInstanced);
+	addPhysicalObject(&(archObjectList[numObjects]),SetVector(0,100,450), 0.2 ,0.1,1,&staticObject);
+	addParticleSystem(&(archObjectList[numObjects]),CLUSTER,100,&updateParticles);
+	numObjects ++;
+
+	addModel(&(archObjectList[numObjects]),"resources/square.obj", TEXTURE_CLOUDS,SHADER_PARTICLE,&drawInstanced);
+	addPhysicalObject(&(archObjectList[numObjects]),SetVector(0,100,400), 0.2 ,0.1,1,&staticObject);
+	addParticleSystem(&(archObjectList[numObjects]),CLUSTER,100,&updateParticles);
+	numObjects ++;
+
+	addModel(&(archObjectList[numObjects]),"resources/square.obj", TEXTURE_CLOUDS,SHADER_PARTICLE,&drawInstanced);
+	addPhysicalObject(&(archObjectList[numObjects]),SetVector(150,150,305), 0.2 ,0.1,1,&staticObject);
+	addParticleSystem(&(archObjectList[numObjects]),CLUSTER,100,&updateParticles);
+	numObjects ++;*/
+
+
 
 }
 

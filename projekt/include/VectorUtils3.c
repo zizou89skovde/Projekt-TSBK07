@@ -638,6 +638,7 @@ mat4 lookAt(GLfloat px, GLfloat py, GLfloat pz,
 	v = SetVector(vx, vy, vz);
 	
 	return lookAtv(p, l, v);
+
 }
 
 // From http://www.opengl.org/wiki/GluPerspective_code

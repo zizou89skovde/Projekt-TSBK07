@@ -9,6 +9,7 @@
 
 
 #define UPDATE_FREQUENCY 60.0
+
 void init()
 {
     glClearColor(0.2,0.2,0.5,0);
