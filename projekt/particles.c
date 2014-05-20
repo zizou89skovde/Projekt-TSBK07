@@ -19,9 +19,9 @@ void spawnEmitter(Particle * p,vec3 iPos,int i){
 
 void spawnCluster(Particle * p,vec3 iPos,int i){
 
-	p->position[0] = iPos.x + 20.0*RAND_UNI();
+	p->position[0] = iPos.x + 200.0*RAND_UNI();
 	p->position[1] = iPos.y + RAND_UNI()*15.0;
-	p->position[2] = iPos.z + 20.0*RAND_UNI();
+	p->position[2] = iPos.z + 200.0*RAND_UNI();
 	p->position[3] = 30.0; // + 3*RAND();
 
 
@@ -77,32 +77,33 @@ void addParticleSystem(ArchObject* obj,int type,int numParticles,void (*fp)(void
 	createParticles(&obj->particleSystem,numParticles,type);
 }
 
-void  createParticles(ParticleSystem * ps, int numParticles,int type){
-	
-	ps->particles = malloc(sizeof(Particle)*numParticles);
-	Particle * p;
+vec3 getInitialPosition(ParticleSystem * ps){
 
 	vec3 vLook = VectorSub(cameraObject->center,cameraObject->eye);
 	vLook.y = 0.0;
 	vLook = Normalize(vLook);
-
-	vec3 vSide = CrossProduct(vLook,SetVector(0,1,0));
+	vec3 vSide = CrossProduct(SetVector(0,1,0),vLook);
 	vSide.y = 0.0;
 	vSide = Normalize(vSide);
-
-	vec3 vComp1 = ScalarMult(vSide,DotProduct(ps->iPos,vLook));
-	vec3 vComp2 = ScalarMult(vLook,DotProduct(ps->iPos,vSide));
-	vec3 pos    =  VectorAdd(vComp1,vComp2);
+	vec3 pos    =  VectorAdd(ScalarMult(vSide,ps->iPos.x),ScalarMult(vLook,ps->iPos.z));
 	vec3 eye    = cameraObject->eye;
+	printVec3("eye",eye);		
+	printVec3("vLook",vLook);		
+	printVec3("vSide",vSide);		
 	eye.y = 0;
 	pos = VectorAdd(eye,pos);
 	pos.y = ps->iPos.y;
-	printVec3("vLook",vLook);
-	printVec3("vSide",vSide);
-	printVec3("iPos",ps->iPos);
 	printVec3("pos",pos);
-	printVec3("eye",eye);	
+	return pos;
+
+}
+
+void  createParticles(ParticleSystem * ps, int numParticles,int type){
 	
+	ps->particles = malloc(sizeof(Particle)*numParticles);
+	Particle * p;
+	vec3 pos = getInitialPosition(ps);
+
 	for(int i=0;i <numParticles; i++){
 		p = &(ps->particles[i]);
 		spawnParticle(p,type,pos,i);
@@ -115,7 +116,7 @@ bool isFrustum(Particle * p,CameraObject* co){
 	
 	vec3 pParticle =  toVec3(p->position);
 	vec3 vLook     = VectorSub(co->center,co->eye);
-	vec3 eye = VectorSub(co->eye,ScalarMult(Normalize(vLook),40.0));
+	vec3 eye = VectorSub(co->eye,ScalarMult(Normalize(vLook),500.0));
 	vLook = Normalize(vLook);	
 	vec3 vParticle = VectorSub(pParticle,eye);
 	vParticle = Normalize(vParticle);
@@ -138,39 +139,21 @@ void  updateParticlesPositions(ParticleSystem * ps,CameraObject* co){
 		
 		/* Calc distance to camera, this property is used for the sorting routine */
 		vec3 pos = toVec3(p->position);
-		//printf("ARRAY particlePos x: %f y: %f z: %f \n ",p->position[0], p->position[1], p->position[2]);
-		//printVec3("VEC particlePos",pos);
-		vec3 diff = VectorSub(pos,cameraObject->eye);
-		diff.y = 0;
-		//printf("pos-eye --- x: %f y: %f z: %f \n ",diff.x, diff.y, diff.z);
-		ps->particles[i].distToCam =  sqrt(DotProduct(diff,diff));
-		//printf("distance to camera: %f p index: %d  \n ",ps->particles[i].distToCam,i);
+		vec3 vEyeToPos  = VectorSub(pos,cameraObject->eye);
+		vec3 vLook = Normalize(VectorSub(cameraObject->center,cameraObject->eye));
+		GLfloat distance = DotProduct(vLook,vEyeToPos);
+		ps->particles[i].distToCam = distance;
+	
 		/* if a particle dies -> respawn him */
 		if(!isFrustum(p,co)){
 		   outOfFrustom = true; 
 		   break;   
-		}
+		} 
 	}
 	if(outOfFrustom ){
-	   printf("OUT OF FRUSTUM %d \n",1233);
-	   vec3 vLook = VectorSub(cameraObject->center,cameraObject->eye);
-	   vLook.y = 0.0;	
-           mat4 viewMat  = getObjectFixedCameraMatrix(cameraObject)
+	   printf("OUT OF FRUSTUM %d \n",1233);	
+      	   vec3 pos = getInitialPosition(ps);
 	
-           vec3 vComp1 = ScalarMult(vSide,DotProduct(ps->iPos,vLook));
-	   vec3 vComp2 = ScalarMult(vLook,DotProduct(ps->iPos,vSide));
-	   vec3 pos    =  VectorAdd(vComp1,vComp2);
-	   vec3 eye    = cameraObject->eye;
-	   eye.y = 0;
-	   pos = VectorAdd(eye,pos);
-	   pos.y = ps->iPos.y;
-	   printVec3("vLook",vLook);
-	   printVec3("vSide",vSide);
-	   printVec3("iPos",ps->iPos);
-	   printVec3("pos",pos);
-	   printVec3("eye",eye);
-	  // ArchObject * apa = NULL;
-	   //apa->particleSystem = *ps;
 	   for(int i=0;i < ps->numParticles; i++){
 		p = &(ps->particles[i]);	
 		spawnParticle(p,ps->type,pos,i);
@@ -229,8 +212,7 @@ GLfloat * getBuffer(ParticleSystem * ps){
 		buf[idx++] = ps->particles[i].position[1];
 		buf[idx++] = ps->particles[i].position[2];
 		buf[idx++] = ps->particles[i].position[3];
-		//printf("distance to camera,: %f , particle: %d \n ",ps->particles[i].distToCam,i);
-		//printf("particle pos x: %f y: %f z: %f \n ",ps->particles[i].position[0], ps->particles[i].position[1], ps->particles[i].position[2]);
+		
 	}
 	return buf;
 }

@@ -20,16 +20,18 @@
 #define bottom -0.5
 #define MODEL_GUBBE 0
 
-#define WORLD_SIZE  2000.0
-#define GRID_SIZE 100.0
-#define HEIGHT_SCALE 100
+
+#define WORLD_SIZE  800.0
+#define GRID_SIZE 400.0
+#define HEIGHT_SCALE 70
 
 #define MAX_NUM_LEVELS 4
 
 
 
 int numModels;
-
+vec3 vLight;
+GLfloat fTIme;
 mat4 projection_mat;
 void graphicsInitModels();
 void createOffsetBuffer(Model *);
@@ -39,7 +41,7 @@ void drawInstanced(void * , mat4 );
 void drawTerrain(void* , mat4);
 void addModel(ArchObject * obj,char* fileName, int texture,int shader, void (*fp)(void *, mat4));
 void graphicsTranslation(ModelObject* m, GLfloat x, GLfloat y, GLfloat z);
-void graphicsRotation(ModelObject* m, vec3 axis, GLfloat theta);
+void graphicsRotation(ModelObject* m, mat4 rotationMat);
 void graphicsDisplay(void* arg, mat4 view_mat);
 void graphicsDisplaySkybox(void* arg, mat4 view_mat);
 

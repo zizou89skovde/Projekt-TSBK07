@@ -1,5 +1,5 @@
 #include "graphics.h"
-
+#define PI 3.14159265359
 void graphicsInitModels(){
 	projection_mat = frustum(left, right, bottom, top, near, far);	
 	
@@ -11,6 +11,7 @@ void addModel(ArchObject * obj,char* fileName, int texture,int shader, void (*fp
 	glUseProgram(obj->modelObj.program);
 	tempModel  = LoadModelPlus(fileName);
 	obj->modelObj.model = *tempModel;
+	obj->modelObj.rotation_mat = IdentityMatrix();
 	if(texture != -1){
 		obj->modelObj.texture = getTexture(texture);
 	}
@@ -27,16 +28,26 @@ Model_struct* getModel(int id){
 	return NULL;
 }
 */
-void graphicsRotation(ModelObject* m, vec3 axis, GLfloat theta){
-	m->rotation_mat = ArbRotate(axis,theta);
+void graphicsRotation(ModelObject* m, mat4 rotationMat){	
+	m->rotation_mat = rotationMat;
 }
 void graphicsTranslation(ModelObject* m, GLfloat x, GLfloat y, GLfloat z){
 	m->translation_mat = T(x, y, z);
 }
+void updateLight(){
+	vLight = SetVector(0,sin(fTIme),cos(fTIme));
+	vLight = Normalize(vLight);
+	fTIme += 0.01; //*sundirection;
+	if(fTIme >3.18){
+		fTIme = -0.4;
+		//sundirection *= -1;
+	}
+}
 
 void graphicsDisplay(void * arg, mat4 view_mat){	
 	ModelObject * m = (ModelObject *)arg;
-	mat4 modelView_mat = Mult(view_mat, m->translation_mat);
+	mat4 modelWorld_mat = Mult(m->translation_mat,m->rotation_mat);
+	mat4 modelView_mat = Mult(view_mat,modelWorld_mat);
 	mat4 modelViewProjection_mat = Mult(projection_mat, modelView_mat);
 	
 	glUseProgram(m->program);
@@ -50,6 +61,7 @@ void graphicsDisplay(void * arg, mat4 view_mat){
 }
 
 void graphicsDisplaySkybox(void* arg, mat4 view_mat){	
+
 	ModelObject * m = (ModelObject *)arg;
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_DEPTH_TEST);
@@ -60,8 +72,8 @@ void graphicsDisplaySkybox(void* arg, mat4 view_mat){
   	glUniformMatrix4fv(glGetUniformLocation(m->program, "P_Matrix"), 1, GL_TRUE , projection_mat.m);
 
 	glBindTexture(GL_TEXTURE_2D, m->texture);
-	
-	DrawModel(&(m->model), m->program, "in_Position", "in_Normal", "in_TexCoord");
+	glUniform3f(glGetUniformLocation(m->program, "light"),vLight.x,vLight.y,vLight.z);
+	DrawModel(&(m->model), m->program, "in_Position", "in_Normal", NULL);
 
 	//glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
@@ -83,26 +95,24 @@ void drawTerrain(void* arg, mat4 view_mat){
 	
 	
 	glUseProgram(m->program);
-	
-	
-	
+		
 	vec3 eye = cameraObject->eye;
 	vec3 center = cameraObject->center;
-
-
-	GLfloat x = m->translation_mat.m[3];
-	GLfloat z = m->translation_mat.m[11];
-	
-	vec3 lookDir = VectorSub(center,eye); 	
+		
+	vec3 lookDir = VectorSub(center,eye); 
 	GLfloat aLook = atan2(lookDir.z,lookDir.x);
 
-	GLfloat PI = 3.14159265359;
+	GLfloat height = eye.y;
+	GLfloat lXY = sqrt(lookDir.x*lookDir.x +lookDir.z*lookDir.z);
+	GLfloat aFrustLow = atan2(lookDir.y,lXY)-PI/4;	
+	GLfloat lDistance = abs(height/sin(aFrustLow));
+	GLfloat lToGround = sqrt(lDistance*lDistance - height*height);	
+	GLfloat x = m->translation_mat.m[3];
+	GLfloat z = m->translation_mat.m[11];
 	GLfloat aZero = PI/4;
 	GLfloat aAbsolute = aLook-aZero;
 	GLfloat lOffset = sqrt(x*x + z*z);//+lToGround;
 	GLfloat aOffset = atan2(z,x)+aAbsolute;
-/*	printf("lOffset : %f  aOffset : %f x: %f z: %f \n",lOffset,aOffset-aAbsolute,x,z); 
-		printf("gridsize : %f\n", GRID_SIZE);*/
 
 	mat4 tmat = T(eye.x + lOffset*cos(aOffset),0,eye.z + lOffset*sin(aOffset));
 	mat4 rmat = Ry(aAbsolute);
@@ -112,9 +122,9 @@ void drawTerrain(void* arg, mat4 view_mat){
 	mat4 modelViewProjection_mat = Mult(projection_mat, modelView_mat);
 
 	glUniformMatrix4fv(glGetUniformLocation(m->program, "MVP_Matrix"), 1, GL_TRUE, modelViewProjection_mat.m);
-  	glUniformMatrix4fv(glGetUniformLocation(m->program, "MV_Matrix"), 1, GL_TRUE ,modelView_mat.m);
   	glUniformMatrix4fv(glGetUniformLocation(m->program, "M_Matrix"), 1, GL_TRUE ,modelmat.m);
 	glUniform3f(glGetUniformLocation(m->program, "u_MetaData"),GRID_SIZE,WORLD_SIZE,HEIGHT_SCALE);
+	glUniform3f(glGetUniformLocation(m->program, "u_Light"),vLight.x,vLight.y,vLight.z);
 
 
 	glActiveTexture(GL_TEXTURE0);
@@ -171,17 +181,29 @@ void uploadOffsetBuffer(Model *m, GLfloat * buf, int size){
 
 void drawInstanced(void * arg, mat4 view_mat){	
 	ModelObject * m = (ModelObject *)arg;
-	mat4 modelView_mat = Mult(view_mat, m->translation_mat);
-	mat4 modelViewProjection_mat = Mult(projection_mat, modelView_mat);
-	
+
 	glUseProgram(m->program);
 
-	glUniformMatrix4fv(glGetUniformLocation(m->program, "P_Matrix"), 1, GL_TRUE, projection_mat.m);	
-  	glUniformMatrix4fv(glGetUniformLocation(m->program, "MV_Matrix"), 1, GL_TRUE ,  modelView_mat.m);
-  	glUniformMatrix4fv(glGetUniformLocation(m->program, "V_Matrix"), 1, GL_TRUE , view_mat.m);
+	/* Super messy camera informations to put particles in the right place)*/
+	vec3 vLook = VectorSub(cameraObject->center,cameraObject->eye);
+	//vLook.y = 0.0;
+	vLook = Normalize(vLook);
+	vec3 vSide = CrossProduct(SetVector(0,1,0),vLook);
+	vSide =	Normalize(vSide);
+	vec3 vUp = CrossProduct(vLook, vSide);
+	glUniform3f(glGetUniformLocation(m->program, "u_CamRight"),vSide.x,vSide.y,vSide.z);
+	glUniform3f(glGetUniformLocation(m->program, "u_CamUp"),vUp.x,vUp.y,vUp.z);
 
+	/* Pass light vector */
+	glUniform3f(glGetUniformLocation(m->program, "u_Light"),vLight.x,vLight.y,vLight.z);
+
+	/* View projection matrix */
+	mat4 VP_mat = Mult(projection_mat,view_mat);
+	glUniformMatrix4fv(glGetUniformLocation(m->program, "VP_Matrix"), 1, GL_TRUE , VP_mat.m);
+
+	/*Bind texture */
 	glBindTexture(GL_TEXTURE_2D, m->texture);
-	
+
 	DrawInstancedModel(&(m->model), m->program, "in_Position", "in_Normal", "in_TexCoord","in_Offset");
 }
 

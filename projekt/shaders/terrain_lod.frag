@@ -2,7 +2,7 @@
 
 out vec4 outColor;
 in vec2 texCoord;
-in vec3 lightdir;
+uniform vec3 u_Light;
 in float height_val;
 
 uniform sampler2D snowTex;
@@ -14,11 +14,12 @@ uniform sampler2D normalTex;
 
 void main(void)
 {
+	vec3 light = normalize(u_Light.xzy);
 	vec4 normalmap = texture(normalTex,texCoord);
 	vec3 normal =  2.0*(normalmap.rgb -0.5);
-	float intensity = clamp(dot(normalize(normal),normalize(lightdir)),0.0,1.0);
+	float intensity = clamp(dot(normalize(normal),normalize(light)),0.0,1.0);
 	float diffuse = intensity;
-	float ambient = 0.5;
+	float ambient = 0.2;
 
 	vec4 color;
 	

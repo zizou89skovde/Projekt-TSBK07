@@ -32,6 +32,7 @@ void addParticleSystem(ArchObject* obj,int type,int numParticles,void (*fp)(void
 void  createParticles(ParticleSystem * , int ,int);
 void  updateParticlesPositions(ParticleSystem * ps,CameraObject* co);
 void sortParticles(ParticleSystem* );
+vec3 getInitialPosition(ParticleSystem * ps);
 void updateParticles(void* ,void * );
 GLfloat * getBuffer(ParticleSystem * );
 

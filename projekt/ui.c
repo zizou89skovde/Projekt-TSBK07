@@ -2,64 +2,92 @@
 
 #define CAM_LOOK_SPEED 1.0
 #define CAM_STRAFE_SPEED 1.0
+#define printVec3(str,v) printf( %s: x: %f y: %f z: %f",str,v.x,v.y,v.z)
+struct timespec tKeyDownStart,tADown,tDDown, tKeyDown, tHelp;
+double keyDownTime = 0;
+GLfloat speed = 0.03;
+void handleKeyboardInput(CameraObject * camObj, PhysicalObject* physObj) {
 
 
-void handleKeyboardInput(CameraObject * cameraObject) {
+//	printf("pos: x %f y %f z %f \n", physObj->position.x, physObj->position.y, physObj->position.z );
+//	printf("vel: x %f y %f z %f \n", physObj->velocity.x, physObj->velocity.y, physObj->velocity.z );
 
-	vec3 lookDirection = Normalize(VectorSub(cameraObject->center,cameraObject->eye));
+	GLfloat maxRotationAngle = 3.14/3;
+	vec3 lookDir = VectorSub(camObj->center, camObj->eye);	
+	vec3 rotationAxis;
+	GLfloat rotationAngle;
+	GLfloat angleIncrease = 0.05;
+	GLfloat speedIncrease = 0.05;
+
+	if( (keyIsDown('a')) || (keyIsDown('d')) || (keyIsDown('w')) || (keyIsDown('s')))
+	{ 
+			
+
+			if (keyIsDown('a')) {
+							
+				//set angle between new and old velocitydir and rotate velocity this angle.
+				if((physObj->velocity.x == 0) && (physObj->velocity.y == 0) && (physObj->velocity.z == 0)) 
+					rotationAngle = 0;
+				else
+					rotationAngle = -angleIncrease;
+
+				physObj->velocity = MultMat3Vec3(mat4tomat3(Ry(rotationAngle)),physObj->velocity);  		
+				physObj->helpAngle = physObj->helpAngle + rotationAngle; // Keep track of rotation for camera
+
+				mat4 rotationMat1 = Ry(rotationAngle); 
+				physObj->rotationMat = Mult(rotationMat1,physObj->rotationMat);
+				//rotation 2
+			
+				rotationAngle = 0.01;
+				mat4 rotationMat2 = ArbRotate(lookDir,-rotationAngle);
+				
+				physObj->rotationMat = Mult(rotationMat2,physObj->rotationMat);
+				
+			
+			}
 	
-	if (keyIsDown('a')) {
-		vec3 strafeDirection = Normalize(CrossProduct(cameraObject->up,lookDirection));
-		strafeDirection = ScalarMult(strafeDirection,CAM_STRAFE_SPEED); 
-		cameraObject->eye = VectorAdd(cameraObject->eye,strafeDirection);
-		cameraObject->center = VectorAdd(cameraObject->center,strafeDirection);
-	}
-	if (keyIsDown('d')){
-		vec3 strafeDirection = Normalize(CrossProduct(cameraObject->up,lookDirection));
-		strafeDirection = ScalarMult(strafeDirection,CAM_STRAFE_SPEED); 
-		cameraObject->eye = VectorSub(cameraObject->eye,strafeDirection);
-		cameraObject->center = VectorSub(cameraObject->center,strafeDirection);
-	}
-	if (keyIsDown('w')) {
-		lookDirection = ScalarMult(lookDirection,CAM_STRAFE_SPEED); 
-		cameraObject->eye = VectorAdd(cameraObject->eye,lookDirection);
-		cameraObject->center = VectorAdd(cameraObject->center,lookDirection);	
-	}
-	if (keyIsDown('s')) {
-		lookDirection = ScalarMult(lookDirection,CAM_STRAFE_SPEED); 
-		cameraObject->eye = VectorSub(cameraObject->eye,lookDirection);
-		cameraObject->center = VectorSub(cameraObject->center,lookDirection);	
-	}
+			if (keyIsDown('d')){
+				//set angle between new and old velocitydir and rotate velocity this angle.
+				if((physObj->velocity.x == 0) && (physObj->velocity.y == 0) && (physObj->velocity.z == 0)) 
+					rotationAngle = 0;
+				else
+					rotationAngle = angleIncrease;
+				physObj->velocity = MultMat3Vec3(mat4tomat3(Ry(rotationAngle)),physObj->velocity);  		
+				physObj->helpAngle = physObj->helpAngle + rotationAngle; // Keep track of rotation for camera
 
-	GLfloat lookAngle;
-	GLfloat length;
-	vec3 lookDir = VectorSub(cameraObject->eye,cameraObject->center);
-	if (keyIsDown('e')) {
-		length = sqrt(lookDir.x*lookDir.x+lookDir.z*lookDir.z);
-		lookAngle = atan2(lookDir.x,lookDir.z);
-		//printf("lookAngle : %f , length: %f \n",lookAngle,length);
-		lookAngle += 0.01;
-		cameraObject->center = SetVector(cameraObject->eye.x + length*sin(lookAngle),
-						 cameraObject->center.y,
-						 cameraObject->eye.z + length*cos(lookAngle));
+				mat4 rotationMat1 = Ry(rotationAngle); 
+				physObj->rotationMat = Mult(rotationMat1,physObj->rotationMat);
+				//rotation 2
+				rotationAngle = 0.01;	
+				mat4 rotationMat2 = ArbRotate(lookDir,rotationAngle);
+				physObj->rotationMat = Mult(rotationMat2,physObj->rotationMat);
+			}
 
-		lookDir = VectorSub(cameraObject->eye,cameraObject->center);
-		lookAngle = atan2(lookDir.x,lookDir.z);
-		//printf("lookAngle2 : %f \n", lookAngle);
+			if (keyIsDown('w')) {
+
+				//change velocity
+				vec3 velocityDir = Normalize(SetVector(lookDir.x,0,lookDir.z));
+				speed = speed + speedIncrease;
+				physObj->velocity = ScalarMult(Normalize(VectorAdd(physObj->velocity, velocityDir)),speed);
+			}
+
+			if (keyIsDown('s')) {	
+				vec3 velocityDir = Normalize(SetVector(lookDir.x,0,lookDir.z));
+				speed = speed - speedIncrease;
+				physObj->velocity = ScalarMult(Normalize(VectorAdd(physObj->velocity, velocityDir)),speed);
+			}
 	}
-
-	if (keyIsDown('l')) {
-		cameraObject->eye.y    -= 1; 
-		cameraObject->center.y -= 1;
-	}
-
-	if (keyIsDown('o')) {
-		cameraObject->eye.y    += 1; 
-		cameraObject->center.y += 1;
-	}
-
+	if (keyIsDown('o'))
+		physObj->position.y = physObj->position.y + 0.5;
+		
+	if (keyIsDown('l'))
+		physObj->position.y = physObj->position.y - 0.5;
+		
+	// Ingen kontroll tangent nedtryckt TODO: återrotation
 	
-
+			
+		
+		
 }
 
 void handleMouseInput(int x ,int y) {
@@ -92,3 +120,59 @@ void handleMouseInput(int x ,int y) {
 	
 
 }
+
+
+
+
+
+
+		//change velocity, should rotate the velocity by some angle here instead.
+				//strafeDirection = Normalize(CrossProduct(camObj->up,lookDir));
+				//vec3 newDir = Normalize(VectorAdd(physObj->velocity,strafeDirection));
+			
+
+
+				//Rotate char
+				//rotaion1
+				/*rotationAxis =	SetVector(0,1,0);
+				vec3 lookDirVelOffset = VectorSub(lookDir,physObj->velocity);
+				GLfloat lookDirVelOffsetLength = sqrt(DotProduct(lookDirVelOffset,lookDirVelOffset));
+				GLfloat lookDirLength = sqrt(DotProduct(lookDir,lookDir));
+				//rotationAngle = acos(DotProduct(lookDir,lookDirVelOffset)/(lookDirLength*lookDirVelOffsetLength)); */
+
+
+
+
+
+//previous d
+
+/*
+				//change velocity
+				strafeDirection = Normalize(CrossProduct(lookDir,camObj->up));
+				vec3 newDir = Normalize(VectorAdd(physObj->velocity,strafeDirection));
+				rotationAngle = acos(DotProduct(lookDir,newDir));
+				physObj->velocity = MultMat3Vec3(mat4tomat3(Ry(-rotationAngle)),physObj->velocity);  
+					//	physObj->velocity = ScalarMult(Normalize(VectorAdd(physObj->velocity,strafeDirection)),speed);// SetVector(keyDownTime*rotationSpeed,0,0);	
+				//Rotate char
+				*/
+			
+				//rotaion1
+				/* rotationAxis =	SetVector(0,-1,0);
+				vec3 lookDirVelOffset = VectorSub(lookDir,physObj->velocity);
+				GLfloat lookDirVelOffsetLength = sqrt(DotProduct(lookDirVelOffset,lookDirVelOffset));
+				GLfloat lookDirLength = sqrt(DotProduct(lookDir,lookDir));
+				rotationAngle = acos(DotProduct(lookDir,lookDirVelOffset)/(lookDirLength*lookDirVelOffsetLength));*/
+				/*physObj->helpAngle = physObj->helpAngle - rotationAngle; // Keep track of rotation for camera
+				mat4 rotationMat1 = Ry(-rotationAngle); //ArbRotate(rotationAxis,rotationAngle);
+				//rotation 2
+				//rotationAxis = lookDirVelOffset;  //SetVector(0,0,-newLookDir.z);
+
+				if(angleToRotate > maxRotationAngle)
+					angleToRotate = maxRotationAngle;
+
+				rotationAngle = 0.01;
+				
+				mat4 rotationMat2 = IdentityMatrix(); //ArbRotate(rotationAxis,rotationAngle);
+				
+
+				physObj->rotationMat = Mult(Mult(rotationMat2,rotationMat1),physObj->rotationMat); */

@@ -39,45 +39,39 @@ void setCameraCenter(CameraObject * camObj,vec3 center){
 	camObj->center.x = center.x;
 	camObj->center.y = center.y;
 	camObj->center.z = center.z;
-//a
 }
 
-mat4 getObjectFixedCameraMatrix(CameraObject* camObj){
-	ArchObject* obj = camObj->obj;
-		
-        vec3 eye = obj->physicalObj.position;
-        vec3 lookDir = SetVector(1,-1,0);
-	lookDir = Normalize(lookDir);
-	vec3 eyeOffset = ScalarMult(lookDir,CAM_EYE_OFFSET);
+mat4 getObjectFixedCameraMatrix(ArchObject* obj){
+        		
+	vec3 defEyeOffset = SetVector(0,2,-6); 
+	vec3 eyeOffset = VectorSub(defEyeOffset,ScalarMult(obj->physicalObj.velocity,3*obj->physicalObj.helpAngle));    
 
-	vec3 center =  SetVector(eye.x + eyeOffset.x,
-				 eye.y + eyeOffset.y,
-			         eye.z + eyeOffset.z);
+	vec3 center = obj->physicalObj.position; 
+	mat3 rotationEye = mat4tomat3(Ry(obj->physicalObj.helpAngle)); 
 	
-	eye = SetVector(eye.x - eyeOffset.x,
-			eye.y - eyeOffset.y,
-			eye.z - eyeOffset.z);
-
+	vec3 newOffset = MultMat3Vec3(rotationEye,defEyeOffset);
+	
+	vec3 eye = VectorAdd(obj->physicalObj.position,newOffset);
+	
 	vec3 up = SetVector(0,1,0);
-	
-	
 
 	mat4 camMatrix = lookAt(eye.x, eye.y, eye.z, 
  	     		        center.x, center.y, center.z,
 			        up.x, up.y, up.z);
 
-	camObj->eye = eye;
-	camObj->center = center;
+	cameraObject->eye = eye;
+	cameraObject->center = center;
 	return camMatrix;
 }
 mat4 getCameraMatrix(CameraObject * camObj){
 	mat4 camMatrix;
+	
 	if(camObj->obj == NULL){
 		camMatrix = lookAt(camObj->eye.x, camObj->eye.y, camObj->eye.z, 
  	     		           camObj->center.x, camObj->center.y, camObj->center.z,
 			           camObj->up.x, camObj->up.y, camObj->up.z);
 	}else{
-		camMatrix =getObjectFixedCameraMatrix(camObj);
+		camMatrix =getObjectFixedCameraMatrix(camObj->obj);
 	}
 	return camMatrix;
 }
