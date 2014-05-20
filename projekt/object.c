@@ -27,7 +27,7 @@ void objectInit(){
 
 	/*
 	addModel(&(archObjectList[numObjects]),"resources/groundsphere.obj", TEXTURE_GROUND,SHADER_SPHERE,&graphicsDisplay);
-addPhysicalObject(&(archObjectList[numObjects]),SetVector(10,10,10),SetVector(10,10,10),0, 0.1 ,100,1,0,&moveObject);
+	addPhysicalObject(&(archObjectList[numObjects]),SetVector(10,10,10),SetVector(10,10,10),0, 0.1 ,100,1,0,&moveObject);
 	numObjects++;
 	*/
 	initializeTerrain(archObjectList, &numObjects);
@@ -36,9 +36,9 @@ addPhysicalObject(&(archObjectList[numObjects]),SetVector(10,10,10),SetVector(10
 	/* Character */
 	addModel(&(archObjectList[numObjects]),"resources/char.obj", TEXTURE_CHAR,SHADER_CHAR,&graphicsDisplay);
 	//addModel(&(archObjectList[numObjects]),"resources/char.obj", TEXTURE_CHAR,SHADER_CHAR,&graphicsDisplay);
-addPhysicalObject(&(archObjectList[numObjects]),SetVector(20,70,20),SetVector(1,0,0),1.3, 0.2 ,100,1,1,&moveObject);
-attachCameraToObject(cameraObject,&(archObjectList[numObjects]));	
-numObjects ++;
+	addPhysicalObject(&(archObjectList[numObjects]),SetVector(20,70,20),SetVector(1,0,0),1.2, 0.2 ,100,1,1,&moveObject);
+	attachCameraToObject(cameraObject,&(archObjectList[numObjects]));	
+	numObjects ++;
 
 	/* Clouds */
 	addModel(&(archObjectList[numObjects]),"resources/square.obj", TEXTURE_CLOUDS,SHADER_PARTICLE,&drawInstanced);

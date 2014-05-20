@@ -10,6 +10,7 @@
 
 vec3 CalculateNormal(int x,int z,GLfloat stepSize,GLfloat stepSizeY, TextureData * tex);
 
+void generateVertexArray();
 void generateTerrain(ArchObject * groundArchObject ,ArchObject * waterArchObject );
 
 

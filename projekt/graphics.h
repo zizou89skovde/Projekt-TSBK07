@@ -20,7 +20,7 @@
 #define bottom -0.5
 #define MODEL_GUBBE 0
 
-#define WORLD_SIZE  100.0
+#define WORLD_SIZE  400.0
 #define GRID_SIZE 400.0
 #define HEIGHT_SCALE 90
 #define MAX_NUM_LEVELS 4

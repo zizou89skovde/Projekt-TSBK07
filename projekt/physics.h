@@ -4,7 +4,7 @@
 #define _PHYISCS_ 
 
 #define BILLION  1000000000L
-
+#define HEIGHT_SCALE 90
 #include <math.h>
 #include <time.h>
 
@@ -12,8 +12,11 @@
 #include "stdio.h"
 #include "ui.h"
 #include "camera.h"
+#include "terrain.h"
 #include "GL_utilities.h"
 #include "VectorUtils3.h"
+
+
 
 GLfloat conversionFactor; // conversion between SI units and "world units"
 
@@ -30,6 +33,7 @@ int functionCallCount;
 
 void physicsInit();
 void moveObject(void * object);
+int checkCollision(PhysicalObject* object);
 void addPhysicalObject(ArchObject* obj,vec3 initialPosition, vec3 initialRotationAxis, GLfloat initialRotationAngle, 
 		       GLfloat dragCoeff, GLfloat area, GLfloat mass, int isChar, void (*fp)(void *));
 void addStaticPhysicalObject(ArchObject* obj,vec3 initialPosition);

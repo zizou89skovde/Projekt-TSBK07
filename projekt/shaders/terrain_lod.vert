@@ -30,7 +30,7 @@ void main(void)
 	vec4 offset    = M_Matrix*vec4(in_Position, 1.0);
 
 	/* sample vertex y-pos from heightmap */
-	vec2 tcoord = offset.xz/400.0; 
+	vec2 tcoord = offset.xz/max_size; 
 
 	
 

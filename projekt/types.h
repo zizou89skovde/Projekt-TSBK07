@@ -40,6 +40,7 @@ typedef struct
 	vec3 initialPosition;
 	mat4 rotationMat;
 	GLfloat helpAngle; // rotated angle from init pos in xz plane
+	GLfloat tiltAngle;
 	vec3 velocity;
 	vec3 position;
 	GLfloat mass;

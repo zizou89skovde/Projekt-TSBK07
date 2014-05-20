@@ -5,7 +5,7 @@ void textureInit(){
 
 	addTexture("resources/rocks_2.tga",TEXTURE_GROUND);
 	//addTexture("resources/char.tga",TEXTURE_CHAR);
-	addTexture("resources/Superman_Spec.tga",TEXTURE_CHAR);
+	addTexture("resources/char.tga",TEXTURE_CHAR);
 	addTexture("resources/tex_Water-jpg.tga",TEXTURE_WATER);
 	//addTexture("resources/SkyBox512.tga", TEXTURE_SKYBOX);
 	addTexture("resources/SkyBox.tga", TEXTURE_SKYBOX);
