@@ -35,7 +35,45 @@ void initializeTerrain(ArchObject * list, int * offset){
 		numObjects ++;	
 	}
 
+	generateVertexArray();
+
 	
+}
+
+void generateVertexArray(){
+/*
+	TextureData text;
+	TextureData * tex = &text; 
+	LoadTGATextureData("resources/terrainmap.tga", tex); 
+
+	int vertexCount = tex->width * tex->height;
+	int triangleCount = (tex->width-1) * (tex->height-1) * 2;
+	int x, z;
+
+	GLfloat stepSize = 1.0;
+	GLfloat stepSizeY = 1.0;
+
+	groundData.dimX = tex->width/stepSize;
+	groundData.dimZ = tex->height/stepSize;
+	groundData.resolution = 1/stepSize;
+	
+	float x_unit_per_Pixel = WORLD_SIZE /tex->width;
+	float z_unit_per_Pixel = WORLD_SIZE /tex->height;
+
+	
+
+	GLfloat *vertexArray = malloc(sizeof(GLfloat) * 3 * vertexCount);
+
+	for (x = 0; x < tex->width; x++)
+		for (z = 0; z < tex->height; z++)
+		{
+			// Vertex array. You need to scale this properly
+			vertexArray[(x + z * tex->width)*3 + 0] = x / stepSize;
+			vertexArray[(x + z * tex->width)*3 + 1] = tex->imageData[(x + z * tex->width) * (tex->bpp/8)] /stepSizeY;
+			vertexArray[(x + z * tex->width)*3 + 2] = z / stepSize;			
+		}
+	groundData.vertexArray = vertexArray;
+*/
 }
 
 void generateTerrain(ArchObject * groundArchObject,ArchObject * waterArchObject) {

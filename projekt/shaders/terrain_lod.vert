@@ -21,9 +21,10 @@ void main(void)
 	float size = u_MetaData.x;
 	float max_size = u_MetaData.y;
 	float max_height = u_MetaData.z;
+
 	/*extract orientation */
 	vec4 offset    = M_Matrix*vec4(in_Position, 1.0);
-	
+
 	/* sample vertex y-pos from heightmap */
 	highp vec2 tcoord = fract(offset.xz/max_size); 
 	vec4 heightmap = texture(tex, tcoord);
